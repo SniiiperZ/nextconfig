@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FaqController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,9 +30,7 @@ Route::get('/blog', function () {
     return Inertia::render('Blog');
 })->name('blog');
 
-Route::get('/faq', function () {
-    return Inertia::render('Faq');
-})->name('faq');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
 Route::get('/contact', function () {
     return Inertia::render('Contact');
@@ -47,4 +46,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::get('/admin/faq', [FaqController::class, 'admin'])->name('admin.faq');
+    Route::post('/admin/faq', [FaqController::class, 'store'])->name('admin.faq.store');
+    Route::put('/admin/faq/{faq}', [FaqController::class, 'update'])->name('admin.faq.update');
+    Route::delete('/admin/faq/{faq}', [FaqController::class, 'destroy'])->name('admin.faq.destroy');
 });
