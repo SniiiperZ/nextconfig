@@ -168,6 +168,24 @@ const showingNavigationDropdown = ref(false);
                             Accueil
                         </Link>
                         <Link
+                            :href="route('about')"
+                            class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
+                            :class="{
+                                'text-led-green': route().current('about'),
+                            }"
+                        >
+                            À propos
+                        </Link>
+                        <Link
+                            :href="route('services')"
+                            class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
+                            :class="{
+                                'text-led-green': route().current('services'),
+                            }"
+                        >
+                            Nos services
+                        </Link>
+                        <Link
                             :href="route('portfolio')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
@@ -184,6 +202,15 @@ const showingNavigationDropdown = ref(false);
                             }"
                         >
                             Blog
+                        </Link>
+                        <Link
+                            :href="route('faq')"
+                            class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
+                            :class="{
+                                'text-led-green': route().current('faq'),
+                            }"
+                        >
+                            FAQ
                         </Link>
                         <Link
                             :href="route('contact')"
