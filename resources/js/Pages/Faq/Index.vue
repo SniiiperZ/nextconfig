@@ -1,5 +1,6 @@
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
+import Accordion from "@/Components/Accordion.vue";
 
 defineProps({
     faqs: Array,
@@ -13,21 +14,17 @@ defineProps({
                 Questions Fréquemment Posées
             </h1>
 
-            <div class="space-y-8">
-                <div
+            <div class="space-y-4">
+                <Accordion
                     v-for="faq in faqs"
                     :key="faq.id"
-                    class="bg-deep-black border border-gaming-red rounded-lg p-6"
+                    :title="faq.question"
+                    :default-open="false"
                 >
-                    <h3
-                        class="text-xl font-play font-semibold text-led-green mb-4"
-                    >
-                        {{ faq.question }}
-                    </h3>
                     <p class="text-white/80">
                         {{ faq.answer }}
                     </p>
-                </div>
+                </Accordion>
             </div>
         </div>
     </PublicLayout>
