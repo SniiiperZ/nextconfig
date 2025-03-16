@@ -57,4 +57,5 @@ Route::middleware([
     Route::post('/admin/portfolio', [ProjectController::class, 'store'])->name('admin.portfolio.store');
     Route::post('/admin/portfolio/{project}', [ProjectController::class, 'update'])->name('admin.portfolio.update');
     Route::delete('/admin/portfolio/{project}', [ProjectController::class, 'destroy'])->name('admin.portfolio.destroy');
+    Route::post('/admin/portfolio/{project}/images/order', [ProjectController::class, 'updateImageOrder'])->name('admin.portfolio.images.order');
 });
