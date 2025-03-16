@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,9 +23,7 @@ Route::get('/services', function () {
     return Inertia::render('Services');
 })->name('services');
 
-Route::get('/portfolio', function () {
-    return Inertia::render('Portfolio');
-})->name('portfolio');
+Route::get('/portfolio', [ProjectController::class, 'index'])->name('portfolio');
 
 Route::get('/blog', function () {
     return Inertia::render('Blog');
@@ -47,8 +46,15 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
+    // Routes pour la gestion des FAQs
     Route::get('/admin/faq', [FaqController::class, 'admin'])->name('admin.faq');
     Route::post('/admin/faq', [FaqController::class, 'store'])->name('admin.faq.store');
     Route::put('/admin/faq/{faq}', [FaqController::class, 'update'])->name('admin.faq.update');
     Route::delete('/admin/faq/{faq}', [FaqController::class, 'destroy'])->name('admin.faq.destroy');
+
+    // Routes pour la gestion du portfolio
+    Route::get('/admin/portfolio', [ProjectController::class, 'admin'])->name('admin.portfolio');
+    Route::post('/admin/portfolio', [ProjectController::class, 'store'])->name('admin.portfolio.store');
+    Route::post('/admin/portfolio/{project}', [ProjectController::class, 'update'])->name('admin.portfolio.update');
+    Route::delete('/admin/portfolio/{project}', [ProjectController::class, 'destroy'])->name('admin.portfolio.destroy');
 });

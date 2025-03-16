@@ -66,6 +66,12 @@ const logout = () => {
                                 >
                                     FAQ
                                 </NavLink>
+                                <NavLink
+                                    :href="route('admin.portfolio')"
+                                    :active="route().current('admin.portfolio')"
+                                >
+                                    Portfolio
+                                </NavLink>
                             </div>
                         </div>
 
@@ -354,6 +360,18 @@ const logout = () => {
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('admin.faq')"
+                            :active="route().current('admin.faq')"
+                        >
+                            FAQ
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('admin.portfolio')"
+                            :active="route().current('admin.portfolio')"
+                        >
+                            Portfolio
                         </ResponsiveNavLink>
                     </div>
 
