@@ -25,9 +25,8 @@ Route::get('/services', function () {
 
 Route::get('/portfolio', [ProjectController::class, 'index'])->name('portfolio');
 
-Route::get('/blog', function () {
-    return Inertia::render('Blog');
-})->name('blog');
+Route::get('/blog', [App\Http\Controllers\BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{slug}', [App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
@@ -58,4 +57,14 @@ Route::middleware([
     Route::post('/admin/portfolio/{project}', [ProjectController::class, 'update'])->name('admin.portfolio.update');
     Route::delete('/admin/portfolio/{project}', [ProjectController::class, 'destroy'])->name('admin.portfolio.destroy');
     Route::post('/admin/portfolio/{project}/images/order', [ProjectController::class, 'updateImageOrder'])->name('admin.portfolio.images.order');
+
+    // Routes du blog
+    Route::get('/admin/blog', [App\Http\Controllers\BlogController::class, 'admin'])->name('admin.blog');
+    Route::post('/admin/blog', [App\Http\Controllers\BlogController::class, 'store'])->name('admin.blog.store');
+    Route::post('/admin/blog/{post}', [App\Http\Controllers\BlogController::class, 'update'])->name('admin.blog.update');
+    Route::delete('/admin/blog/{post}', [App\Http\Controllers\BlogController::class, 'destroy'])->name('admin.blog.destroy');
+
+    // Routes des tags
+    Route::post('/admin/tags', [App\Http\Controllers\TagController::class, 'store'])->name('admin.tags.store');
+    Route::delete('/admin/tags/{tag}', [App\Http\Controllers\TagController::class, 'destroy'])->name('admin.tags.destroy');
 });
