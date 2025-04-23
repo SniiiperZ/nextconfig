@@ -96,9 +96,7 @@ onMounted(() => {
                         </h1>
 
                         <div class="text-white/60 text-sm mb-4">
-                            <span>{{
-                                formatDate(post.published_at || post.created_at)
-                            }}</span>
+                            <span>{{ formatDate(post.created_at) }}</span>
                             <span class="mx-2">•</span>
                             <span
                                 >{{ readingTime(post.content) }} min de

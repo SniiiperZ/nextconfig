@@ -18,7 +18,7 @@ class BlogController extends Controller
     {
         $posts = BlogPost::published()
             ->with('tags')
-            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
             ->get();
 
         return Inertia::render('Blog/Index', [
@@ -46,7 +46,7 @@ class BlogController extends Controller
                 })
                 ->where('id', '!=', $post->id)
                 ->with('tags')
-                ->orderByDesc('published_at')
+                ->orderByDesc('created_at')
                 ->limit(3)
                 ->get();
         }
@@ -86,7 +86,6 @@ class BlogController extends Controller
             'content' => 'required|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_published' => 'boolean',
-            'published_at' => 'nullable|date',
             'order' => 'required|integer',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id'
@@ -110,7 +109,6 @@ class BlogController extends Controller
             'content' => $validated['content'],
             'featured_image' => $validated['featured_image'] ?? null,
             'is_published' => $validated['is_published'] ?? false,
-            'published_at' => $validated['published_at'],
             'order' => $validated['order'],
         ]);
 
@@ -134,7 +132,6 @@ class BlogController extends Controller
             'content' => 'required|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_published' => 'boolean',
-            'published_at' => 'nullable|date',
             'order' => 'required|integer',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
@@ -171,7 +168,6 @@ class BlogController extends Controller
             'content' => $validated['content'],
             'featured_image' => $validated['featured_image'] ?? $post->featured_image,
             'is_published' => $validated['is_published'] ?? false,
-            'published_at' => $validated['published_at'],
             'order' => $validated['order'],
         ]);
 

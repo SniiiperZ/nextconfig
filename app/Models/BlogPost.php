@@ -14,13 +14,11 @@ class BlogPost extends Model
         'content',
         'featured_image',
         'is_published',
-        'published_at',
         'order'
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
-        'published_at' => 'datetime'
     ];
 
     protected static function boot()
@@ -54,10 +52,6 @@ class BlogPost extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('is_published', true)
-            ->where(function ($query) {
-                $query->whereNull('published_at')
-                    ->orWhere('published_at', '<=', now());
-            });
+        return $query->where('is_published', true);
     }
 }

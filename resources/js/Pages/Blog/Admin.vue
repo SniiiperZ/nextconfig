@@ -69,7 +69,6 @@ const form = useForm({
     content: "",
     featured_image: null,
     is_published: false,
-    published_at: null,
     order: 0,
     tags: [],
     delete_image: false,
@@ -120,7 +119,6 @@ const editPost = (post) => {
     form.excerpt = post.excerpt || "";
     form.content = post.content;
     form.is_published = post.is_published;
-    form.published_at = post.published_at;
     form.order = post.order;
     form.tags = post.tags.map((tag) => tag.id);
     form.delete_image = false;
@@ -275,21 +273,6 @@ const formatDate = (dateString) => {
                                         rows="3"
                                         class="w-full bg-gray-800 text-white rounded px-3 py-2"
                                     ></textarea>
-                                </div>
-
-                                <!-- Date de publication -->
-                                <div>
-                                    <label class="block text-white mb-2">
-                                        Date de publication
-                                        <span class="text-xs text-white/60"
-                                            >(optionnel)</span
-                                        >
-                                    </label>
-                                    <input
-                                        v-model="form.published_at"
-                                        type="datetime-local"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
-                                    />
                                 </div>
 
                                 <!-- Options de l'article -->

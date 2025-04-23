@@ -16,7 +16,6 @@ return new class extends Migration
             $table->text('content');
             $table->string('featured_image')->nullable();
             $table->boolean('is_published')->default(false);
-            $table->timestamp('published_at')->nullable();
             $table->integer('order')->default(0);
             $table->timestamps();
         });
