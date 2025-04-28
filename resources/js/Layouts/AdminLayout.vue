@@ -78,6 +78,12 @@ const logout = () => {
                                 >
                                     Blog
                                 </NavLink>
+                                <NavLink
+                                    :href="route('admin.reviews')"
+                                    :active="route().current('admin.reviews')"
+                                >
+                                    Avis Clients
+                                </NavLink>
                             </div>
                         </div>
 
@@ -384,6 +390,12 @@ const logout = () => {
                             :active="route().current('admin.blog')"
                         >
                             Blog
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('admin.reviews')"
+                            :active="route().current('admin.reviews')"
+                        >
+                            Avis Clients
                         </ResponsiveNavLink>
                     </div>
 

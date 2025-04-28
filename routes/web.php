@@ -35,6 +35,12 @@ Route::get('/contact', function () {
 })->name('contact');
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
+// Route d'accueil avec les avis 
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Routes publiques pour les avis
+Route::post('/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
+
 // Routes administrateur
 Route::middleware([
     'auth:sanctum',
@@ -67,4 +73,11 @@ Route::middleware([
     // Routes des tags
     Route::post('/admin/tags', [App\Http\Controllers\TagController::class, 'store'])->name('admin.tags.store');
     Route::delete('/admin/tags/{tag}', [App\Http\Controllers\TagController::class, 'destroy'])->name('admin.tags.destroy');
+
+    // Routes pour la gestion des avis
+    Route::get('/admin/reviews', [App\Http\Controllers\ReviewController::class, 'admin'])->name('admin.reviews');
+    Route::post('/admin/reviews', [App\Http\Controllers\ReviewController::class, 'adminStore'])->name('admin.reviews.store');
+    Route::put('/admin/reviews/{review}', [App\Http\Controllers\ReviewController::class, 'update'])->name('admin.reviews.update');
+    Route::patch('/admin/reviews/{review}/approval', [App\Http\Controllers\ReviewController::class, 'updateApproval'])->name('admin.reviews.approval');
+    Route::delete('/admin/reviews/{review}', [App\Http\Controllers\ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 });
