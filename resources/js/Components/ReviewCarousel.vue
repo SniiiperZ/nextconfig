@@ -13,7 +13,7 @@ const props = defineProps({
     },
     interval: {
         type: Number,
-        default: 5000,
+        default: 8000,
     },
 });
 
@@ -76,7 +76,7 @@ const getReviewsForSlide = (index) => {
                 <div
                     v-for="index in slideCount"
                     :key="index - 1"
-                    class="w-full flex-shrink-0 grid grid-cols-1 md:grid-cols-3 gap-6 px-4"
+                    class="w-full flex-shrink-0 grid grid-cols-1 md:grid-cols-3 gap-6"
                 >
                     <div
                         v-for="review in getReviewsForSlide(index - 1)"
@@ -84,7 +84,7 @@ const getReviewsForSlide = (index) => {
                         class="bg-deep-black border border-gaming-red rounded-lg p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(236,64,122,0.5)]"
                         :class="{ 'border-yellow-500': review.is_featured }"
                     >
-                        <div class="mb-3">
+                        <div class="mb-3 flex justify-center">
                             <StarRating :rating="review.rating" size="3xl" />
                         </div>
                         <p class="text-white/90 mb-4 line-clamp-4">
@@ -98,14 +98,14 @@ const getReviewsForSlide = (index) => {
             </div>
         </div>
 
-        <!-- Navigation Arrows -->
+        <!-- Navigation Arrows - Repositionnées et avec un style amélioré -->
         <div
             v-if="slideCount > 1"
-            class="absolute inset-y-0 left-0 flex items-center"
+            class="absolute inset-y-0 -left-4 md:-left-12 flex items-center z-10"
         >
             <button
                 @click="prevSlide"
-                class="bg-deep-black/80 hover:bg-gaming-red/80 text-white p-2 rounded-full ml-2"
+                class="bg-deep-black hover:bg-gaming-red text-white p-2 rounded-full shadow-lg border border-gaming-red"
                 aria-label="Avis précédent"
             >
                 <svg
@@ -127,11 +127,11 @@ const getReviewsForSlide = (index) => {
 
         <div
             v-if="slideCount > 1"
-            class="absolute inset-y-0 right-0 flex items-center"
+            class="absolute inset-y-0 -right-4 md:-right-12 flex items-center z-10"
         >
             <button
                 @click="nextSlide"
-                class="bg-deep-black/80 hover:bg-gaming-red/80 text-white p-2 rounded-full mr-2"
+                class="bg-deep-black hover:bg-gaming-red text-white p-2 rounded-full shadow-lg border border-gaming-red"
                 aria-label="Avis suivant"
             >
                 <svg
@@ -152,13 +152,13 @@ const getReviewsForSlide = (index) => {
         </div>
 
         <!-- Indicators -->
-        <div v-if="slideCount > 1" class="flex justify-center mt-4">
+        <div v-if="slideCount > 1" class="flex justify-center mt-6">
             <button
                 v-for="index in slideCount"
                 :key="index - 1"
                 @click="goToSlide(index - 1)"
                 :class="[
-                    'mx-1 w-3 h-3 rounded-full transition-colors',
+                    'mx-2 w-3 h-3 rounded-full transition-colors',
                     currentIndex === index - 1
                         ? 'bg-gaming-red'
                         : 'bg-gray-500 hover:bg-gray-400',
