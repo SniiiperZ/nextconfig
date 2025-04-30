@@ -50,7 +50,7 @@ const cancelEdit = () => {
 <template>
     <AdminLayout title="Gestion FAQ">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Gestion de la FAQ
             </h2>
         </template>
@@ -67,7 +67,7 @@ const cancelEdit = () => {
                             <input
                                 v-model="form.question"
                                 type="text"
-                                class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                             />
                         </div>
 
@@ -76,7 +76,7 @@ const cancelEdit = () => {
                             <textarea
                                 v-model="form.answer"
                                 rows="4"
-                                class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                             ></textarea>
                         </div>
 
@@ -88,7 +88,7 @@ const cancelEdit = () => {
                                 <input
                                     v-model="form.order"
                                     type="number"
-                                    class="bg-gray-800 text-white rounded px-3 py-2"
+                                    class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                 />
                             </div>
 
@@ -99,7 +99,7 @@ const cancelEdit = () => {
                                 <input
                                     v-model="form.is_visible"
                                     type="checkbox"
-                                    class="bg-gray-800 text-white rounded"
+                                    class="rounded border-gaming-red bg-deep-black text-led-green shadow-sm focus:ring-led-green"
                                 />
                             </div>
                         </div>
@@ -107,7 +107,7 @@ const cancelEdit = () => {
                         <div class="flex gap-4">
                             <button
                                 type="submit"
-                                class="bg-gaming-red text-white px-4 py-2 rounded"
+                                class="bg-gaming-red text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition duration-150"
                             >
                                 {{ editing ? "Mettre à jour" : "Ajouter" }}
                             </button>
@@ -115,7 +115,7 @@ const cancelEdit = () => {
                                 v-if="editing"
                                 @click="cancelEdit"
                                 type="button"
-                                class="bg-gray-600 text-white px-4 py-2 rounded"
+                                class="bg-deep-black border border-gaming-red text-white px-4 py-2 rounded-md hover:bg-gaming-red/10 transition duration-150"
                             >
                                 Annuler
                             </button>

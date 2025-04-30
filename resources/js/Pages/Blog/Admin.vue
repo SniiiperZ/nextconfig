@@ -208,7 +208,7 @@ const formatDate = (dateString) => {
 <template>
     <AdminLayout title="Gestion du Blog">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Gestion du Blog
             </h2>
         </template>
@@ -216,7 +216,9 @@ const formatDate = (dateString) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!-- Formulaire de l'article -->
-                <div class="bg-deep-black p-6 rounded-lg shadow mb-6">
+                <div
+                    class="bg-deep-black p-6 rounded-lg shadow mb-6 border border-gaming-red"
+                >
                     <form @submit.prevent="submit" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-4">
@@ -228,11 +230,11 @@ const formatDate = (dateString) => {
                                     <input
                                         v-model="form.title"
                                         type="text"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                     />
                                     <p
                                         v-if="form.errors.title"
-                                        class="text-red-500 text-sm mt-1"
+                                        class="text-gaming-red text-sm mt-1"
                                     >
                                         {{ form.errors.title }}
                                     </p>
@@ -250,11 +252,11 @@ const formatDate = (dateString) => {
                                     <input
                                         v-model="form.slug"
                                         type="text"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                     />
                                     <p
                                         v-if="form.errors.slug"
-                                        class="text-red-500 text-sm mt-1"
+                                        class="text-gaming-red text-sm mt-1"
                                     >
                                         {{ form.errors.slug }}
                                     </p>
@@ -271,7 +273,7 @@ const formatDate = (dateString) => {
                                     <textarea
                                         v-model="form.excerpt"
                                         rows="3"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                     ></textarea>
                                 </div>
 
@@ -284,7 +286,7 @@ const formatDate = (dateString) => {
                                         <input
                                             v-model="form.order"
                                             type="number"
-                                            class="bg-gray-800 text-white rounded px-3 py-2 w-24"
+                                            class="bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green w-24"
                                         />
                                     </div>
 
@@ -293,7 +295,7 @@ const formatDate = (dateString) => {
                                             <input
                                                 v-model="form.is_published"
                                                 type="checkbox"
-                                                class="bg-gray-800 text-white rounded mr-2"
+                                                class="rounded border-gaming-red bg-deep-black text-led-green shadow-sm focus:ring-led-green mr-2"
                                             />
                                             <span class="text-white"
                                                 >Publié</span
@@ -326,7 +328,7 @@ const formatDate = (dateString) => {
                                     <!-- Formulaire d'ajout de tag -->
                                     <div
                                         v-if="showTagForm"
-                                        class="mb-4 bg-gray-800/50 p-3 rounded"
+                                        class="mb-4 bg-deep-black/50 p-3 rounded border border-gaming-red/30"
                                     >
                                         <div class="flex gap-3">
                                             <div class="flex-grow">
@@ -334,7 +336,7 @@ const formatDate = (dateString) => {
                                                     v-model="tagForm.name"
                                                     type="text"
                                                     placeholder="Nom du tag"
-                                                    class="w-full bg-gray-800 text-white rounded px-3 py-2 text-sm"
+                                                    class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green text-sm"
                                                 />
                                             </div>
                                             <button
@@ -347,14 +349,16 @@ const formatDate = (dateString) => {
                                         </div>
                                         <p
                                             v-if="tagForm.errors.name"
-                                            class="text-red-500 text-xs mt-1"
+                                            class="text-gaming-red text-xs mt-1"
                                         >
                                             {{ tagForm.errors.name }}
                                         </p>
                                     </div>
 
                                     <!-- Liste des tags disponibles -->
-                                    <div class="bg-gray-800 p-3 rounded">
+                                    <div
+                                        class="bg-deep-black/50 p-3 rounded border border-gaming-red/30"
+                                    >
                                         <div
                                             v-if="tags.length === 0"
                                             class="text-white/60 text-sm"
@@ -372,13 +376,13 @@ const formatDate = (dateString) => {
                                                 class="inline-flex items-center"
                                             >
                                                 <label
-                                                    class="flex items-center bg-gray-700 rounded-md p-1 cursor-pointer hover:bg-gray-600"
+                                                    class="flex items-center bg-deep-black/70 rounded-md p-1 cursor-pointer hover:bg-gaming-red/10 border border-gaming-red/30"
                                                 >
                                                     <input
                                                         type="checkbox"
                                                         :value="tag.id"
                                                         v-model="form.tags"
-                                                        class="mr-1"
+                                                        class="rounded border-gaming-red bg-deep-black text-led-green shadow-sm focus:ring-led-green mr-1"
                                                     />
                                                     <span
                                                         class="text-white text-sm"
@@ -388,7 +392,7 @@ const formatDate = (dateString) => {
                                                         @click.prevent="
                                                             deleteTag(tag)
                                                         "
-                                                        class="ml-1 text-red-400 hover:text-red-500"
+                                                        class="ml-1 text-gaming-red hover:text-red-500"
                                                     >
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -422,11 +426,11 @@ const formatDate = (dateString) => {
                                         type="file"
                                         @change="handleImageChange"
                                         accept="image/*"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                     />
                                     <p
                                         v-if="form.errors.featured_image"
-                                        class="text-red-500 text-sm mt-1"
+                                        class="text-gaming-red text-sm mt-1"
                                     >
                                         {{ form.errors.featured_image }}
                                     </p>
@@ -437,11 +441,11 @@ const formatDate = (dateString) => {
                                     <img
                                         :src="previewImage"
                                         alt="Prévisualisation"
-                                        class="max-h-64 rounded border border-gray-700"
+                                        class="max-h-64 rounded border border-gaming-red"
                                     />
                                     <button
                                         @click.prevent="removeImage"
-                                        class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
+                                        class="absolute top-2 right-2 bg-gaming-red text-white rounded-full p-1"
                                         title="Supprimer l'image"
                                     >
                                         <svg
@@ -471,7 +475,7 @@ const formatDate = (dateString) => {
                                     </div>
                                     <p
                                         v-if="form.errors.content"
-                                        class="text-red-500 text-sm mt-1"
+                                        class="text-gaming-red text-sm mt-1"
                                     >
                                         {{ form.errors.content }}
                                     </p>
@@ -483,7 +487,7 @@ const formatDate = (dateString) => {
                         <div class="flex gap-4 mt-6">
                             <button
                                 type="submit"
-                                class="bg-gaming-red text-white px-4 py-2 rounded"
+                                class="bg-gaming-red text-white px-4 py-2 rounded hover:bg-opacity-90 transition duration-150"
                                 :disabled="form.processing"
                             >
                                 {{ editing ? "Mettre à jour" : "Ajouter" }}
@@ -492,7 +496,7 @@ const formatDate = (dateString) => {
                                 v-if="editing"
                                 @click="cancelEdit"
                                 type="button"
-                                class="bg-gray-600 text-white px-4 py-2 rounded"
+                                class="bg-deep-black border border-gaming-red text-white px-4 py-2 rounded hover:bg-gaming-red/10 transition duration-150"
                             >
                                 Annuler
                             </button>
@@ -501,8 +505,10 @@ const formatDate = (dateString) => {
                 </div>
 
                 <!-- Liste des articles -->
-                <div class="bg-deep-black p-6 rounded-lg shadow">
-                    <h3 class="text-xl text-led-green mb-6">
+                <div
+                    class="bg-deep-black p-6 rounded-lg shadow border border-gaming-red"
+                >
+                    <h3 class="text-xl text-led-green mb-6 font-play">
                         Liste des articles
                     </h3>
 
@@ -517,7 +523,7 @@ const formatDate = (dateString) => {
                         <div
                             v-for="post in posts"
                             :key="post.id"
-                            class="border border-gaming-red rounded-lg p-4"
+                            class="border border-gaming-red rounded-lg p-4 bg-deep-black/30"
                         >
                             <div class="flex justify-between mb-4">
                                 <div>
@@ -536,7 +542,7 @@ const formatDate = (dateString) => {
                                 <div class="flex items-start space-x-3">
                                     <span
                                         v-if="!post.is_published"
-                                        class="bg-gray-600 text-white px-2 py-0.5 text-xs rounded"
+                                        class="bg-gaming-red/30 text-white px-2 py-0.5 text-xs rounded border border-gaming-red/70"
                                     >
                                         Brouillon
                                     </span>
@@ -546,13 +552,13 @@ const formatDate = (dateString) => {
                                             new Date(post.published_at) >
                                                 new Date()
                                         "
-                                        class="bg-yellow-600 text-white px-2 py-0.5 text-xs rounded"
+                                        class="bg-led-green/30 text-white px-2 py-0.5 text-xs rounded border border-led-green/70"
                                     >
                                         Programmé
                                     </span>
                                     <span
                                         v-else
-                                        class="bg-green-600 text-white px-2 py-0.5 text-xs rounded"
+                                        class="bg-led-green/30 text-white px-2 py-0.5 text-xs rounded border border-led-green/70"
                                     >
                                         Publié
                                     </span>
@@ -568,11 +574,11 @@ const formatDate = (dateString) => {
                                         v-if="post.featured_image"
                                         :src="`/storage/${post.featured_image}`"
                                         :alt="post.title"
-                                        class="w-full h-full object-cover rounded"
+                                        class="w-full h-full object-cover rounded border border-gaming-red/50"
                                     />
                                     <div
                                         v-else
-                                        class="w-full h-full bg-gray-800 flex items-center justify-center rounded"
+                                        class="w-full h-full bg-deep-black/50 flex items-center justify-center rounded border border-gaming-red/50"
                                     >
                                         <span class="text-gray-500 text-xs"
                                             >Pas d'image</span
@@ -589,7 +595,7 @@ const formatDate = (dateString) => {
                                         <span
                                             v-for="tag in post.tags"
                                             :key="tag.id"
-                                            class="text-xs bg-gray-700 text-white px-2 py-0.5 rounded"
+                                            class="text-xs bg-deep-black text-white px-2 py-0.5 rounded border border-gaming-red/50"
                                         >
                                             {{ tag.name }}
                                         </span>
@@ -610,13 +616,13 @@ const formatDate = (dateString) => {
                                 <div class="flex space-x-2">
                                     <button
                                         @click="editPost(post)"
-                                        class="bg-blue-500 text-white px-3 py-1 rounded"
+                                        class="bg-led-green text-deep-black px-3 py-1 rounded hover:bg-opacity-90 transition duration-150"
                                     >
                                         Modifier
                                     </button>
                                     <button
                                         @click="deletePost(post)"
-                                        class="bg-red-500 text-white px-3 py-1 rounded"
+                                        class="bg-gaming-red text-white px-3 py-1 rounded hover:bg-opacity-90 transition duration-150"
                                     >
                                         Supprimer
                                     </button>

@@ -214,7 +214,7 @@ const isMainImage = (index) => {
 <template>
     <AdminLayout title="Gestion du Portfolio">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Gestion du Portfolio
             </h2>
         </template>
@@ -233,7 +233,7 @@ const isMainImage = (index) => {
                                     <input
                                         v-model="form.title"
                                         type="text"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                     />
                                     <p
                                         v-if="form.errors.title"
@@ -250,7 +250,7 @@ const isMainImage = (index) => {
                                     <textarea
                                         v-model="form.description"
                                         rows="4"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                     ></textarea>
                                     <p
                                         v-if="form.errors.description"
@@ -267,7 +267,7 @@ const isMainImage = (index) => {
                                     <textarea
                                         v-model="form.specs"
                                         rows="4"
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                         placeholder="Processeur: Intel i7-14700K&#10;Carte graphique: RTX 4080&#10;RAM: 32GB DDR5&#10;..."
                                     ></textarea>
                                 </div>
@@ -280,7 +280,7 @@ const isMainImage = (index) => {
                                         <input
                                             v-model="form.order"
                                             type="number"
-                                            class="bg-gray-800 text-white rounded px-3 py-2"
+                                            class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                         />
                                     </div>
 
@@ -289,7 +289,7 @@ const isMainImage = (index) => {
                                             <input
                                                 v-model="form.is_featured"
                                                 type="checkbox"
-                                                class="bg-gray-800 text-white rounded mr-2"
+                                                class="rounded border-gaming-red bg-deep-black text-led-green shadow-sm focus:ring-led-green"
                                             />
                                             <span class="text-white"
                                                 >Projet phare</span
@@ -302,7 +302,7 @@ const isMainImage = (index) => {
                                             <input
                                                 v-model="form.is_visible"
                                                 type="checkbox"
-                                                class="bg-gray-800 text-white rounded mr-2"
+                                                class="rounded border-gaming-red bg-deep-black text-led-green shadow-sm focus:ring-led-green"
                                             />
                                             <span class="text-white"
                                                 >Visible</span
@@ -323,7 +323,7 @@ const isMainImage = (index) => {
                                         @change="handleImagesChange"
                                         accept="image/*"
                                         multiple
-                                        class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                     />
                                     <p
                                         v-if="form.errors.images"
@@ -415,7 +415,7 @@ const isMainImage = (index) => {
                         <div class="flex gap-4">
                             <button
                                 type="submit"
-                                class="bg-gaming-red text-white px-4 py-2 rounded"
+                                class="bg-gaming-red text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition duration-150"
                                 :disabled="form.processing"
                             >
                                 {{ editing ? "Mettre à jour" : "Ajouter" }}
@@ -424,7 +424,7 @@ const isMainImage = (index) => {
                                 v-if="editing"
                                 @click="cancelEdit"
                                 type="button"
-                                class="bg-gray-600 text-white px-4 py-2 rounded"
+                                class="bg-deep-black border border-gaming-red text-white px-4 py-2 rounded-md hover:bg-gaming-red/10 transition duration-150"
                             >
                                 Annuler
                             </button>

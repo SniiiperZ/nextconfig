@@ -37,8 +37,8 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+        <div class="min-h-screen bg-deep-black">
+            <nav class="bg-deep-black border-b border-gaming-red">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -101,7 +101,7 @@ const logout = () => {
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white hover:text-led-green focus:outline-none focus:bg-deep-black/30 active:bg-deep-black/30 transition ease-in-out duration-150"
                                             >
                                                 {{
                                                     $page.props.auth.user
@@ -166,7 +166,7 @@ const logout = () => {
                                                 "
                                             >
                                                 <div
-                                                    class="border-t border-gray-200"
+                                                    class="border-t border-gaming-red/30"
                                                 />
 
                                                 <div
@@ -200,7 +200,7 @@ const logout = () => {
                                                                             .user
                                                                             .current_team_id
                                                                     "
-                                                                    class="me-2 size-5 text-green-400"
+                                                                    class="me-2 size-5 text-led-green"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     fill="none"
                                                                     viewBox="0 0 24 24"
@@ -238,7 +238,7 @@ const logout = () => {
                                                 $page.props.jetstream
                                                     .managesProfilePhotos
                                             "
-                                            class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
+                                            class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-led-green transition"
                                         >
                                             <img
                                                 class="size-8 rounded-full object-cover"
@@ -258,7 +258,7 @@ const logout = () => {
                                         >
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white hover:text-led-green focus:outline-none focus:bg-deep-black/30 active:bg-deep-black/30 transition ease-in-out duration-150"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -285,13 +285,13 @@ const logout = () => {
                                         <div
                                             class="block px-4 py-2 text-xs text-gray-400"
                                         >
-                                            Manage Account
+                                            Gérer le compte
                                         </div>
 
                                         <DropdownLink
                                             :href="route('profile.show')"
                                         >
-                                            Profile
+                                            Profil
                                         </DropdownLink>
 
                                         <DropdownLink
@@ -304,12 +304,14 @@ const logout = () => {
                                             API Tokens
                                         </DropdownLink>
 
-                                        <div class="border-t border-gray-200" />
+                                        <div
+                                            class="border-t border-gaming-red/30"
+                                        />
 
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Déconnexion
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -320,7 +322,7 @@ const logout = () => {
                         <!-- Hamburger -->
                         <div class="-me-2 flex items-center sm:hidden">
                             <button
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-deep-black/30 focus:outline-none focus:bg-deep-black/30 focus:text-white transition duration-150 ease-in-out"
                                 @click="
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
@@ -402,7 +404,7 @@ const logout = () => {
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
+                    <div class="pt-4 pb-1 border-t border-gaming-red/30">
                         <div class="flex items-center px-4">
                             <div
                                 v-if="
@@ -420,12 +422,10 @@ const logout = () => {
                             </div>
 
                             <div>
-                                <div
-                                    class="font-medium text-base text-gray-800"
-                                >
+                                <div class="font-medium text-base text-white">
                                     {{ $page.props.auth.user.name }}
                                 </div>
-                                <div class="font-medium text-sm text-gray-500">
+                                <div class="font-medium text-sm text-gray-400">
                                     {{ $page.props.auth.user.email }}
                                 </div>
                             </div>
@@ -436,7 +436,7 @@ const logout = () => {
                                 :href="route('profile.show')"
                                 :active="route().current('profile.show')"
                             >
-                                Profile
+                                Profil
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink
@@ -450,7 +450,7 @@ const logout = () => {
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Déconnexion
                                 </ResponsiveNavLink>
                             </form>
 
@@ -458,12 +458,12 @@ const logout = () => {
                             <template
                                 v-if="$page.props.jetstream.hasTeamFeatures"
                             >
-                                <div class="border-t border-gray-200" />
+                                <div class="border-t border-gaming-red/30" />
 
                                 <div
                                     class="block px-4 py-2 text-xs text-gray-400"
                                 >
-                                    Manage Team
+                                    Gérer l'équipe
                                 </div>
 
                                 <!-- Team Settings -->
@@ -476,7 +476,7 @@ const logout = () => {
                                     "
                                     :active="route().current('teams.show')"
                                 >
-                                    Team Settings
+                                    Paramètres de l'équipe
                                 </ResponsiveNavLink>
 
                                 <ResponsiveNavLink
@@ -484,7 +484,7 @@ const logout = () => {
                                     :href="route('teams.create')"
                                     :active="route().current('teams.create')"
                                 >
-                                    Create New Team
+                                    Créer une nouvelle équipe
                                 </ResponsiveNavLink>
 
                                 <!-- Team Switcher -->
@@ -494,12 +494,14 @@ const logout = () => {
                                         1
                                     "
                                 >
-                                    <div class="border-t border-gray-200" />
+                                    <div
+                                        class="border-t border-gaming-red/30"
+                                    />
 
                                     <div
                                         class="block px-4 py-2 text-xs text-gray-400"
                                     >
-                                        Switch Teams
+                                        Changer d'équipe
                                     </div>
 
                                     <template
@@ -519,7 +521,7 @@ const logout = () => {
                                                                 .user
                                                                 .current_team_id
                                                         "
-                                                        class="me-2 size-5 text-green-400"
+                                                        class="me-2 size-5 text-led-green"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
@@ -545,7 +547,10 @@ const logout = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$slots.header" class="bg-white shadow">
+            <header
+                v-if="$slots.header"
+                class="bg-deep-black shadow border-b border-gaming-red/30"
+            >
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>

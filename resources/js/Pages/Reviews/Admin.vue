@@ -93,7 +93,7 @@ const renderStars = (rating) => {
 <template>
     <AdminLayout title="Gestion des Avis">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 Gestion des Avis Clients
             </h2>
         </template>
@@ -109,7 +109,7 @@ const renderStars = (rating) => {
                                 <input
                                     v-model="form.name"
                                     type="text"
-                                    class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                    class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                 />
                                 <p
                                     v-if="form.errors.name"
@@ -126,7 +126,7 @@ const renderStars = (rating) => {
                                 <input
                                     v-model="form.email"
                                     type="email"
-                                    class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                    class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                 />
                                 <p
                                     v-if="form.errors.email"
@@ -174,7 +174,7 @@ const renderStars = (rating) => {
                                 v-model="form.comment"
                                 rows="4"
                                 maxlength="150"
-                                class="w-full bg-gray-800 text-white rounded px-3 py-2"
+                                class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                             ></textarea>
                             <div class="flex justify-between mt-1">
                                 <p
@@ -197,7 +197,7 @@ const renderStars = (rating) => {
                                 <input
                                     v-model="form.order"
                                     type="number"
-                                    class="bg-gray-800 text-white rounded px-3 py-2 w-24"
+                                    class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
                                 />
                             </div>
 
@@ -206,7 +206,7 @@ const renderStars = (rating) => {
                                     <input
                                         v-model="form.is_approved"
                                         type="checkbox"
-                                        class="bg-gray-800 text-white rounded mr-2"
+                                        class="rounded border-gaming-red bg-deep-black text-led-green shadow-sm focus:ring-led-green"
                                     />
                                     <span class="text-white">Approuvé</span>
                                 </label>
@@ -217,7 +217,7 @@ const renderStars = (rating) => {
                                     <input
                                         v-model="form.is_featured"
                                         type="checkbox"
-                                        class="bg-gray-800 text-white rounded mr-2"
+                                        class="rounded border-gaming-red bg-deep-black text-led-green shadow-sm focus:ring-led-green"
                                     />
                                     <span class="text-white">Mis en avant</span>
                                 </label>
@@ -227,7 +227,7 @@ const renderStars = (rating) => {
                         <div class="flex gap-4">
                             <button
                                 type="submit"
-                                class="bg-gaming-red text-white px-4 py-2 rounded"
+                                class="bg-gaming-red text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition duration-150"
                             >
                                 {{ editing ? "Mettre à jour" : "Ajouter" }}
                             </button>
@@ -235,7 +235,7 @@ const renderStars = (rating) => {
                                 v-if="editing"
                                 @click="cancelEdit"
                                 type="button"
-                                class="bg-gray-600 text-white px-4 py-2 rounded"
+                                class="bg-deep-black border border-gaming-red text-white px-4 py-2 rounded-md hover:bg-gaming-red/10 transition duration-150"
                             >
                                 Annuler
                             </button>
