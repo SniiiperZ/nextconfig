@@ -31,7 +31,7 @@ const handleReviewSubmitted = () => {
                 <!-- Hero Section -->
                 <div class="text-center mb-16">
                     <h1 class="text-5xl font-play text-gaming-red mb-4">
-                        Votre PC Gaming Sur Mesure
+                        NextConfig
                     </h1>
                     <p class="text-xl text-white mb-8">
                         Configurations personnalisées pour des performances

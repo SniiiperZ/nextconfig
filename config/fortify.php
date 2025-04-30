@@ -144,7 +144,9 @@ return [
     */
 
     'features' => [
-        Features::registration(),
+        // Désactive l'inscription
+        // Features::registration(),
+
         Features::resetPasswords(),
         // Features::emailVerification(),
         Features::updateProfileInformation(),

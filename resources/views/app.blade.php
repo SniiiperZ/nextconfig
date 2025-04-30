@@ -7,6 +7,9 @@
 
     <title>{{ config('app.name') }}</title>
 
+    <!-- Favicons -->
+    @include('partials.favicons')
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.bunny.net">

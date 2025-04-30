@@ -17,96 +17,93 @@ const showingNavigationDropdown = ref(false);
             <nav class="border-b border-gaming-red">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
-                        <!-- Logo et Navigation -->
-                        <div class="flex">
-                            <div class="flex-shrink-0 flex items-center">
-                                <Link
-                                    :href="route('home')"
-                                    class="font-play text-2xl text-gaming-red"
-                                >
-                                    NextConfig
-                                </Link>
-                            </div>
+                        <!-- Logo à gauche -->
+                        <div class="flex-shrink-0 flex items-center">
+                            <Link :href="route('home')">
+                                <img
+                                    src="logo.png"
+                                    alt="NextConfig Logo"
+                                    class="h-16 w-auto"
+                                />
+                            </Link>
+                        </div>
 
-                            <!-- Navigation Links -->
-                            <div
-                                class="hidden space-x-8 sm:flex sm:ml-10 sm:items-center"
+                        <!-- Navigation Links à droite -->
+                        <div class="hidden sm:flex sm:items-center space-x-8">
+                            <Link
+                                :href="route('home')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('home'),
+                                }"
                             >
-                                <Link
-                                    :href="route('home')"
-                                    class="text-white hover:text-led-green transition"
-                                    :class="{
-                                        'text-led-green':
-                                            route().current('home'),
-                                    }"
-                                >
-                                    Accueil
-                                </Link>
-                                <Link
-                                    :href="route('about')"
-                                    class="text-white hover:text-led-green transition"
-                                    :class="{
-                                        'text-led-green':
-                                            route().current('about'),
-                                    }"
-                                >
-                                    À propos
-                                </Link>
-                                <Link
-                                    :href="route('services')"
-                                    class="text-white hover:text-led-green transition"
-                                    :class="{
-                                        'text-led-green':
-                                            route().current('services'),
-                                    }"
-                                >
-                                    Nos services
-                                </Link>
-                                <Link
-                                    :href="route('portfolio')"
-                                    class="text-white hover:text-led-green transition"
-                                    :class="{
-                                        'text-led-green':
-                                            route().current('portfolio'),
-                                    }"
-                                >
-                                    Réalisations
-                                </Link>
-                                <Link
-                                    :href="route('blog')"
-                                    class="text-white hover:text-led-green transition"
-                                    :class="{
-                                        'text-led-green':
-                                            route().current('blog'),
-                                    }"
-                                >
-                                    Blog
-                                </Link>
-                                <Link
-                                    :href="route('faq')"
-                                    class="text-white hover:text-led-green transition"
-                                    :class="{
-                                        'text-led-green':
-                                            route().current('faq'),
-                                    }"
-                                >
-                                    FAQ
-                                </Link>
-                                <Link
-                                    :href="route('contact')"
-                                    class="text-white hover:text-led-green transition"
-                                    :class="{
-                                        'text-led-green':
-                                            route().current('contact'),
-                                    }"
-                                >
-                                    Contact
-                                </Link>
-                            </div>
+                                Accueil
+                            </Link>
+                            <Link
+                                :href="route('about')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('about'),
+                                }"
+                            >
+                                À propos
+                            </Link>
+                            <Link
+                                :href="route('services')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('services'),
+                                }"
+                            >
+                                Nos services
+                            </Link>
+                            <Link
+                                :href="route('portfolio')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('portfolio'),
+                                }"
+                            >
+                                Réalisations
+                            </Link>
+                            <Link
+                                :href="route('blog')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('blog'),
+                                }"
+                            >
+                                Blog
+                            </Link>
+                            <Link
+                                :href="route('faq')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('faq'),
+                                }"
+                            >
+                                FAQ
+                            </Link>
+                            <Link
+                                :href="route('contact')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('contact'),
+                                }"
+                            >
+                                Contact
+                            </Link>
                         </div>
 
                         <!-- Hamburger Menu -->
-                        <div class="-mr-2 flex items-center sm:hidden">
+                        <div class="flex items-center sm:hidden">
                             <button
                                 @click="
                                     showingNavigationDropdown =
@@ -162,7 +159,8 @@ const showingNavigationDropdown = ref(false);
                             :href="route('home')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
-                                'text-led-green': route().current('home'),
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('home'),
                             }"
                         >
                             Accueil
@@ -171,7 +169,8 @@ const showingNavigationDropdown = ref(false);
                             :href="route('about')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
-                                'text-led-green': route().current('about'),
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('about'),
                             }"
                         >
                             À propos
@@ -180,7 +179,8 @@ const showingNavigationDropdown = ref(false);
                             :href="route('services')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
-                                'text-led-green': route().current('services'),
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('services'),
                             }"
                         >
                             Nos services
@@ -189,7 +189,8 @@ const showingNavigationDropdown = ref(false);
                             :href="route('portfolio')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
-                                'text-led-green': route().current('portfolio'),
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('portfolio'),
                             }"
                         >
                             Réalisations
@@ -198,7 +199,8 @@ const showingNavigationDropdown = ref(false);
                             :href="route('blog')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
-                                'text-led-green': route().current('blog'),
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('blog'),
                             }"
                         >
                             Blog
@@ -207,7 +209,8 @@ const showingNavigationDropdown = ref(false);
                             :href="route('faq')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
-                                'text-led-green': route().current('faq'),
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('faq'),
                             }"
                         >
                             FAQ
@@ -216,7 +219,8 @@ const showingNavigationDropdown = ref(false);
                             :href="route('contact')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
-                                'text-led-green': route().current('contact'),
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('contact'),
                             }"
                         >
                             Contact
