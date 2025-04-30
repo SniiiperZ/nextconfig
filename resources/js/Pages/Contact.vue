@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import FormInput from "@/Components/FormInput.vue";
+import Toast from "@/Components/Toast.vue";
 
 const form = useForm({
     name: "",
@@ -12,19 +13,35 @@ const form = useForm({
     message: "",
 });
 
-const success = ref(false);
+// Remplacer le message de succès par un toast
+const toast = ref({
+    show: false,
+    message: "",
+    type: "success",
+});
 
 const submit = () => {
     form.post(route("contact.send"), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
-            success.value = true;
+            // Afficher le toast au lieu du message inline
+            toast.value = {
+                show: true,
+                message:
+                    "Votre message a été envoyé avec succès ! Nous vous contacterons bientôt.",
+                type: "success",
+            };
+
             setTimeout(() => {
-                success.value = false;
-            }, 5000);
+                toast.value.show = false;
+            }, 6000);
         },
     });
+};
+
+const closeToast = () => {
+    toast.value.show = false;
 };
 </script>
 
@@ -32,6 +49,26 @@ const submit = () => {
     <PublicLayout title="Contact">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <!-- Bannière du configurateur -->
+                <div
+                    class="bg-deep-black p-8 rounded-lg border border-led-green mb-8 text-center"
+                >
+                    <h2 class="text-2xl font-play text-gaming-red mb-4">
+                        Besoin d'un PC sur mesure ?
+                    </h2>
+                    <p class="text-white mb-4">
+                        Utilisez notre configurateur d'orientation pour nous
+                        indiquer vos besoins spécifiques et obtenir une
+                        proposition personnalisée.
+                    </p>
+                    <a
+                        :href="route('configurator')"
+                        class="inline-block px-6 py-3 bg-led-green text-deep-black font-medium rounded-md hover:bg-opacity-90 transition duration-150"
+                    >
+                        Accéder au configurateur PC
+                    </a>
+                </div>
+
                 <div class="grid md:grid-cols-2 gap-12">
                     <!-- Informations de contact -->
                     <div
@@ -105,75 +142,100 @@ const submit = () => {
                         </div>
                     </div>
 
-                    <!-- Formulaire de contact -->
+                    <!-- Formulaire de contact - Mise à jour du style pour correspondre au configurateur -->
                     <div
                         class="bg-deep-black p-8 rounded-lg border border-gaming-red"
                     >
-                        <form @submit.prevent="submit">
+                        <h2 class="text-2xl font-play text-gaming-red mb-6">
+                            Envoyez-nous un message
+                        </h2>
+
+                        <form @submit.prevent="submit" class="space-y-6">
+                            <!-- Suppression du message de succès inline qui est remplacé par le toast -->
                             <div
-                                v-if="success"
-                                class="mb-6 p-4 bg-led-green bg-opacity-10 border border-led-green rounded-lg"
+                                class="bg-gaming-red/5 p-4 rounded-lg border border-gaming-red/30 mb-6"
                             >
-                                <p class="text-led-green">
-                                    Votre message a été envoyé avec succès !
-                                </p>
+                                <h3
+                                    class="text-xl font-play text-led-green mb-4"
+                                >
+                                    Vos informations
+                                </h3>
+
+                                <FormInput
+                                    v-model="form.name"
+                                    label="Nom complet"
+                                    :error="form.errors.name"
+                                />
+
+                                <FormInput
+                                    v-model="form.email"
+                                    type="email"
+                                    label="Email"
+                                    :error="form.errors.email"
+                                />
+
+                                <FormInput
+                                    v-model="form.phone"
+                                    label="Téléphone"
+                                    :error="form.errors.phone"
+                                />
                             </div>
 
-                            <FormInput
-                                v-model="form.name"
-                                label="Nom complet"
-                                :error="form.errors.name"
-                            />
-
-                            <FormInput
-                                v-model="form.email"
-                                type="email"
-                                label="Email"
-                                :error="form.errors.email"
-                            />
-
-                            <FormInput
-                                v-model="form.phone"
-                                label="Téléphone"
-                                :error="form.errors.phone"
-                            />
-
-                            <FormInput
-                                v-model="form.subject"
-                                label="Sujet"
-                                :error="form.errors.subject"
-                            />
-
-                            <div class="mb-4">
-                                <label
-                                    class="block text-white text-sm font-medium mb-2"
+                            <div
+                                class="bg-gaming-red/5 p-4 rounded-lg border border-gaming-red/30 mb-6"
+                            >
+                                <h3
+                                    class="text-xl font-play text-led-green mb-4"
                                 >
-                                    Message
-                                </label>
-                                <textarea
-                                    v-model="form.message"
-                                    rows="4"
-                                    class="w-full px-3 py-2 bg-deep-black border border-gaming-red rounded-md text-white focus:outline-none focus:ring-2 focus:ring-led-green"
-                                ></textarea>
-                                <p
-                                    v-if="form.errors.message"
-                                    class="mt-1 text-sm text-gaming-red"
-                                >
-                                    {{ form.errors.message }}
-                                </p>
+                                    Votre message
+                                </h3>
+
+                                <FormInput
+                                    v-model="form.subject"
+                                    label="Sujet"
+                                    :error="form.errors.subject"
+                                />
+
+                                <div class="mb-4">
+                                    <label
+                                        class="block text-white text-sm font-medium mb-2"
+                                    >
+                                        Message
+                                    </label>
+                                    <textarea
+                                        v-model="form.message"
+                                        rows="4"
+                                        class="w-full px-3 py-2 bg-deep-black border border-gaming-red rounded-md text-white focus:outline-none focus:ring-2 focus:ring-led-green"
+                                    ></textarea>
+                                    <p
+                                        v-if="form.errors.message"
+                                        class="mt-1 text-sm text-gaming-red"
+                                    >
+                                        {{ form.errors.message }}
+                                    </p>
+                                </div>
                             </div>
 
                             <button
                                 type="submit"
                                 :disabled="form.processing"
-                                class="w-full px-4 py-2 bg-gaming-red text-white rounded-md hover:bg-opacity-90 transition duration-150 disabled:opacity-50"
+                                class="w-full px-4 py-3 bg-gaming-red text-white rounded-md hover:bg-opacity-90 transition duration-150 disabled:opacity-50 font-play"
                             >
-                                Envoyer
+                                Envoyer mon message
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Ajout de la notification toast flottante -->
+        <Toast
+            :show="toast.show"
+            :message="toast.message"
+            :type="toast.type"
+            position="bottom-right"
+            @close="closeToast"
+        />
     </PublicLayout>
 </template>

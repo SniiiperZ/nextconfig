@@ -38,7 +38,7 @@ const handleReviewSubmitted = () => {
                         optimales
                     </p>
                     <Link
-                        :href="route('contact')"
+                        :href="route('configurator')"
                         class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-150"
                     >
                         Configurer mon PC

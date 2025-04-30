@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConfiguratorController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProjectController;
@@ -41,6 +42,10 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 // Routes publiques pour les avis
 Route::post('/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
+
+// Routes pour le configurateur PC
+Route::get('/configurateur', [ConfiguratorController::class, 'index'])->name('configurator');
+Route::post('/configurateur/submit', [ConfiguratorController::class, 'submit'])->name('configurator.submit');
 
 // Routes administrateur
 Route::middleware([

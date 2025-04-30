@@ -21,6 +21,6 @@ class ContactController extends Controller
         // Envoi de l'email (à implémenter plus tard)
         // Mail::to('contact@nextconfig.be')->send(new ContactFormMail($validated));
 
-        return back()->with('success', 'Message envoyé avec succès !');
+        return back()->with('success', 'Votre message a été envoyé avec succès ! Nous vous contacterons bientôt.');
     }
 }
