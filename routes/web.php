@@ -47,6 +47,11 @@ Route::post('/reviews', [App\Http\Controllers\ReviewController::class, 'store'])
 Route::get('/configurateur', [ConfiguratorController::class, 'index'])->name('configurator');
 Route::post('/configurateur/submit', [ConfiguratorController::class, 'submit'])->name('configurator.submit');
 
+// Route pour le calculateur de budget
+Route::get('/calculateur-budget', function () {
+    return Inertia::render('BudgetCalculator');
+})->name('budget.calculator');
+
 // Routes administrateur
 Route::middleware([
     'auth:sanctum',

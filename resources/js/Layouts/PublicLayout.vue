@@ -101,6 +101,16 @@ const showingNavigationDropdown = ref(false);
                                 Configurateur PC
                             </Link>
                             <Link
+                                :href="route('budget.calculator')"
+                                class="text-white hover:text-led-green transition"
+                                :class="{
+                                    'text-led-green font-bold border-b-2 border-led-green pb-1':
+                                        route().current('budget.calculator'),
+                                }"
+                            >
+                                Calculateur de budget
+                            </Link>
+                            <Link
                                 :href="route('contact')"
                                 class="text-white hover:text-led-green transition"
                                 :class="{
@@ -234,6 +244,16 @@ const showingNavigationDropdown = ref(false);
                             }"
                         >
                             Configurateur PC
+                        </Link>
+                        <Link
+                            :href="route('budget.calculator')"
+                            class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
+                            :class="{
+                                'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
+                                    route().current('budget.calculator'),
+                            }"
+                        >
+                            Calculateur de budget
                         </Link>
                         <Link
                             :href="route('contact')"

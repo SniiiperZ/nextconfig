@@ -101,6 +101,46 @@ const closeToast = () => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
+                    class="bg-deep-black p-8 rounded-lg border border-gaming-red mb-8"
+                >
+                    <div
+                        class="flex flex-col md:flex-row items-center justify-between"
+                    >
+                        <div>
+                            <h1 class="text-3xl font-play text-gaming-red mb-2">
+                                Configurateur PC
+                            </h1>
+                            <p class="text-white mb-4 md:mb-0">
+                                Dites-nous ce dont vous avez besoin, et nous
+                                vous proposerons une configuration sur mesure.
+                            </p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <Link
+                                :href="route('budget.calculator')"
+                                class="px-5 py-2 bg-led-green/10 border border-led-green text-led-green rounded-md hover:bg-led-green/20 transition flex items-center"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 mr-2"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                                    />
+                                </svg>
+                                Estimer avec le calculateur de budget
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div
                     class="bg-deep-black p-8 rounded-lg border border-gaming-red"
                 >
                     <h1 class="text-3xl font-play text-gaming-red mb-2">
