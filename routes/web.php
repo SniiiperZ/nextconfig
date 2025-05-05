@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ConfiguratorController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
@@ -29,6 +30,7 @@ Route::get('/portfolio', [ProjectController::class, 'index'])->name('portfolio')
 
 Route::get('/blog', [App\Http\Controllers\BlogController::class, 'index'])->name('blog');
 Route::get('/blog/{slug}', [App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+Route::post('/blog/{slug}/comment', [CommentController::class, 'store'])->name('blog.comment');
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
@@ -80,6 +82,11 @@ Route::middleware([
     Route::post('/admin/blog', [App\Http\Controllers\BlogController::class, 'store'])->name('admin.blog.store');
     Route::post('/admin/blog/{post}', [App\Http\Controllers\BlogController::class, 'update'])->name('admin.blog.update');
     Route::delete('/admin/blog/{post}', [App\Http\Controllers\BlogController::class, 'destroy'])->name('admin.blog.destroy');
+
+    // Routes pour la gestion des commentaires
+    Route::get('/admin/comments', [CommentController::class, 'index'])->name('admin.comments');
+    Route::patch('/admin/comments/{comment}/approve', [CommentController::class, 'approve'])->name('admin.comments.approve');
+    Route::delete('/admin/comments/{comment}', [CommentController::class, 'destroy'])->name('admin.comments.destroy');
 
     // Routes des tags
     Route::post('/admin/tags', [App\Http\Controllers\TagController::class, 'store'])->name('admin.tags.store');

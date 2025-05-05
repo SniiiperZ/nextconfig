@@ -21,7 +21,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex-shrink-0 flex items-center">
                             <Link :href="route('home')">
                                 <img
-                                    src="logo.png"
+                                    src="/logo.png"
                                     alt="NextConfig Logo"
                                     class="h-16 w-auto"
                                 />

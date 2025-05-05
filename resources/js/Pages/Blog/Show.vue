@@ -1,12 +1,18 @@
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
-import { Link } from "@inertiajs/vue3";
-import { onMounted } from "vue";
+import { Link, useForm } from "@inertiajs/vue3";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
     post: Object,
     relatedPosts: Array,
+    comments: Array,
+    errors: Object,
+    flash: Object,
 });
+
+// État pour le formulaire de commentaire
+const showCommentForm = ref(false);
 
 // Formater la date au format français
 const formatDate = (dateString) => {
@@ -33,6 +39,24 @@ onMounted(() => {
         document.getElementById("blog-content").innerHTML = props.post.content;
     }
 });
+
+// Formulaire de commentaire
+const form = useForm({
+    name: "",
+    email: "",
+    content: "",
+});
+
+// Soumettre un commentaire
+const submitComment = () => {
+    form.post(route("blog.comment", props.post.slug), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            showCommentForm.value = false;
+        },
+    });
+};
 </script>
 
 <template>
@@ -121,6 +145,135 @@ onMounted(() => {
                         id="blog-content"
                         class="prose prose-invert max-w-none prose-headings:font-play prose-headings:text-led-green prose-a:text-gaming-red hover:prose-a:text-white"
                     ></div>
+                </div>
+
+                <!-- Section commentaires -->
+                <div
+                    class="bg-deep-black border border-gaming-red rounded-lg p-8 mb-12"
+                >
+                    <h3 class="text-2xl font-play text-led-green mb-6">
+                        Commentaires ({{ comments.length }})
+                    </h3>
+
+                    <!-- Message flash de succès -->
+                    <div
+                        v-if="$page.props.flash.success"
+                        class="bg-led-green/20 border border-led-green/50 text-white p-4 rounded mb-6"
+                    >
+                        {{ $page.props.flash.success }}
+                    </div>
+
+                    <!-- Bouton pour afficher le formulaire de commentaire -->
+                    <button
+                        @click="showCommentForm = !showCommentForm"
+                        class="bg-gaming-red hover:bg-opacity-90 text-white px-4 py-2 rounded mb-6 transition"
+                    >
+                        {{
+                            showCommentForm
+                                ? "Annuler"
+                                : "Ajouter un commentaire"
+                        }}
+                    </button>
+
+                    <!-- Formulaire de commentaire -->
+                    <div
+                        v-if="showCommentForm"
+                        class="bg-deep-black/50 border border-gaming-red/50 rounded-lg p-6 mb-8"
+                    >
+                        <form @submit.prevent="submitComment" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-white mb-2"
+                                        >Nom *</label
+                                    >
+                                    <input
+                                        v-model="form.name"
+                                        type="text"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
+                                        required
+                                    />
+                                    <p
+                                        v-if="form.errors.name"
+                                        class="text-gaming-red text-sm mt-1"
+                                    >
+                                        {{ form.errors.name }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <label class="block text-white mb-2"
+                                        >Email *</label
+                                    >
+                                    <input
+                                        v-model="form.email"
+                                        type="email"
+                                        class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
+                                        required
+                                    />
+                                    <p
+                                        v-if="form.errors.email"
+                                        class="text-gaming-red text-sm mt-1"
+                                    >
+                                        {{ form.errors.email }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2"
+                                    >Commentaire *</label
+                                >
+                                <textarea
+                                    v-model="form.content"
+                                    rows="4"
+                                    class="w-full bg-deep-black border border-gaming-red rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
+                                    required
+                                ></textarea>
+                                <p
+                                    v-if="form.errors.content"
+                                    class="text-gaming-red text-sm mt-1"
+                                >
+                                    {{ form.errors.content }}
+                                </p>
+                            </div>
+                            <div class="text-white/60 text-sm mb-2">
+                                Tous les commentaires sont soumis à modération
+                                avant publication.
+                            </div>
+                            <div>
+                                <button
+                                    type="submit"
+                                    class="bg-led-green hover:bg-opacity-90 text-deep-black px-4 py-2 rounded transition"
+                                    :disabled="form.processing"
+                                >
+                                    Envoyer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Liste des commentaires -->
+                    <div v-if="comments.length" class="space-y-6">
+                        <div
+                            v-for="comment in comments"
+                            :key="comment.id"
+                            class="bg-deep-black/30 border border-gaming-red/30 rounded-lg p-4"
+                        >
+                            <div class="flex justify-between mb-2">
+                                <h4 class="text-led-green font-medium">
+                                    {{ comment.name }}
+                                </h4>
+                                <span class="text-white/60 text-sm">{{
+                                    formatDate(comment.created_at)
+                                }}</span>
+                            </div>
+                            <p class="text-white/90">{{ comment.content }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Message si aucun commentaire -->
+                    <div v-else class="text-white/60 text-center py-4">
+                        Aucun commentaire pour le moment. Soyez le premier à
+                        commenter !
+                    </div>
                 </div>
 
                 <!-- Articles connexes -->

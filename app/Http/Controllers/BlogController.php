@@ -32,7 +32,7 @@ class BlogController extends Controller
     public function show($slug)
     {
         $post = BlogPost::published()
-            ->with('tags')
+            ->with(['tags', 'approvedComments'])
             ->where('slug', $slug)
             ->firstOrFail();
 
@@ -53,7 +53,8 @@ class BlogController extends Controller
 
         return Inertia::render('Blog/Show', [
             'post' => $post,
-            'relatedPosts' => $relatedPosts
+            'relatedPosts' => $relatedPosts,
+            'comments' => $post->approvedComments
         ]);
     }
 

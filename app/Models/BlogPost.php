@@ -48,6 +48,22 @@ class BlogPost extends Model
     }
 
     /**
+     * Relation avec les commentaires
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Récupérer uniquement les commentaires approuvés
+     */
+    public function approvedComments()
+    {
+        return $this->comments()->approved()->orderBy('created_at', 'desc');
+    }
+
+    /**
      * Scope pour récupérer uniquement les articles publiés
      */
     public function scopePublished($query)
