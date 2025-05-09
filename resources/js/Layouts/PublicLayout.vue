@@ -91,14 +91,14 @@ const showingNavigationDropdown = ref(false);
                                 FAQ
                             </Link>
                             <Link
-                                :href="route('configurator')"
+                                :href="route('devis')"
                                 class="text-white hover:text-led-green transition"
                                 :class="{
                                     'text-led-green font-bold border-b-2 border-led-green pb-1':
-                                        route().current('configurator'),
+                                        route().current('devis'),
                                 }"
                             >
-                                Configurateur PC
+                                Devis
                             </Link>
                             <Link
                                 :href="route('budget.calculator')"
@@ -236,14 +236,14 @@ const showingNavigationDropdown = ref(false);
                             FAQ
                         </Link>
                         <Link
-                            :href="route('configurator')"
+                            :href="route('devis')"
                             class="block pl-3 pr-4 py-2 text-white hover:text-led-green transition"
                             :class="{
                                 'bg-gaming-red/10 border-l-4 border-led-green font-bold text-led-green':
-                                    route().current('configurator'),
+                                    route().current('devis'),
                             }"
                         >
-                            Configurateur PC
+                            Devis
                         </Link>
                         <Link
                             :href="route('budget.calculator')"
