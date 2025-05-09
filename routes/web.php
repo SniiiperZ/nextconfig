@@ -54,6 +54,11 @@ Route::get('/calculateur-budget', function () {
     return Inertia::render('BudgetCalculator');
 })->name('budget.calculator');
 
+// Route pour politique de confidentialité
+Route::get('/politique-confidentialite', function () {
+    return Inertia::render('PrivacyPolicy');
+})->name('privacy.policy');
+
 // Routes administrateur
 Route::middleware([
     'auth:sanctum',
