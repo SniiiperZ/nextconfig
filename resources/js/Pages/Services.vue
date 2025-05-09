@@ -131,7 +131,7 @@ import { Link } from "@inertiajs/vue3";
 
                                     <div class="mt-8">
                                         <Link
-                                            :href="route('configurator')"
+                                            :href="route('devis')"
                                             class="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300 shadow-glow"
                                         >
                                             <svg
@@ -464,7 +464,7 @@ import { Link } from "@inertiajs/vue3";
                     </p>
                     <div class="flex flex-col sm:flex-row justify-center gap-4">
                         <Link
-                            :href="route('configurator')"
+                            :href="route('devis')"
                             class="main-cta-button inline-flex items-center justify-center px-6 py-3 border border-transparent text-lg font-medium rounded-md text-white"
                         >
                             <svg

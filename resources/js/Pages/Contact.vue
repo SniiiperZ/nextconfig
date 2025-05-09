@@ -49,7 +49,7 @@ const closeToast = () => {
     <PublicLayout title="Contact">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- Bannière du configurateur -->
+                <!-- Bannière du devis -->
                 <div
                     class="bg-deep-black p-8 rounded-lg border border-led-green mb-8 text-center"
                 >
@@ -57,15 +57,15 @@ const closeToast = () => {
                         Besoin d'un PC sur mesure ?
                     </h2>
                     <p class="text-white mb-4">
-                        Utilisez notre configurateur d'orientation pour nous
-                        indiquer vos besoins spécifiques et obtenir une
-                        proposition personnalisée.
+                        Utilisez notre devis d'orientation pour nous indiquer
+                        vos besoins spécifiques et obtenir une proposition
+                        personnalisée.
                     </p>
                     <a
-                        :href="route('configurator')"
+                        :href="route('devis')"
                         class="inline-block px-6 py-3 bg-led-green text-deep-black font-medium rounded-md hover:bg-opacity-90 transition duration-150"
                     >
-                        Accéder au configurateur PC
+                        Accéder au devis PC
                     </a>
                 </div>
 
@@ -142,7 +142,7 @@ const closeToast = () => {
                         </div>
                     </div>
 
-                    <!-- Formulaire de contact - Mise à jour du style pour correspondre au configurateur -->
+                    <!-- Formulaire de contact - Mise à jour du style pour correspondre au devis -->
                     <div
                         class="bg-deep-black p-8 rounded-lg border border-gaming-red"
                     >

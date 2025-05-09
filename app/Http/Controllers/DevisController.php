@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Mail;
-// use App\Mail\ConfiguratorRequestMail; // À implémenter plus tard
+// use App\Mail\DevisRequestMail; // À implémenter plus tard
 
-class ConfiguratorController extends Controller
+class DevisController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Configurator');
+        return Inertia::render('Devis');
     }
 
     public function submit(Request $request)
@@ -30,7 +30,7 @@ class ConfiguratorController extends Controller
         ]);
 
         // Traitement et envoi d'email (à implémenter plus tard)
-        // Mail::to('contact@nextconfig.be')->send(new ConfiguratorRequestMail($validated));
+        // Mail::to('contact@nextconfig.be')->send(new DevisRequestMail($validated));
 
         return back()->with('success', 'Votre demande de configuration a été envoyée avec succès ! Nous vous contacterons bientôt pour discuter des détails.');
     }

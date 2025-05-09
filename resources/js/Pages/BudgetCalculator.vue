@@ -359,13 +359,13 @@ watch(selectedUsage, (newValue) => {
                             </div>
                         </div>
 
-                        <!-- Bouton vers le configurateur complet -->
+                        <!-- Bouton vers le devis complet -->
                         <div class="mt-10">
                             <Link
-                                :href="route('configurator')"
+                                :href="route('devis')"
                                 class="w-full bg-gaming-red text-white py-3 px-4 rounded-md text-center inline-block hover:bg-opacity-90 transition-colors"
                             >
-                                Passer au configurateur complet
+                                Passer au devis complet
                             </Link>
                         </div>
                     </div>
@@ -528,10 +528,10 @@ watch(selectedUsage, (newValue) => {
                     </p>
                     <div class="flex justify-center space-x-4">
                         <Link
-                            :href="route('configurator')"
+                            :href="route('devis')"
                             class="px-6 py-2 bg-gaming-red text-white rounded-md hover:bg-opacity-90 transition"
                         >
-                            Configurateur détaillé
+                            Devis détaillé
                         </Link>
                         <Link
                             :href="route('contact')"

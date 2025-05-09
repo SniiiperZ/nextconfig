@@ -42,7 +42,7 @@ const handleReviewSubmitted = () => {
                     optimales
                 </p>
                 <Link
-                    :href="route('configurator')"
+                    :href="route('devis')"
                     class="main-cta-button inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300"
                 >
                     <svg

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ConfiguratorController;
+use App\Http\Controllers\DevisController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProjectController;
@@ -45,9 +45,9 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 // Routes publiques pour les avis
 Route::post('/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
 
-// Routes pour le configurateur PC
-Route::get('/configurateur', [ConfiguratorController::class, 'index'])->name('configurator');
-Route::post('/configurateur/submit', [ConfiguratorController::class, 'submit'])->name('configurator.submit');
+// Routes pour le devis PC
+Route::get('/devis', [DevisController::class, 'index'])->name('devis');
+Route::post('/devis/submit', [DevisController::class, 'submit'])->name('devis.submit');
 
 // Route pour le calculateur de budget
 Route::get('/calculateur-budget', function () {
