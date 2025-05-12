@@ -20,6 +20,19 @@
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
     <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
+
+    <!-- Code de suivi Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5GLJQE505D"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-5GLJQE505D');
+    </script>
 </head>
 
 <body class="font-roboto bg-deep-black text-white">
