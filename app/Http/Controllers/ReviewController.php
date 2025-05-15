@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class ReviewController extends Controller
@@ -14,7 +15,8 @@ class ReviewController extends Controller
         $reviews = Review::orderBy('created_at', 'desc')->get();
 
         return Inertia::render('Reviews/Admin', [
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'pendingCount' => Review::where('is_approved', false)->count()
         ]);
     }
 
@@ -35,6 +37,9 @@ class ReviewController extends Controller
 
         Review::create($validated);
 
+        // Vider les caches concernés
+        $this->clearReviewCaches();
+
         return redirect()->back()->with('success', 'Votre avis a été soumis avec succès et sera affiché après modération.');
     }
 
@@ -53,7 +58,10 @@ class ReviewController extends Controller
 
         Review::create($validated);
 
-        return redirect()->back();
+        // Vider les caches concernés
+        $this->clearReviewCaches();
+
+        return redirect()->back()->with('success', 'Avis ajouté avec succès');
     }
 
     // Mettre à jour un avis
@@ -71,7 +79,10 @@ class ReviewController extends Controller
 
         $review->update($validated);
 
-        return redirect()->back();
+        // Vider les caches concernés
+        $this->clearReviewCaches();
+
+        return redirect()->back()->with('success', 'Avis mis à jour avec succès');
     }
 
     // Approuver ou rejeter un avis rapidement
@@ -83,7 +94,10 @@ class ReviewController extends Controller
 
         $review->update($validated);
 
-        return redirect()->back();
+        // Vider les caches concernés
+        $this->clearReviewCaches();
+
+        return redirect()->back()->with('success', 'Statut de l\'avis mis à jour avec succès');
     }
 
     // Supprimer un avis
@@ -91,6 +105,20 @@ class ReviewController extends Controller
     {
         $review->delete();
 
-        return redirect()->back();
+        // Vider les caches concernés
+        $this->clearReviewCaches();
+
+        return redirect()->back()->with('success', 'Avis supprimé avec succès');
+    }
+
+    /**
+     * Vider les caches liés aux avis
+     */
+    private function clearReviewCaches()
+    {
+        Cache::forget('featured_reviews');
+        Cache::forget('latest_reviews');
+        Cache::forget('reviews_count');
+        Cache::forget('reviews_rating_distribution');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class BlogPost extends Model
 {
@@ -19,6 +20,24 @@ class BlogPost extends Model
 
     protected $casts = [
         'is_published' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /**
+     * Définir les attributs qui doivent être rejetés des réponses JSON
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    /**
+     * Attributs à ajouter aux réponses JSON
+     */
+    protected $appends = [
+        'formatted_date',
+        'reading_time'
     ];
 
     protected static function boot()
@@ -37,6 +56,30 @@ class BlogPost extends Model
                 $post->slug = Str::slug($post->title);
             }
         });
+    }
+
+    /**
+     * Formater la date pour affichage
+     */
+    protected function formattedDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->created_at->locale('fr')->isoFormat('LL')
+        );
+    }
+
+    /**
+     * Calculer le temps de lecture approximatif
+     */
+    protected function readingTime(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $wordsPerMinute = 200;
+                $wordCount = str_word_count(strip_tags($this->content));
+                return ceil($wordCount / $wordsPerMinute);
+            }
+        );
     }
 
     /**

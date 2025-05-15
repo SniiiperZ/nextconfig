@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class TagController extends Controller
 {
@@ -25,7 +26,11 @@ class TagController extends Controller
 
         Tag::create($validated);
 
-        return redirect()->back();
+        // Vider les caches concernés
+        Cache::forget('all_tags');
+        Cache::forget('blog_posts_index');
+
+        return redirect()->back()->with('success', 'Tag créé avec succès');
     }
 
     /**
@@ -34,6 +39,11 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        return redirect()->back();
+
+        // Vider les caches concernés
+        Cache::forget('all_tags');
+        Cache::forget('blog_posts_index');
+
+        return redirect()->back()->with('success', 'Tag supprimé avec succès');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class CommentController extends Controller
@@ -14,19 +15,13 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $pendingComments = Comment::pending()
-            ->with('blogPost')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $approvedComments = Comment::approved()
-            ->with('blogPost')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $pendingComments = Comment::getPendingComments();
+        $approvedComments = Comment::getApprovedComments(20);
 
         return Inertia::render('Blog/Comments', [
             'pendingComments' => $pendingComments,
-            'approvedComments' => $approvedComments
+            'approvedComments' => $approvedComments,
+            'pendingCount' => Comment::getPendingCount()
         ]);
     }
 
@@ -50,6 +45,11 @@ class CommentController extends Controller
             'is_approved' => false, // Par défaut, tous les commentaires nécessitent une modération
         ]);
 
+        // Vider les caches concernés
+        Cache::forget('blog_post_' . $slug);
+        Cache::forget('pending_comments_count');
+        Cache::forget('pending_comments');
+
         return redirect()->back()->with('success', 'Votre commentaire a été soumis et sera visible après modération.');
     }
 
@@ -60,6 +60,14 @@ class CommentController extends Controller
     {
         $comment->update(['is_approved' => true]);
 
+        // Vider les caches concernés
+        if ($comment->blogPost) {
+            Cache::forget('blog_post_' . $comment->blogPost->slug);
+        }
+        Cache::forget('pending_comments_count');
+        Cache::forget('approved_comments');
+        Cache::forget('pending_comments');
+
         return redirect()->back()->with('success', 'Commentaire approuvé avec succès.');
     }
 
@@ -68,7 +76,17 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        $slug = $comment->blogPost?->slug;
+
         $comment->delete();
+
+        // Vider les caches concernés
+        if ($slug) {
+            Cache::forget('blog_post_' . $slug);
+        }
+        Cache::forget('pending_comments_count');
+        Cache::forget('approved_comments');
+        Cache::forget('pending_comments');
 
         return redirect()->back()->with('success', 'Commentaire supprimé avec succès.');
     }

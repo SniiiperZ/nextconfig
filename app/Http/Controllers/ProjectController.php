@@ -10,12 +10,16 @@ use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
-    // Affichage public des projets avec leurs images
+    // Affichage public des projets avec leurs images - Optimisé
     public function index()
     {
-        $projects = Project::where('is_visible', true)
+        // Utilisation d'Eager Loading et chargement sélectif des colonnes
+        $projects = Project::with(['images' => function ($query) {
+            $query->orderBy('order');
+        }])
+            ->select('id', 'title', 'description', 'specs', 'is_featured', 'is_visible', 'image_path')
+            ->where('is_visible', true)
             ->orderBy('order')
-            ->with('images') // Charger toutes les images associées
             ->get();
 
         return Inertia::render('Portfolio/Index', [
@@ -23,10 +27,12 @@ class ProjectController extends Controller
         ]);
     }
 
-    // Affichage de l'interface d'administration des projets
+    // Affichage de l'interface d'administration des projets - Optimisé
     public function admin()
     {
-        $projects = Project::with('images') // Charger les images pour chaque projet
+        $projects = Project::with(['images' => function ($query) {
+            $query->orderBy('order');
+        }])
             ->orderBy('order')
             ->get();
 

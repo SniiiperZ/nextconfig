@@ -6,6 +6,7 @@ use App\Models\BlogPost;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -16,10 +17,13 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::published()
-            ->with('tags')
-            ->orderByDesc('created_at')
-            ->get();
+        $posts = Cache::remember('blog_posts_index', 60 * 10, function () {
+            return BlogPost::published()
+                ->with('tags:id,name,slug')
+                ->select('id', 'title', 'slug', 'excerpt', 'featured_image', 'content', 'created_at', 'updated_at')
+                ->orderByDesc('created_at')
+                ->get();
+        });
 
         return Inertia::render('Blog/Index', [
             'posts' => $posts
@@ -31,31 +35,36 @@ class BlogController extends Controller
      */
     public function show($slug)
     {
-        $post = BlogPost::published()
-            ->with(['tags', 'approvedComments'])
-            ->where('slug', $slug)
-            ->firstOrFail();
+        $post = Cache::remember('blog_post_' . $slug, 60 * 10, function () use ($slug) {
+            $post = BlogPost::published()
+                ->with(['tags:id,name,slug', 'approvedComments'])
+                ->where('slug', $slug)
+                ->firstOrFail();
 
-        // Récupérer les articles connexes basés sur les tags
-        $relatedPosts = collect();
-        if ($post->tags->count() > 0) {
-            $tagIds = $post->tags->pluck('id');
-            $relatedPosts = BlogPost::published()
-                ->whereHas('tags', function ($query) use ($tagIds) {
-                    $query->whereIn('tags.id', $tagIds);
-                })
-                ->where('id', '!=', $post->id)
-                ->with('tags')
-                ->orderByDesc('created_at')
-                ->limit(3)
-                ->get();
-        }
+            // Récupérer les articles connexes basés sur les tags
+            $relatedPosts = collect();
+            if ($post->tags->count() > 0) {
+                $tagIds = $post->tags->pluck('id');
+                $relatedPosts = BlogPost::published()
+                    ->whereHas('tags', function ($query) use ($tagIds) {
+                        $query->whereIn('tags.id', $tagIds);
+                    })
+                    ->where('id', '!=', $post->id)
+                    ->with('tags:id,name,slug')
+                    ->select('id', 'title', 'slug', 'excerpt', 'featured_image', 'created_at')
+                    ->orderByDesc('created_at')
+                    ->limit(3)
+                    ->get();
+            }
 
-        return Inertia::render('Blog/Show', [
-            'post' => $post,
-            'relatedPosts' => $relatedPosts,
-            'comments' => $post->approvedComments
-        ]);
+            return [
+                'post' => $post,
+                'relatedPosts' => $relatedPosts,
+                'comments' => $post->approvedComments
+            ];
+        });
+
+        return Inertia::render('Blog/Show', $post);
     }
 
     /**
@@ -63,11 +72,13 @@ class BlogController extends Controller
      */
     public function admin()
     {
-        $posts = BlogPost::with('tags')
+        $posts = BlogPost::with('tags:id,name')
             ->orderByDesc('created_at')
             ->get();
 
-        $tags = Tag::orderBy('name')->get();
+        $tags = Cache::remember('all_tags', 60 * 30, function () {
+            return Tag::orderBy('name')->get();
+        });
 
         return Inertia::render('Blog/Admin', [
             'posts' => $posts,
@@ -117,6 +128,9 @@ class BlogController extends Controller
         if (!empty($validated['tags'])) {
             $post->tags()->sync($validated['tags']);
         }
+
+        // Vider les caches concernés
+        $this->clearBlogCaches();
 
         return redirect()->back();
     }
@@ -177,6 +191,9 @@ class BlogController extends Controller
             $post->tags()->sync($validated['tags']);
         }
 
+        // Vider les caches concernés
+        $this->clearBlogCaches($post->slug);
+
         return redirect()->back();
     }
 
@@ -190,8 +207,27 @@ class BlogController extends Controller
             Storage::disk('public')->delete($post->featured_image);
         }
 
+        // Récupérer le slug avant suppression pour vider le cache
+        $slug = $post->slug;
+
         $post->delete();
 
+        // Vider les caches concernés
+        $this->clearBlogCaches($slug);
+
         return redirect()->back();
+    }
+
+    /**
+     * Vider les caches liés au blog
+     */
+    private function clearBlogCaches($slug = null)
+    {
+        Cache::forget('blog_posts_index');
+        Cache::forget('blog_posts_count');
+
+        if ($slug) {
+            Cache::forget('blog_post_' . $slug);
+        }
     }
 }

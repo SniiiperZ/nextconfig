@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
     use HasApiTokens;
-
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use HasProfilePhoto;
@@ -63,5 +62,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Boot the model.
+     */
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            Cache::forget('users_count');
+            Cache::forget('admin_users');
+        });
+
+        static::updated(function ($user) {
+            Cache::forget('user_' . $user->id);
+            Cache::forget('admin_users');
+        });
+
+        static::deleted(function ($user) {
+            Cache::forget('users_count');
+            Cache::forget('admin_users');
+        });
     }
 }

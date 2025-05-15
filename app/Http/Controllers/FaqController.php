@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Faq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class FaqController extends Controller
 {
     public function index()
     {
-        $faqs = Faq::where('is_visible', true)
-            ->orderBy('order')
-            ->get();
+        $faqs = Faq::getVisibleFaqs();
 
         return Inertia::render('Faq/Index', [
             'faqs' => $faqs
@@ -21,7 +20,7 @@ class FaqController extends Controller
 
     public function admin()
     {
-        $faqs = Faq::orderBy('order')->get();
+        $faqs = Faq::getAllFaqs();
 
         return Inertia::render('Faq/Admin', [
             'faqs' => $faqs
@@ -39,7 +38,11 @@ class FaqController extends Controller
 
         Faq::create($validated);
 
-        return redirect()->back();
+        // Vider les caches concernés
+        Cache::forget('visible_faqs');
+        Cache::forget('all_faqs');
+
+        return redirect()->back()->with('success', 'FAQ ajoutée avec succès');
     }
 
     public function update(Request $request, Faq $faq)
@@ -53,12 +56,21 @@ class FaqController extends Controller
 
         $faq->update($validated);
 
-        return redirect()->back();
+        // Vider les caches concernés
+        Cache::forget('visible_faqs');
+        Cache::forget('all_faqs');
+
+        return redirect()->back()->with('success', 'FAQ mise à jour avec succès');
     }
 
     public function destroy(Faq $faq)
     {
         $faq->delete();
-        return redirect()->back();
+
+        // Vider les caches concernés
+        Cache::forget('visible_faqs');
+        Cache::forget('all_faqs');
+
+        return redirect()->back()->with('success', 'FAQ supprimée avec succès');
     }
 }
