@@ -32,7 +32,7 @@ const timeframeOptions = [
     { value: "asap", label: "Dès que possible" },
     { value: "1month", label: "D'ici 1 mois" },
     { value: "3months", label: "D'ici 3 mois" },
-    { value: "no_rush", label: "Pas pressé" },
+    { value: "6months", label: "D'ici 6 mois" },
 ];
 
 const usageDetailsPlaceholders = {

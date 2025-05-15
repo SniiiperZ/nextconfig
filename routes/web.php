@@ -54,6 +54,11 @@ Route::get('/politique-confidentialite', function () {
     return Inertia::render('PrivacyPolicy');
 })->name('privacy.policy');
 
+// Route pour mentions légales
+Route::get('/mentions-legales', function () {
+    return Inertia::render('LegalNotices');
+})->name('legal.notices');
+
 // Routes administrateur
 Route::middleware([
     'auth:sanctum',

@@ -44,7 +44,7 @@ class BlogPostSeeder extends Seeder
 
 <p>N\'oubliez pas de considérer la compatibilité avec votre alimentation et le format de votre boîtier !</p>',
                 'excerpt' => 'Un guide complet pour vous aider à choisir la carte graphique idéale selon votre budget et vos besoins en 2025.',
-                'featured_image' => 'blog/gpu-guide.jpg',
+                'featured_image' => '',
                 'is_published' => true,
                 'order' => 1,
             ],
@@ -97,7 +97,7 @@ class BlogPostSeeder extends Seeder
     <li><strong>Cooler Master NR200P</strong> : Le meilleur rapport qualité/prix</li>
 </ul>',
                 'excerpt' => 'Découvrez notre sélection des meilleurs boîtiers PC pour tous les budgets et besoins en 2025.',
-                'featured_image' => 'blog/cases-guide.jpg',
+                'featured_image' => '',
                 'is_published' => true,
                 'order' => 2,
             ],

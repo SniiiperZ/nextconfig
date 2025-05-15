@@ -30,12 +30,12 @@ class Review extends Model
     {
         static::saved(function ($review) {
             // Vider les caches concernés
-            $this->clearReviewCaches();
+            self::clearReviewCaches();
         });
 
         static::deleted(function ($review) {
             // Vider les caches concernés
-            $this->clearReviewCaches();
+            self::clearReviewCaches();
         });
     }
 

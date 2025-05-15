@@ -277,7 +277,74 @@ const showingNavigationDropdown = ref(false);
             <!-- Footer -->
             <footer class="bg-deep-black border-t border-gaming-red">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div class="text-center text-white">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+                        <!-- Colonne 1: Logo et texte -->
+                        <div class="text-center md:text-left">
+                            <Link :href="route('home')">
+                                <img
+                                    src="/logo.png"
+                                    alt="NextConfig Logo"
+                                    class="h-20 w-auto mx-auto md:mx-0 mb-2"
+                                />
+                            </Link>
+                        </div>
+
+                        <!-- Colonne 2: Liens rapides -->
+                        <div class="text-center">
+                            <h3
+                                class="text-led-green text-lg font-semibold mb-3"
+                            >
+                                Liens rapides
+                            </h3>
+                            <div class="flex flex-col space-y-2">
+                                <Link
+                                    :href="route('home')"
+                                    class="text-white hover:text-led-green transition"
+                                    >Accueil</Link
+                                >
+                                <Link
+                                    :href="route('services')"
+                                    class="text-white hover:text-led-green transition"
+                                    >Nos services</Link
+                                >
+                                <Link
+                                    :href="route('portfolio')"
+                                    class="text-white hover:text-led-green transition"
+                                    >Réalisations</Link
+                                >
+                                <Link
+                                    :href="route('contact')"
+                                    class="text-white hover:text-led-green transition"
+                                    >Contact</Link
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Colonne 3: Informations légales -->
+                        <div class="text-center md:text-right">
+                            <h3
+                                class="text-led-green text-lg font-semibold mb-3"
+                            >
+                                Informations légales
+                            </h3>
+                            <div class="flex flex-col space-y-2">
+                                <Link
+                                    :href="route('privacy.policy')"
+                                    class="text-white hover:text-led-green transition"
+                                    >Politique de confidentialité</Link
+                                >
+                                <Link
+                                    :href="route('legal.notices')"
+                                    class="text-white hover:text-led-green transition"
+                                    >Mentions légales</Link
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="text-center text-white/70 pt-4 border-t border-gaming-red/30"
+                    >
                         <p>
                             &copy; {{ new Date().getFullYear() }} NextConfig.
                             Tous droits réservés.

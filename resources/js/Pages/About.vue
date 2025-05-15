@@ -88,7 +88,7 @@ const experiences = ref([
                                 <!-- Photo avec effet de style -->
                                 <div class="profile-image">
                                     <img
-                                        src="/images/pc-rgb.jpg"
+                                        src="/images/about.jpg"
                                         alt="PC Gaming Personnalisé"
                                         class="rounded-lg shadow-glow"
                                     />

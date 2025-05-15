@@ -485,7 +485,7 @@ const componentIcons = {
                         <div class="mt-10">
                             <Link
                                 :href="route('devis')"
-                                class="main-cta-button w-full text-white py-3 px-4 rounded-md text-center inline-block flex items-center justify-center font-medium"
+                                class="main-cta-button w-full text-white py-3 px-4 rounded-md text-center flex items-center justify-center font-medium"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -657,8 +657,7 @@ const componentIcons = {
                                         </div>
                                     </div>
 
-                                    <span
-                                        class="text-white font-medium text-led-green"
+                                    <span class="font-medium text-led-green"
                                         >{{ amount }}€</span
                                     >
                                 </div>
@@ -693,7 +692,7 @@ const componentIcons = {
                                         recommendation, component
                                     ) in recommendations"
                                     :key="component"
-                                    class="bg-deep-black/50 p-3 rounded border border-gaming-red/20 hover:border-gaming-red/60 transition-colors duration-300 hover:shadow-glow-sm transform hover:-translate-y-1 hover:translate-x-1 transition-transform duration-300"
+                                    class="bg-deep-black/50 p-3 rounded border border-gaming-red/20 hover:border-gaming-red/60 hover:shadow-glow-sm transform hover:-translate-y-1 hover:translate-x-1 transition-transform duration-300"
                                 >
                                     <h4
                                         class="text-led-green text-sm capitalize font-medium flex items-center"

@@ -43,7 +43,7 @@ const handleReviewSubmitted = () => {
                 </p>
                 <Link
                     :href="route('devis')"
-                    class="main-cta-button inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300"
+                    class="main-cta-button inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white transition duration-300"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -56,10 +56,10 @@ const handleReviewSubmitted = () => {
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="2"
-                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                         />
                     </svg>
-                    Configurer mon PC
+                    Demander un devis
                 </Link>
             </div>
         </div>
@@ -75,7 +75,7 @@ const handleReviewSubmitted = () => {
                     </h2>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-24">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
                     <div
                         class="p-8 border border-gaming-red rounded-lg service-card group transition-all duration-300"
                     >
@@ -169,44 +169,6 @@ const handleReviewSubmitted = () => {
                         <p class="text-white text-center">
                             Entretien et réparation de votre matériel gaming.
                         </p>
-                    </div>
-
-                    <div
-                        class="p-8 border border-gaming-red rounded-lg service-card group transition-all duration-300"
-                    >
-                        <div class="service-icon mb-4 text-led-green">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-12 w-12 mx-auto"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                                />
-                            </svg>
-                        </div>
-                        <h3
-                            class="text-2xl font-play text-led-green mb-4 text-center group-hover:text-gaming-red transition-colors duration-300"
-                        >
-                            Calculateur de budget
-                        </h3>
-                        <p class="text-white text-center">
-                            Estimez ce que vous pouvez obtenir avec votre budget
-                            selon vos besoins.
-                        </p>
-                        <div class="flex justify-center mt-4">
-                            <Link
-                                :href="route('budget.calculator')"
-                                class="text-gaming-red hover:text-white transition"
-                            >
-                                Essayer maintenant
-                            </Link>
-                        </div>
                     </div>
                 </div>
 
