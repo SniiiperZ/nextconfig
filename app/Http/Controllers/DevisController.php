@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-// use App\Mail\DevisRequestMail; // À implémenter plus tard
+use App\Mail\DevisRequestMail;
 
 class DevisController extends Controller
 {
@@ -88,9 +88,24 @@ class DevisController extends Controller
             'usage_type' => $validated['usage_type']
         ]);
 
-        // Traitement et envoi d'email (à implémenter plus tard)
-        // Mail::to('contact@nextconfig.be')->send(new DevisRequestMail($validated));
+        try {
+            // Envoi de l'email
+            Mail::to(config('mail.to.address'))
+                ->send(new DevisRequestMail($validated));
 
-        return back()->with('success', 'Votre demande de configuration a été envoyée avec succès ! Nous vous contacterons bientôt pour discuter des détails.');
+            Log::info('Email de devis envoyé avec succès', [
+                'request_id' => $requestId,
+                'to' => 'dyjoke@nextconfig.sniperz.be'
+            ]);
+
+            return back()->with('success', 'Votre demande de configuration a été envoyée avec succès ! Nous vous contacterons bientôt pour discuter des détails.');
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de l\'envoi de l\'email de devis', [
+                'request_id' => $requestId,
+                'error' => $e->getMessage()
+            ]);
+
+            return back()->with('error', 'Une erreur est survenue lors de l\'envoi de la demande. Veuillez réessayer ultérieurement.');
+        }
     }
 }

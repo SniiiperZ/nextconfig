@@ -113,4 +113,17 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Global "To" Address for Contact Forms
+    |--------------------------------------------------------------------------
+    |
+    | You may wish for all contact forms to be sent to a specific address.
+    | Here, you may specify the address that should be used.
+    |
+    */
+    'to' => [
+        'address' => env('MAIL_TO_ADDRESS', 'dyjoke@nextconfig.sniperz.be'),
+        'name' => env('MAIL_TO_NAME', 'NextConfig Support'),
+    ],
 ];

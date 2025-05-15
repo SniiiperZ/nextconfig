@@ -75,9 +75,24 @@ class ContactController extends Controller
             'subject' => $validated['subject']
         ]);
 
-        // Envoi de l'email (à implémenter plus tard)
-        // Mail::to('contact@nextconfig.be')->send(new ContactFormMail($validated));
+        try {
+            // Envoi de l'email
+            Mail::to(config('mail.to.address'))
+                ->send(new ContactFormMail($validated));
 
-        return back()->with('success', 'Votre message a été envoyé avec succès ! Nous vous contacterons bientôt.');
+            Log::info('Email de contact envoyé avec succès', [
+                'message_id' => $messageId,
+                'to' => 'dyjoke@nextconfig.sniperz.be'
+            ]);
+
+            return back()->with('success', 'Votre message a été envoyé avec succès ! Nous vous contacterons bientôt.');
+        } catch (\Exception $e) {
+            Log::error('Erreur lors de l\'envoi de l\'email de contact', [
+                'message_id' => $messageId,
+                'error' => $e->getMessage()
+            ]);
+
+            return back()->with('error', 'Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer ultérieurement.');
+        }
     }
 }
