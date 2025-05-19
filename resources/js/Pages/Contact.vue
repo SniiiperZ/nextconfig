@@ -112,7 +112,11 @@ const faqItems = [
 </script>
 
 <template>
-    <PublicLayout title="Contact">
+    <PublicLayout
+        title="Contact"
+        description="Contactez notre équipe d'experts en PC gaming sur mesure. Posez vos questions, demandez un conseil personnalisé ou discutez de votre projet d'assemblage PC."
+        keywords="contact NextConfig, assistance PC gaming, support technique ordinateur, conseil configuration PC, expert assemblage Belgique"
+    >
         <!-- Hero Section avec image de fond -->
         <div class="contact-hero-section">
             <div class="hero-content z-10 relative text-center">

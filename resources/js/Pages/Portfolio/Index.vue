@@ -1,5 +1,7 @@
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
 import { Link } from "@inertiajs/vue3";
 import { ref, onMounted, onBeforeUpdate } from "vue";
 
@@ -101,22 +103,18 @@ const getImageToShow = (project) => {
 </script>
 
 <template>
-    <PublicLayout title="Réalisations">
-        <!-- Hero Section pour la page Portfolio -->
-        <div class="portfolio-hero-section">
-            <div class="hero-content z-10 relative text-center">
-                <h1
-                    class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
-                >
-                    Nos Réalisations
-                </h1>
-                <p
-                    class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
-                >
-                    Découvrez nos configurations PC gaming sur mesure
-                </p>
-            </div>
-        </div>
+    <PublicLayout
+        title="Réalisations"
+        description="Découvrez nos réalisations de PC Gaming sur mesure. Configurations personnalisées, watercooling, RGB et performances optimales pour les joueurs exigeants."
+        keywords="portfolio PC gaming, réalisations PC sur mesure, projets assemblage PC, configuration gaming personnalisée, watercooling, RGB"
+    >
+        <!-- Hero Section pour la page Portfolio avec le composant HeroSection -->
+        <HeroSection
+            title="Nos Réalisations"
+            subtitle="Découvrez nos configurations PC gaming sur mesure"
+            backgroundImage="/images/background.jpg"
+            height="min-h-50vh"
+        />
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -125,13 +123,12 @@ const getImageToShow = (project) => {
                     v-if="projects.some((project) => project.is_featured)"
                     class="mb-16"
                 >
-                    <div class="flex justify-center mb-12">
-                        <h2
-                            class="text-4xl font-play text-gaming-red section-title"
-                        >
-                            Projets Phares
-                        </h2>
-                    </div>
+                    <!-- Utilisation du composant HeroTitle -->
+                    <HeroTitle
+                        title="Projets Phares"
+                        :centered="true"
+                        marginBottom="mb-12"
+                    />
 
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -444,13 +441,12 @@ const getImageToShow = (project) => {
 
                 <!-- Tous les projets -->
                 <div class="mb-8">
-                    <div class="flex justify-center mb-12">
-                        <h2
-                            class="text-4xl font-play text-gaming-red section-title"
-                        >
-                            Toutes nos réalisations
-                        </h2>
-                    </div>
+                    <!-- Utilisation du composant HeroTitle -->
+                    <HeroTitle
+                        title="Toutes nos réalisations"
+                        :centered="true"
+                        marginBottom="mb-12"
+                    />
 
                     <div
                         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
@@ -791,78 +787,6 @@ const getImageToShow = (project) => {
 </template>
 
 <style scoped>
-/* Hero section pour la page portfolio */
-.portfolio-hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
-        url("/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 3rem 1.5rem;
-    animation: fadeIn 1.2s ease-out;
-}
-
-.text-shadow-lg {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Hero title avec animation glow */
-.hero-title {
-    text-shadow: 0 0 15px rgba(236, 64, 122, 0.7), 0 3px 10px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: bold;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-/* Animation pour le titre */
-@keyframes glow {
-    from {
-        text-shadow: 0 0 15px rgba(236, 64, 122, 0.7),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-    to {
-        text-shadow: 0 0 25px rgba(236, 64, 122, 0.9),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Styles pour les titres de section */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
-}
-
 /* Dialog style */
 dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.8);
@@ -961,10 +885,6 @@ dialog[open] {
 
 /* Adaptation pour les écrans mobiles */
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 3rem;
-    }
-
     .section-title {
         font-size: 2rem;
     }

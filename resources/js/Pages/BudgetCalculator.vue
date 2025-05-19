@@ -305,7 +305,11 @@ const componentIcons = {
 </script>
 
 <template>
-    <PublicLayout title="Calculateur de Budget PC">
+    <PublicLayout
+        title="Calculateur de Budget"
+        description="Estimez le budget optimal pour votre PC gaming et découvrez les composants recommandés selon vos besoins. Outil gratuit d'aide à la configuration PC."
+        keywords="calculateur budget PC gaming, estimation coût PC sur mesure, prix composants informatiques, outil configuration PC, simulateur budget ordinateur"
+    >
         <!-- Hero Section avec image de fond -->
         <div class="calculator-hero-section">
             <div class="hero-content z-10 relative text-center">

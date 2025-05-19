@@ -98,7 +98,11 @@ const closeToast = () => {
 </script>
 
 <template>
-    <PublicLayout title="Demande de Devis">
+    <PublicLayout
+        title="Demande de Devis"
+        description="Obtenez un devis personnalisé pour votre PC gaming sur mesure. Configuration adaptée à vos besoins et à votre budget par un expert en assemblage PC en Belgique."
+        keywords="devis PC gaming, configuration PC sur mesure, assemblage ordinateur personnalisé, demande de devis informatique, prix PC gaming Belgique"
+    >
         <!-- Hero Section avec image de fond -->
         <div class="devis-hero-section">
             <div class="hero-content z-10 relative text-center">

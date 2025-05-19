@@ -30,7 +30,11 @@ const readingTime = (content) => {
 </script>
 
 <template>
-    <PublicLayout title="Blog">
+    <PublicLayout
+        title="Blog"
+        description="Découvrez nos articles sur le PC gaming, guides d'assemblage, tests de composants et optimisations pour améliorer votre expérience de jeu."
+        keywords="blog PC gaming, tests composants PC, guides assemblage, technologies gaming, tutoriels PC, NextConfig blog"
+    >
         <!-- Hero Section pour la page Blog -->
         <div class="blog-hero-section">
             <div class="hero-content z-10 relative text-center">

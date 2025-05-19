@@ -1,17 +1,83 @@
 <script setup>
-import { ref } from "vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { ref, computed } from "vue";
+import { Head, Link, usePage } from "@inertiajs/vue3";
 
-defineProps({
-    title: String,
+const props = defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        default:
+            "Expert en configuration et assemblage de PC Gaming sur mesure en Belgique. Des machines performantes adaptées à vos besoins et votre budget.",
+    },
+    keywords: {
+        type: String,
+        default:
+            "PC gaming Belgique, configuration PC sur mesure, assemblage PC gaming, NextConfig",
+    },
 });
 
+const page = usePage();
+
 const showingNavigationDropdown = ref(false);
+
+const fullTitle = computed(() => {
+    return props.title
+        ? `${props.title}`
+        : "NextConfig - Assemblage de PC Gaming sur mesure en Belgique";
+});
+
+const canonicalUrl = computed(() => {
+    // Obtenir l'URL actuelle
+    return window.location.origin + page.url.value;
+});
 </script>
 
 <template>
     <div>
-        <Head :title="title" />
+        <Head>
+            <title>{{ fullTitle }}</title>
+            <meta
+                name="description"
+                :content="description"
+                head-key="description"
+            />
+            <meta name="keywords" :content="keywords" head-key="keywords" />
+            <link rel="canonical" :href="canonicalUrl" head-key="canonical" />
+
+            <!-- OpenGraph tags pour améliorer le partage sur les réseaux sociaux -->
+            <meta
+                property="og:title"
+                :content="fullTitle"
+                head-key="og:title"
+            />
+            <meta
+                property="og:description"
+                :content="description"
+                head-key="og:description"
+            />
+            <meta property="og:url" :content="canonicalUrl" head-key="og:url" />
+            <meta property="og:type" content="website" head-key="og:type" />
+
+            <!-- Twitter Card data -->
+            <meta
+                name="twitter:title"
+                :content="fullTitle"
+                head-key="twitter:title"
+            />
+            <meta
+                name="twitter:description"
+                :content="description"
+                head-key="twitter:description"
+            />
+            <meta
+                name="twitter:card"
+                content="summary"
+                head-key="twitter:card"
+            />
+        </Head>
 
         <div class="min-h-screen bg-deep-black">
             <nav class="border-b border-gaming-red">

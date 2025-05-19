@@ -47,7 +47,11 @@ const supportIcon = `
 </script>
 
 <template>
-    <PublicLayout title="À Propos">
+    <PublicLayout
+        title="À Propos"
+        description="Découvrez NextConfig, expert belge en assemblage PC Gaming sur mesure. Plus de 5 années d'expérience pour créer la machine de vos rêves avec passion et expertise."
+        keywords="à propos NextConfig, Dylan Schreurs, expert PC gaming, assembleur PC sur mesure, technicien hardware Belgique"
+    >
         <!-- Hero Section pour la page À Propos -->
         <HeroSection
             title="À Propos de NextConfig"

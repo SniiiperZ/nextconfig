@@ -8,7 +8,11 @@ defineProps({
 </script>
 
 <template>
-    <PublicLayout title="FAQ">
+    <PublicLayout
+        title="FAQ"
+        description="Trouvez des réponses aux questions fréquentes concernant l'assemblage de PC gaming sur mesure, les services de maintenance et l'optimisation de performances."
+        keywords="FAQ PC gaming, questions fréquentes assemblage PC, maintenance ordinateur gaming, assistance NextConfig, support technique PC"
+    >
         <!-- Hero Section pour la page FAQ -->
         <div class="faq-hero-section">
             <div class="hero-content z-10 relative text-center">

@@ -54,7 +54,11 @@ const devisIcon = `
 </script>
 
 <template>
-    <PublicLayout title="Accueil">
+    <PublicLayout
+        title="Accueil"
+        description="Expert en configuration et assemblage de PC Gaming sur mesure en Belgique. Des machines performantes adaptées à vos besoins et votre budget."
+        keywords="PC gaming Belgique, configuration PC sur mesure, assemblage PC gaming, ordinateur gaming personnalisé"
+    >
         <!-- Hero Section avec nouveau composant -->
         <HeroSection
             title="NextConfig"

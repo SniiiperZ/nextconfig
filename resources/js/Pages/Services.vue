@@ -22,7 +22,11 @@ const calculatorIcon = `
 </script>
 
 <template>
-    <PublicLayout title="Services">
+    <PublicLayout
+        title="Nos Services"
+        description="Services professionnels de montage PC Gaming, maintenance et optimisation en Belgique. Configuration sur mesure, personnalisation RGB et overclocking pour des performances maximales."
+        keywords="services assemblage PC, montage PC sur mesure, maintenance PC gaming, upgrade ordinateur gaming, overclocking, personnalisation RGB"
+    >
         <!-- Hero Section pour la page Services -->
         <HeroSection
             title="Nos Services"

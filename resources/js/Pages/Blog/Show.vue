@@ -65,7 +65,17 @@ const submitComment = () => {
 </script>
 
 <template>
-    <PublicLayout :title="post.title">
+    <PublicLayout
+        :title="post.title + ' | Blog'"
+        :description="
+            post.excerpt ||
+            post.content.substring(0, 160).replace(/<[^>]*>/g, '')
+        "
+        :keywords="
+            post.tags.map((tag) => tag.name).join(', ') +
+            ', PC gaming, NextConfig'
+        "
+    >
         <!-- Hero Section adaptée à l'article -->
         <div class="blog-post-hero-section">
             <div class="hero-content z-10 relative text-center">
