@@ -4,6 +4,10 @@ import { Link } from "@inertiajs/vue3";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import ReviewCarousel from "@/Components/ReviewCarousel.vue";
 import ReviewForm from "@/Components/ReviewForm.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
+import ServiceCard from "@/Components/ServiceCard.vue";
+import CTAButton from "@/Components/CTAButton.vue";
 
 const props = defineProps({
     reviews: Array,
@@ -22,165 +26,85 @@ const handleReviewSubmitted = () => {
         successMessage.value = "";
     }, 5000);
 };
+
+// Icônes SVG pour les services
+const montageIcon = `
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+  </svg>
+`;
+
+const optimisationIcon = `
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+  </svg>
+`;
+
+const maintenanceIcon = `
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+`;
+
+// Icônes pour les boutons CTA
+const devisIcon = `
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+`;
 </script>
 
 <template>
     <PublicLayout title="Accueil">
-        <!-- Hero Section avec image de fond -->
-        <div class="hero-section">
-            <!-- Contenu de la Hero Section -->
-            <div class="hero-content z-10 relative text-center">
-                <h1
-                    class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
-                >
-                    NextConfig
-                </h1>
-                <p
-                    class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
-                >
-                    Configurations personnalisées pour des performances
-                    optimales
-                </p>
-                <Link
+        <!-- Hero Section avec nouveau composant -->
+        <HeroSection
+            title="NextConfig"
+            subtitle="Configurations personnalisées pour des performances optimales"
+            height="min-h-91vh"
+        >
+            <template #actions>
+                <CTAButton
                     :href="route('devis')"
-                    class="main-cta-button inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white transition duration-300"
+                    :primary="true"
+                    :icon="devisIcon"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 mr-2"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                        />
-                    </svg>
                     Demander un devis
-                </Link>
-            </div>
-        </div>
+                </CTAButton>
+            </template>
+        </HeroSection>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- Services Section avec icônes et effets -->
-                <div class="flex justify-center mb-10">
-                    <h2
-                        class="text-4xl font-play text-gaming-red section-title"
-                    >
-                        Nos services
-                    </h2>
-                </div>
+                <!-- Services Section avec les nouveaux composants -->
+                <HeroTitle title="Nos services" />
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
-                    <div
-                        class="p-8 border border-gaming-red rounded-lg service-card group transition-all duration-300"
+                    <ServiceCard
+                        title="Montage PC Sur Mesure"
+                        :iconComponent="montageIcon"
                     >
-                        <div class="service-icon mb-4 text-led-green">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-12 w-12 mx-auto"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-                                />
-                            </svg>
-                        </div>
-                        <h3
-                            class="text-2xl font-play text-led-green mb-4 text-center group-hover:text-gaming-red transition-colors duration-300"
-                        >
-                            Montage PC Sur Mesure
-                        </h3>
-                        <p class="text-white text-center">
-                            Configuration et assemblage personnalisés selon vos
-                            besoins et votre budget.
-                        </p>
-                    </div>
+                        Configuration et assemblage personnalisés selon vos
+                        besoins et votre budget.
+                    </ServiceCard>
 
-                    <div
-                        class="p-8 border border-gaming-red rounded-lg service-card group transition-all duration-300"
+                    <ServiceCard
+                        title="Optimisation"
+                        :iconComponent="optimisationIcon"
                     >
-                        <div class="service-icon mb-4 text-led-green">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-12 w-12 mx-auto"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                                />
-                            </svg>
-                        </div>
-                        <h3
-                            class="text-2xl font-play text-led-green mb-4 text-center group-hover:text-gaming-red transition-colors duration-300"
-                        >
-                            Optimisation
-                        </h3>
-                        <p class="text-white text-center">
-                            Amélioration des performances de votre configuration
-                            existante.
-                        </p>
-                    </div>
+                        Amélioration des performances de votre configuration
+                        existante.
+                    </ServiceCard>
 
-                    <div
-                        class="p-8 border border-gaming-red rounded-lg service-card group transition-all duration-300"
+                    <ServiceCard
+                        title="Maintenance"
+                        :iconComponent="maintenanceIcon"
                     >
-                        <div class="service-icon mb-4 text-led-green">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-12 w-12 mx-auto"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                                />
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                />
-                            </svg>
-                        </div>
-                        <h3
-                            class="text-2xl font-play text-led-green mb-4 text-center group-hover:text-gaming-red transition-colors duration-300"
-                        >
-                            Maintenance
-                        </h3>
-                        <p class="text-white text-center">
-                            Entretien et réparation de votre matériel gaming.
-                        </p>
-                    </div>
+                        Entretien et réparation de votre matériel gaming.
+                    </ServiceCard>
                 </div>
 
                 <!-- Reviews Section -->
                 <div class="mt-20">
-                    <div class="flex justify-center mb-10">
-                        <h2
-                            class="text-4xl font-play text-gaming-red section-title"
-                        >
-                            Ce que nos clients disent
-                        </h2>
-                    </div>
+                    <HeroTitle title="Ce que nos clients disent" />
 
                     <!-- Alert de succès -->
                     <div
@@ -207,150 +131,3 @@ const handleReviewSubmitted = () => {
         </div>
     </PublicLayout>
 </template>
-
-<style scoped>
-/* Style pour la Hero Section avec image de fond */
-.hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 91vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
-        url("/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 3rem 1.5rem;
-    animation: fadeIn 1.2s ease-out;
-}
-
-.text-shadow-lg {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Animation d'entrée */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hiérarchie visuelle améliorée */
-.hero-title {
-    text-shadow: 0 0 15px rgba(236, 64, 122, 0.7), 0 3px 10px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: bold;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 15px rgba(236, 64, 122, 0.7),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-    to {
-        text-shadow: 0 0 25px rgba(236, 64, 122, 0.9),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Les styles existants */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
-}
-
-/* Effet glow pour le bouton principal */
-.main-cta-button {
-    position: relative;
-    background: linear-gradient(45deg, #ec407a, #d81b60);
-    box-shadow: 0 0 15px rgba(236, 64, 122, 0.5);
-    transform: translateY(0);
-    transition: all 0.3s ease;
-}
-
-.main-cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 25px rgba(236, 64, 122, 0.7);
-}
-
-.main-cta-button:active {
-    transform: translateY(0);
-}
-
-/* Animation pour les cartes de service */
-.service-card {
-    position: relative;
-    overflow: hidden;
-    background: rgba(0, 0, 0, 0.2);
-    transform: translateY(0);
-    transition: all 0.3s ease;
-}
-
-.service-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-        circle at center,
-        rgba(236, 64, 122, 0.1),
-        transparent
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(236, 64, 122, 0.3);
-    border-color: rgba(236, 64, 122, 0.8);
-}
-
-.service-card:hover::before {
-    opacity: 1;
-}
-
-.service-icon {
-    transition: transform 0.3s ease;
-}
-
-.service-card:hover .service-icon {
-    transform: scale(1.1);
-}
-</style>
