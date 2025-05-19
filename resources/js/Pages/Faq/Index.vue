@@ -1,6 +1,8 @@
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import Accordion from "@/Components/Accordion.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
 
 defineProps({
     faqs: Array,
@@ -13,33 +15,23 @@ defineProps({
         description="Trouvez des réponses aux questions fréquentes concernant l'assemblage de PC gaming sur mesure, les services de maintenance et l'optimisation de performances."
         keywords="FAQ PC gaming, questions fréquentes assemblage PC, maintenance ordinateur gaming, assistance NextConfig, support technique PC"
     >
-        <!-- Hero Section pour la page FAQ -->
-        <div class="faq-hero-section">
-            <div class="hero-content z-10 relative text-center">
-                <h1
-                    class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
-                >
-                    Foire aux questions
-                </h1>
-                <p
-                    class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
-                >
-                    Tout ce que vous devez savoir sur nos services gaming
-                </p>
-            </div>
-        </div>
+        <!-- Hero Section pour la page FAQ avec le composant HeroSection -->
+        <HeroSection
+            title="Foire aux questions"
+            subtitle="Tout ce que vous devez savoir sur nos services gaming"
+            backgroundImage="/images/background.jpg"
+            height="min-h-50vh"
+        />
 
         <div class="py-12">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Explication et introduction -->
                 <div class="mb-12 text-center animate-fade-in">
-                    <div class="flex justify-center mb-10">
-                        <h2
-                            class="text-4xl font-play text-gaming-red section-title"
-                        >
-                            Vos questions, nos réponses
-                        </h2>
-                    </div>
+                    <HeroTitle
+                        title="Vos questions, nos réponses"
+                        :centered="true"
+                        marginBottom="mb-10"
+                    />
                     <p class="text-white/80 max-w-3xl mx-auto">
                         Retrouvez ci-dessous les réponses aux questions les plus
                         courantes concernant nos services de montage PC gaming,
@@ -106,78 +98,6 @@ defineProps({
 </template>
 
 <style scoped>
-/* Style pour la hero section */
-.faq-hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
-        url("/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 3rem 1.5rem;
-    animation: fadeIn 1.2s ease-out;
-}
-
-.text-shadow-lg {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Hero title avec animation glow */
-.hero-title {
-    text-shadow: 0 0 15px rgba(236, 64, 122, 0.7), 0 3px 10px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: bold;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-/* Animation pour le titre */
-@keyframes glow {
-    from {
-        text-shadow: 0 0 15px rgba(236, 64, 122, 0.7),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-    to {
-        text-shadow: 0 0 25px rgba(236, 64, 122, 0.9),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Styles pour les titres de section */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
-}
-
 /* Effet glow pour le bouton principal */
 .main-cta-button {
     position: relative;

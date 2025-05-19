@@ -7,6 +7,8 @@ import FormInput from "@/Components/FormInput.vue";
 import SelectOption from "@/Components/SelectOption.vue";
 import RangeSlider from "@/Components/RangeSlider.vue";
 import Toast from "@/Components/Toast.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
 
 const usageTypeOptions = [
     { value: "gaming", label: "Gaming" },
@@ -104,31 +106,21 @@ const closeToast = () => {
         keywords="devis PC gaming, configuration PC sur mesure, assemblage ordinateur personnalisé, demande de devis informatique, prix PC gaming Belgique"
     >
         <!-- Hero Section avec image de fond -->
-        <div class="devis-hero-section">
-            <div class="hero-content z-10 relative text-center">
-                <h1
-                    class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
-                >
-                    Demande de Devis
-                </h1>
-                <p
-                    class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
-                >
-                    Décrivez votre projet et obtenez une offre personnalisée
-                </p>
-            </div>
-        </div>
+        <HeroSection
+            title="Demande de Devis"
+            subtitle="Décrivez votre projet et obtenez une offre personnalisée"
+            backgroundImage="/images/background.jpg"
+            height="min-h-50vh"
+        />
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!-- Introduction au formulaire -->
-                <div class="flex justify-center mb-10">
-                    <h2
-                        class="text-4xl font-play text-gaming-red section-title"
-                    >
-                        Votre futur PC gaming
-                    </h2>
-                </div>
+                <HeroTitle
+                    title="Votre futur PC gaming"
+                    :centered="true"
+                    marginBottom="mb-10"
+                />
 
                 <p class="text-white text-center max-w-3xl mx-auto mb-12">
                     Remplissez ce formulaire en nous donnant un maximum de
@@ -460,89 +452,6 @@ const closeToast = () => {
 </template>
 
 <style scoped>
-/* Style pour la Hero Section avec image de fond */
-.devis-hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
-        url("/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 3rem 1.5rem;
-    animation: fadeIn 1.2s ease-out;
-}
-
-.text-shadow-lg {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Animation d'entrée */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hiérarchie visuelle améliorée */
-.hero-title {
-    text-shadow: 0 0 15px rgba(236, 64, 122, 0.7), 0 3px 10px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: bold;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 15px rgba(236, 64, 122, 0.7),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-    to {
-        text-shadow: 0 0 25px rgba(236, 64, 122, 0.9),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Les styles existants */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
-}
-
 /* Effet glow pour le bouton principal */
 .main-cta-button {
     position: relative;
@@ -580,5 +489,16 @@ const closeToast = () => {
 .animate-fade-in {
     animation: fadeIn 0.6s ease-out forwards;
     opacity: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>

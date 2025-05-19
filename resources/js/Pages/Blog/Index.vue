@@ -1,5 +1,7 @@
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
 import { Link } from "@inertiajs/vue3";
 import { computed } from "vue";
 
@@ -35,21 +37,13 @@ const readingTime = (content) => {
         description="Découvrez nos articles sur le PC gaming, guides d'assemblage, tests de composants et optimisations pour améliorer votre expérience de jeu."
         keywords="blog PC gaming, tests composants PC, guides assemblage, technologies gaming, tutoriels PC, NextConfig blog"
     >
-        <!-- Hero Section pour la page Blog -->
-        <div class="blog-hero-section">
-            <div class="hero-content z-10 relative text-center">
-                <h1
-                    class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
-                >
-                    Blog Tech
-                </h1>
-                <p
-                    class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
-                >
-                    Actualités, guides et conseils sur le monde du PC Gaming
-                </p>
-            </div>
-        </div>
+        <!-- Hero Section pour la page Blog avec le composant HeroSection -->
+        <HeroSection
+            title="Blog Tech"
+            subtitle="Actualités, guides et conseils sur le monde du PC Gaming"
+            backgroundImage="/images/background.jpg"
+            height="min-h-50vh"
+        />
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -60,13 +54,11 @@ const readingTime = (content) => {
                     "
                     class="mb-16"
                 >
-                    <div class="flex justify-center mb-10">
-                        <h2
-                            class="text-4xl font-play text-gaming-red section-title"
-                        >
-                            Articles à la une
-                        </h2>
-                    </div>
+                    <HeroTitle
+                        title="Articles à la une"
+                        :centered="true"
+                        marginBottom="mb-10"
+                    />
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div
@@ -165,13 +157,11 @@ const readingTime = (content) => {
 
                 <!-- Latest Posts -->
                 <div class="mb-16">
-                    <div class="flex justify-center mb-10">
-                        <h2
-                            class="text-4xl font-play text-gaming-red section-title"
-                        >
-                            Derniers articles
-                        </h2>
-                    </div>
+                    <HeroTitle
+                        title="Derniers articles"
+                        :centered="true"
+                        marginBottom="mb-10"
+                    />
 
                     <div
                         v-if="posts.length"
@@ -315,78 +305,7 @@ const readingTime = (content) => {
 </template>
 
 <style scoped>
-/* Style pour la hero section */
-.blog-hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
-        url("/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 3rem 1.5rem;
-    animation: fadeIn 1.2s ease-out;
-}
-
-.text-shadow-lg {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Hero title avec animation glow */
-.hero-title {
-    text-shadow: 0 0 15px rgba(236, 64, 122, 0.7), 0 3px 10px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: bold;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 15px rgba(236, 64, 122, 0.7),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-    to {
-        text-shadow: 0 0 25px rgba(236, 64, 122, 0.9),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Styles pour les titres de section */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
-}
-
-/* Animation pour les cartes d'article */
+/* Cartes avec hover effect */
 .blog-card {
     transform: translateY(0);
     transition: all 0.3s ease;
@@ -394,7 +313,7 @@ const readingTime = (content) => {
 
 .blog-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(236, 64, 122, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 15px rgba(236, 64, 122, 0.3);
     border-color: rgba(236, 64, 122, 0.8);
 }
 
@@ -456,17 +375,5 @@ const readingTime = (content) => {
 
 .shadow-glow {
     box-shadow: 0 0 20px rgba(236, 64, 122, 0.4);
-}
-
-/* Animation pour l'apparition des éléments */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 </style>

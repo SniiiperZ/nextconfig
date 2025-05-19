@@ -1,8 +1,14 @@
 <script setup>
 import { ref, computed, watch } from "vue";
-import { Link } from "@inertiajs/vue3";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import RangeSlider from "@/Components/RangeSlider.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
+import CTAButton from "@/Components/CTAButton.vue";
+import BudgetOption from "@/Components/BudgetOption.vue";
+import PerformanceIndicator from "@/Components/PerformanceIndicator.vue";
+import BudgetAllocation from "@/Components/BudgetAllocation.vue";
+import ComponentRecommendation from "@/Components/ComponentRecommendation.vue";
 
 // Options pour les usages
 const usageOptions = [
@@ -233,20 +239,21 @@ function getPsuRecommendation(budget, totalBudget) {
 
 // Indicateur de performance global
 const performanceScore = computed(() => {
-    // Calculer un score global basé sur le budget et l'usage
-    let baseScore = Math.min(Math.round(budget.value / 300), 10); // Max 10 points
+    // Base le score sur le budget, mais avec un plafond à 10
+    let baseScore = budget.value / 500;
 
-    // Ajuster en fonction de l'usage et de la priorité
+    // Ajustements selon l'usage et la priorité
     if (
         selectedUsage.value === "gaming" &&
         selectedPriority.value === "performance"
     ) {
-        baseScore += 1;
+        baseScore += 0.5;
     } else if (selectedUsage.value === "office") {
-        baseScore = Math.min(baseScore + 2, 10); // Office a besoin de moins de ressources
+        baseScore += 1; // Office a besoin de moins de ressources
     }
 
-    return baseScore;
+    // S'assurer que le score est entre 1 et 10
+    return Math.max(1, Math.min(10, Math.round(baseScore)));
 });
 
 // Texte d'évaluation basé sur le score
@@ -255,9 +262,8 @@ const performanceText = computed(() => {
     if (score <= 3)
         return "Performances basiques, adaptées à une utilisation simple.";
     if (score <= 5)
-        return "Bonnes performances pour une utilisation quotidienne.";
-    if (score <= 7)
-        return "Excellentes performances pour la plupart des usages.";
+        return "Performances moyennes pour une utilisation quotidienne.";
+    if (score <= 7) return "Bonnes performances pour la plupart des usages.";
     if (score <= 9)
         return "Performances haut de gamme, même pour les usages exigeants.";
     return "Performances exceptionnelles sans compromis.";
@@ -310,39 +316,29 @@ const componentIcons = {
         description="Estimez le budget optimal pour votre PC gaming et découvrez les composants recommandés selon vos besoins. Outil gratuit d'aide à la configuration PC."
         keywords="calculateur budget PC gaming, estimation coût PC sur mesure, prix composants informatiques, outil configuration PC, simulateur budget ordinateur"
     >
-        <!-- Hero Section avec image de fond -->
-        <div class="calculator-hero-section">
-            <div class="hero-content z-10 relative text-center">
-                <h1
-                    class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
-                >
-                    Calculateur de Budget
-                </h1>
-                <p
-                    class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
-                >
-                    Estimez ce que vous pouvez obtenir avec votre budget selon
-                    vos besoins
-                </p>
-            </div>
-        </div>
+        <!-- Hero Section avec le composant HeroSection -->
+        <HeroSection
+            title="Calculateur de Budget"
+            subtitle="Estimez ce que vous pouvez obtenir avec votre budget selon vos besoins"
+            backgroundImage="/images/background.jpg"
+            height="min-h-50vh"
+        />
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!-- Introduction -->
-                <div class="flex justify-center mb-10">
-                    <h2
-                        class="text-4xl font-play text-gaming-red section-title"
-                    >
-                        Configurez votre budget idéal
-                    </h2>
+                <div class="mb-10">
+                    <HeroTitle
+                        title="Configurez votre budget idéal"
+                        :centered="true"
+                        marginBottom="mb-6"
+                    />
+                    <p class="text-white text-center mb-10 max-w-3xl mx-auto">
+                        Cet outil vous donne une première idée de la répartition
+                        optimale de votre budget et des composants recommandés
+                        selon votre utilisation.
+                    </p>
                 </div>
-
-                <p class="text-white text-center mb-10 max-w-3xl mx-auto">
-                    Cet outil vous donne une première idée de la répartition
-                    optimale de votre budget et des composants recommandés selon
-                    votre utilisation.
-                </p>
 
                 <!-- Contenu principal en deux colonnes -->
                 <div class="grid md:grid-cols-2 gap-8 mb-16">
@@ -389,7 +385,7 @@ const componentIcons = {
                             />
                         </div>
 
-                        <!-- Sélection d'usage avec icônes -->
+                        <!-- Sélection d'usage avec composant BudgetOption -->
                         <div class="mb-8">
                             <h3
                                 class="text-white text-lg mb-3 flex items-center"
@@ -412,30 +408,19 @@ const componentIcons = {
                             </h3>
 
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                <button
+                                <BudgetOption
                                     v-for="usage in usageOptions"
                                     :key="usage.id"
+                                    :icon="usageIcons[usage.id]"
+                                    :name="usage.name"
+                                    :description="usage.description"
+                                    :selected="selectedUsage === usage.id"
                                     @click="selectedUsage = usage.id"
-                                    :class="[
-                                        'p-3 rounded-lg border transition-all flex flex-col items-center text-center shadow-sm',
-                                        selectedUsage === usage.id
-                                            ? 'border-led-green bg-led-green/10 text-white shadow-glow-green'
-                                            : 'border-gaming-red/30 text-white/80 hover:border-gaming-red hover:shadow-glow-red',
-                                    ]"
-                                >
-                                    <!-- Insérer l'icône selon le type -->
-                                    <div
-                                        v-html="usageIcons[usage.id]"
-                                        class="mb-1"
-                                    ></div>
-                                    <span class="text-sm font-medium">{{
-                                        usage.name
-                                    }}</span>
-                                </button>
+                                />
                             </div>
                         </div>
 
-                        <!-- Priorités avec icônes -->
+                        <!-- Priorités avec composant BudgetOption -->
                         <div class="mb-8">
                             <h3
                                 class="text-white text-lg mb-3 flex items-center"
@@ -458,38 +443,24 @@ const componentIcons = {
                             </h3>
 
                             <div class="grid grid-cols-2 gap-3">
-                                <button
+                                <BudgetOption
                                     v-for="priority in priorityOptions"
                                     :key="priority.id"
+                                    :icon="priorityIcons[priority.id]"
+                                    :name="priority.name"
+                                    :description="priority.description"
+                                    :selected="selectedPriority === priority.id"
                                     @click="selectedPriority = priority.id"
-                                    :class="[
-                                        'p-3 rounded-lg border transition-all text-center flex flex-col items-center justify-center',
-                                        selectedPriority === priority.id
-                                            ? 'border-led-green bg-led-green/10 text-white shadow-glow-green'
-                                            : 'border-gaming-red/30 text-white/80 hover:border-gaming-red hover:shadow-glow-red',
-                                    ]"
-                                >
-                                    <!-- Insérer l'icône selon la priorité -->
-                                    <div
-                                        v-html="priorityIcons[priority.id]"
-                                        class="mb-1"
-                                    ></div>
-                                    <span class="block font-semibold text-sm">{{
-                                        priority.name
-                                    }}</span>
-                                    <span
-                                        class="text-xs mt-1 block opacity-80"
-                                        >{{ priority.description }}</span
-                                    >
-                                </button>
+                                />
                             </div>
                         </div>
 
-                        <!-- Bouton vers le devis complet avec effet glow -->
+                        <!-- Bouton vers le devis complet avec CTAButton -->
                         <div class="mt-10">
-                            <Link
+                            <CTAButton
                                 :href="route('devis')"
-                                class="main-cta-button w-full text-white py-3 px-4 rounded-md text-center flex items-center justify-center font-medium"
+                                primary
+                                class="w-full"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -506,7 +477,7 @@ const componentIcons = {
                                     />
                                 </svg>
                                 Passer au devis complet
-                            </Link>
+                            </CTAButton>
                         </div>
                     </div>
 
@@ -535,63 +506,15 @@ const componentIcons = {
                             Résultats estimés
                         </h2>
 
-                        <!-- Score de performance avec effet glow -->
-                        <div
-                            class="mb-8 bg-deep-black/70 p-5 rounded-lg border border-gaming-red/40 shadow-inner"
-                        >
-                            <h3
-                                class="text-white text-lg mb-3 flex items-center"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 mr-2 text-led-green"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 10V3L4 14h7v7l9-11h-7z"
-                                    />
-                                </svg>
-                                Performance estimée
-                            </h3>
-
-                            <div
-                                class="w-full h-5 bg-deep-black border border-gaming-red/30 rounded-full overflow-hidden mb-2"
-                            >
-                                <div
-                                    class="h-full rounded-full transition-all duration-700 shadow-glow-inner"
-                                    :class="[
-                                        performanceScore <= 3
-                                            ? 'bg-red-500'
-                                            : performanceScore <= 6
-                                            ? 'bg-yellow-500'
-                                            : performanceScore <= 8
-                                            ? 'bg-green-500'
-                                            : 'bg-led-green',
-                                    ]"
-                                    :style="`width: ${performanceScore * 10}%`"
-                                ></div>
-                            </div>
-
-                            <div class="flex justify-between items-center">
-                                <div
-                                    class="performance-rating flex items-center"
-                                >
-                                    <span class="text-white text-xl font-play"
-                                        >{{ performanceScore }} / 10</span
-                                    >
-                                </div>
-                                <p class="text-white/80 text-sm">
-                                    {{ performanceText }}
-                                </p>
-                            </div>
+                        <!-- Score de performance avec composant PerformanceIndicator -->
+                        <div class="mb-8">
+                            <PerformanceIndicator
+                                :score="performanceScore"
+                                :text="performanceText"
+                            />
                         </div>
 
-                        <!-- Répartition du budget avec animations -->
+                        <!-- Répartition du budget avec composant BudgetAllocation -->
                         <div class="mb-8">
                             <h3
                                 class="text-white text-lg mb-3 flex items-center"
@@ -613,62 +536,14 @@ const componentIcons = {
                                 Répartition du budget
                             </h3>
 
-                            <div class="space-y-3">
-                                <div
-                                    v-for="(
-                                        amount, component
-                                    ) in budgetAllocation"
-                                    :key="component"
-                                    class="flex items-center component-row p-2 hover:bg-gaming-red/5 transition-colors duration-300 rounded"
-                                >
-                                    <span
-                                        class="text-white/90 w-32 flex items-center text-sm font-medium"
-                                    >
-                                        <span
-                                            v-html="componentIcons[component]"
-                                        ></span>
-                                        {{
-                                            component === "cpu"
-                                                ? "Processeur"
-                                                : component === "gpu"
-                                                ? "Carte graphique"
-                                                : component === "ram"
-                                                ? "Mémoire RAM"
-                                                : component === "storage"
-                                                ? "Stockage"
-                                                : component === "motherboard"
-                                                ? "Carte mère"
-                                                : component === "psu"
-                                                ? "Alimentation"
-                                                : component === "cooling"
-                                                ? "Refroidissement"
-                                                : component === "case"
-                                                ? "Boîtier"
-                                                : component
-                                        }}
-                                    </span>
-
-                                    <div class="flex-grow mx-4">
-                                        <div
-                                            class="w-full h-2 bg-deep-black border border-gaming-red/20 rounded-full overflow-hidden"
-                                        >
-                                            <div
-                                                class="h-full bg-gradient-to-r from-gaming-red to-led-green rounded-full transition-all duration-700"
-                                                :style="`width: ${
-                                                    (amount / budget) * 100
-                                                }%`"
-                                            ></div>
-                                        </div>
-                                    </div>
-
-                                    <span class="font-medium text-led-green"
-                                        >{{ amount }}€</span
-                                    >
-                                </div>
-                            </div>
+                            <BudgetAllocation
+                                :allocations="budgetAllocation"
+                                :totalBudget="budget"
+                                :componentIcons="componentIcons"
+                            />
                         </div>
 
-                        <!-- Recommandations de composants avec cartes -->
+                        <!-- Recommandations de composants avec composant ComponentRecommendation -->
                         <div>
                             <h3
                                 class="text-white text-lg mb-3 flex items-center"
@@ -690,45 +565,10 @@ const componentIcons = {
                                 Composants recommandés
                             </h3>
 
-                            <div class="space-y-2">
-                                <div
-                                    v-for="(
-                                        recommendation, component
-                                    ) in recommendations"
-                                    :key="component"
-                                    class="bg-deep-black/50 p-3 rounded border border-gaming-red/20 hover:border-gaming-red/60 hover:shadow-glow-sm transform hover:-translate-y-1 hover:translate-x-1 transition-transform duration-300"
-                                >
-                                    <h4
-                                        class="text-led-green text-sm capitalize font-medium flex items-center"
-                                    >
-                                        <span
-                                            v-html="componentIcons[component]"
-                                        ></span>
-                                        {{
-                                            component === "cpu"
-                                                ? "Processeur"
-                                                : component === "gpu"
-                                                ? "Carte graphique"
-                                                : component === "ram"
-                                                ? "Mémoire RAM"
-                                                : component === "storage"
-                                                ? "Stockage"
-                                                : component === "motherboard"
-                                                ? "Carte mère"
-                                                : component === "psu"
-                                                ? "Alimentation"
-                                                : component === "cooling"
-                                                ? "Refroidissement"
-                                                : component === "case"
-                                                ? "Boîtier"
-                                                : component
-                                        }}
-                                    </h4>
-                                    <p class="text-white ml-7">
-                                        {{ recommendation }}
-                                    </p>
-                                </div>
-                            </div>
+                            <ComponentRecommendation
+                                :recommendations="recommendations"
+                                :componentIcons="componentIcons"
+                            />
                         </div>
 
                         <!-- Note d'avertissement avec style amélioré -->
@@ -781,10 +621,7 @@ const componentIcons = {
                                 votre budget.
                             </p>
                             <div class="flex space-x-4">
-                                <Link
-                                    :href="route('devis')"
-                                    class="main-cta-button inline-flex items-center px-6 py-2 text-white rounded-md transition"
-                                >
+                                <CTAButton :href="route('devis')" primary>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-5 w-5 mr-2"
@@ -800,11 +637,8 @@ const componentIcons = {
                                         />
                                     </svg>
                                     Devis détaillé
-                                </Link>
-                                <Link
-                                    :href="route('contact')"
-                                    class="inline-flex items-center px-6 py-2 border border-led-green text-led-green rounded-md hover:bg-led-green/10 transition shadow-sm hover:shadow-glow-green"
-                                >
+                                </CTAButton>
+                                <CTAButton :href="route('contact')">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         class="h-5 w-5 mr-2"
@@ -820,7 +654,7 @@ const componentIcons = {
                                         />
                                     </svg>
                                     Me contacter
-                                </Link>
+                                </CTAButton>
                             </div>
                         </div>
                         <div class="md:w-1/4 flex justify-center">
@@ -851,108 +685,7 @@ const componentIcons = {
 </template>
 
 <style scoped>
-/* Style pour la Hero Section avec image de fond */
-.calculator-hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
-        url("/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 3rem 1.5rem;
-    animation: fadeIn 1.2s ease-out;
-}
-
-.text-shadow-lg {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Animation d'entrée */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hiérarchie visuelle améliorée */
-.hero-title {
-    text-shadow: 0 0 15px rgba(236, 64, 122, 0.7), 0 3px 10px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: bold;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 15px rgba(236, 64, 122, 0.7),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-    to {
-        text-shadow: 0 0 25px rgba(236, 64, 122, 0.9),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-}
-
-/* Les styles existants */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
-}
-
-/* Effet glow pour le bouton principal */
-.main-cta-button {
-    position: relative;
-    background: linear-gradient(45deg, #ec407a, #d81b60);
-    box-shadow: 0 0 15px rgba(236, 64, 122, 0.5);
-    transform: translateY(0);
-    transition: all 0.3s ease;
-}
-
-.main-cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 25px rgba(236, 64, 122, 0.7);
-}
-
-.main-cta-button:active {
-    transform: translateY(0);
-}
-
-/* Animation pour les cartes */
+/* Effet glow pour la carte service et la hover card */
 .service-card {
     position: relative;
     overflow: hidden;
@@ -988,17 +721,6 @@ const componentIcons = {
     opacity: 1;
 }
 
-/* Animation pour les rangées de composants */
-.component-row {
-    transition: all 0.2s ease;
-}
-
-.component-row:hover {
-    background: rgba(236, 64, 122, 0.05);
-    transform: translateX(5px);
-}
-
-/* Effets pour les boutons et cartes */
 .shadow-glow-sm {
     box-shadow: 0 0 10px rgba(236, 64, 122, 0.2);
     transition: box-shadow 0.3s ease;
@@ -1012,10 +734,6 @@ const componentIcons = {
 .shadow-glow-red {
     box-shadow: 0 0 10px rgba(236, 64, 122, 0.3);
     transition: box-shadow 0.3s ease;
-}
-
-.shadow-glow-inner {
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .hover-card {
@@ -1033,48 +751,18 @@ const componentIcons = {
     opacity: 0;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .scale-102:hover {
     transform: scale(1.02);
-}
-
-/* Ajustement pour les cartes de priorité et d'usage */
-button svg {
-    transition: transform 0.3s ease;
-}
-
-button:hover svg {
-    transform: scale(1.2);
-}
-
-/* Effet pulsation pour la performance */
-.performance-rating {
-    position: relative;
-}
-
-.performance-rating::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-    opacity: 0;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(0.95);
-        opacity: 0;
-    }
-    70% {
-        transform: scale(1.05);
-        opacity: 0.3;
-    }
-    100% {
-        transform: scale(0.95);
-        opacity: 0;
-    }
 }
 </style>

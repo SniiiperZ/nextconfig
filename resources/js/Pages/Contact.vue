@@ -5,6 +5,8 @@ import { Link } from "@inertiajs/vue3";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import FormInput from "@/Components/FormInput.vue";
 import Toast from "@/Components/Toast.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
 
 const form = useForm({
     name: "",
@@ -117,19 +119,14 @@ const faqItems = [
         description="Contactez notre équipe d'experts en PC gaming sur mesure. Posez vos questions, demandez un conseil personnalisé ou discutez de votre projet d'assemblage PC."
         keywords="contact NextConfig, assistance PC gaming, support technique ordinateur, conseil configuration PC, expert assemblage Belgique"
     >
-        <!-- Hero Section avec image de fond -->
-        <div class="contact-hero-section">
-            <div class="hero-content z-10 relative text-center">
-                <h1
-                    class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
-                >
-                    Contactez-nous
-                </h1>
-                <p
-                    class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
-                >
-                    Une question ? Un projet ? Nous sommes là pour vous aider.
-                </p>
+        <!-- Hero Section avec le composant HeroSection -->
+        <HeroSection
+            title="Contactez-nous"
+            subtitle="Une question ? Un projet ? Nous sommes là pour vous aider."
+            backgroundImage="/images/background.jpg"
+            height="min-h-50vh"
+        >
+            <template #actions>
                 <div class="flex flex-wrap justify-center gap-4">
                     <a
                         :href="`tel:+32123456789`"
@@ -176,8 +173,8 @@ const faqItems = [
                         </div>
                     </a>
                 </div>
-            </div>
-        </div>
+            </template>
+        </HeroSection>
 
         <div class="py-16">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -470,11 +467,11 @@ const faqItems = [
                     class="bg-deep-black p-8 rounded-lg border border-gaming-red shadow-glow-sm hover-card animate-fade-in"
                     style="animation-delay: 0.4s"
                 >
-                    <h2
-                        class="text-3xl font-play text-gaming-red mb-8 section-title text-center"
-                    >
-                        Envoyez-nous un message
-                    </h2>
+                    <HeroTitle
+                        title="Envoyez-nous un message"
+                        :centered="true"
+                        marginBottom="mb-8"
+                    />
 
                     <form @submit.prevent="submit" class="space-y-8">
                         <!-- Informations personnelles -->
@@ -681,65 +678,6 @@ const faqItems = [
 </template>
 
 <style scoped>
-/* Style pour la Hero Section avec image de fond */
-.contact-hero-section {
-    position: relative;
-    width: 100%;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)),
-        url("/images/background.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.hero-content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 3rem 1.5rem;
-    animation: fadeIn 1.2s ease-out;
-}
-
-.text-shadow-lg {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Animation d'entrée */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hiérarchie visuelle améliorée */
-.hero-title {
-    text-shadow: 0 0 15px rgba(236, 64, 122, 0.7), 0 3px 10px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: bold;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 15px rgba(236, 64, 122, 0.7),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-    to {
-        text-shadow: 0 0 25px rgba(236, 64, 122, 0.9),
-            0 3px 10px rgba(0, 0, 0, 0.8);
-    }
-}
-
 /* Boutons de contact dans le hero */
 .contact-button {
     display: inline-flex;
@@ -754,28 +692,6 @@ const faqItems = [
 .contact-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Section title avec décoration */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
 }
 
 /* Effet glow pour le bouton principal */
@@ -865,6 +781,17 @@ const faqItems = [
 /* Animation pour l'apparition des éléments */
 .animate-fade-in {
     animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Animation pour les liens sociaux */
