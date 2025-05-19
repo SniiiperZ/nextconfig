@@ -24,7 +24,7 @@ defineProps({
             'inline-flex items-center justify-center px-6 py-3 border text-lg font-medium rounded-md text-white transition duration-300',
             primary
                 ? 'main-cta-button border-transparent'
-                : 'border-gaming-red hover:bg-gaming-red/10',
+                : 'border-led-green hover:bg-led-green/10',
         ]"
     >
         <svg

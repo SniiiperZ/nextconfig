@@ -102,7 +102,7 @@ const calculatorIcon = `
                             <div class="mt-8">
                                 <CTAButton
                                     :href="route('contact')"
-                                    :primary="true"
+                                    :primary="false"
                                     :icon="contactIcon"
                                 >
                                     Prendre rendez-vous
@@ -139,7 +139,7 @@ const calculatorIcon = `
                             <div class="mt-8">
                                 <CTAButton
                                     :href="route('budget.calculator')"
-                                    :primary="true"
+                                    :primary="false"
                                     :icon="calculatorIcon"
                                 >
                                     Calculer mon budget upgrade

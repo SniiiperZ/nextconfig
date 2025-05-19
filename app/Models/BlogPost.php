@@ -27,10 +27,7 @@ class BlogPost extends Model
     /**
      * Définir les attributs qui doivent être rejetés des réponses JSON
      */
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
+    protected $hidden = [];
 
     /**
      * Attributs à ajouter aux réponses JSON

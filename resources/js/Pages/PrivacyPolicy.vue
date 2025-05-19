@@ -1,22 +1,36 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
+import HeroSection from "@/Components/HeroSection.vue";
+import HeroTitle from "@/Components/HeroTitle.vue";
 </script>
 
 <template>
-    <PublicLayout title="Politique de confidentialité">
+    <PublicLayout
+        title="Politique de confidentialité"
+        description="Découvrez comment nous protégeons vos données personnelles et respectons votre vie privée conformément au RGPD."
+        keywords="politique confidentialité, RGPD, protection données, vie privée, NextConfig"
+    >
+        <!-- Hero Section avec le composant HeroSection -->
+        <HeroSection
+            title="Politique de confidentialité"
+            subtitle="Nous accordons une grande importance à la protection de vos données"
+            backgroundImage="/images/background.jpg"
+            height="min-h-50vh"
+        />
+
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
                     class="bg-deep-black border border-gaming-red overflow-hidden shadow-xl sm:rounded-lg"
                 >
                     <div class="p-6 text-white">
-                        <div class="text-center mb-8">
-                            <h1
-                                class="text-4xl font-play text-gaming-red section-title inline-block"
-                            >
-                                Politique de confidentialité
-                            </h1>
+                        <div class="mb-8 text-center">
+                            <HeroTitle
+                                title="Protection de vos données"
+                                :centered="true"
+                                marginBottom="mb-8"
+                            />
                         </div>
 
                         <div class="legal-content">
@@ -202,27 +216,6 @@ import PublicLayout from "@/Layouts/PublicLayout.vue";
 </template>
 
 <style scoped>
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-}
-
-.section-title::after {
-    content: "";
-    position: absolute;
-    width: 60%;
-    height: 3px;
-    bottom: 0;
-    left: 20%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(236, 64, 122, 0.8),
-        transparent
-    );
-}
-
 .legal-content {
     line-height: 1.6;
 }
