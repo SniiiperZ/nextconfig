@@ -13,17 +13,20 @@ defineProps({
 
 <template>
     <div
-        class="p-8 border border-gaming-red rounded-lg service-card group transition-all duration-300"
+        class="p-6 sm:p-8 border border-gaming-red rounded-lg service-card group transition-all duration-300"
     >
-        <div class="service-icon mb-6 text-led-green">
-            <div v-html="iconComponent" class="h-12 w-12 mx-auto"></div>
+        <div class="service-icon mb-4 sm:mb-6 text-led-green">
+            <div
+                v-html="iconComponent"
+                class="h-10 w-10 sm:h-12 sm:w-12 mx-auto"
+            ></div>
         </div>
         <h3
-            class="text-2xl font-play text-led-green mb-4 text-center group-hover:text-gaming-red transition-colors duration-300"
+            class="text-xl sm:text-2xl font-play text-led-green mb-3 sm:mb-4 text-center group-hover:text-gaming-red transition-colors duration-300"
         >
             {{ title }}
         </h3>
-        <p class="text-white text-center">
+        <p class="text-white text-center text-sm sm:text-base">
             <slot></slot>
         </p>
     </div>
@@ -71,5 +74,13 @@ defineProps({
 
 .service-card:hover .service-icon {
     transform: scale(1.1);
+}
+
+@media (max-width: 640px) {
+    .service-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
 }
 </style>

@@ -1,3 +1,4 @@
+\resources\js\Pages\Services.vue
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import { Link } from "@inertiajs/vue3";
@@ -33,10 +34,10 @@ const calculatorIcon = `
             subtitle="Des solutions sur mesure pour tous vos besoins gaming"
         />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-8 sm:py-10 md:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Services détaillés -->
-                <div class="space-y-16">
+                <div class="space-y-12 sm:space-y-14 md:space-y-16">
                     <!-- Montage PC -->
                     <div class="service-card-large">
                         <HeroTitle title="Montage PC Gaming" />
@@ -47,7 +48,7 @@ const calculatorIcon = `
                             imageAlt="Montage PC Gaming"
                             :imageRight="false"
                         >
-                            <ul class="text-white space-y-4">
+                            <ul class="text-white space-y-3 sm:space-y-4">
                                 <CheckListItem
                                     text="Sélection personnalisée des composants selon votre budget et vos besoins spécifiques (gaming, streaming, création)"
                                 />
@@ -62,7 +63,7 @@ const calculatorIcon = `
                                 />
                             </ul>
 
-                            <div class="mt-8">
+                            <div class="mt-6 sm:mt-8">
                                 <CTAButton
                                     :href="route('devis')"
                                     :primary="true"
@@ -84,7 +85,7 @@ const calculatorIcon = `
                             imageAlt="Maintenance PC Gaming"
                             :imageRight="true"
                         >
-                            <ul class="text-white space-y-4">
+                            <ul class="text-white space-y-3 sm:space-y-4">
                                 <CheckListItem
                                     text="Nettoyage complet du système (dépoussiérage des ventilateurs, radiateurs, composants)"
                                 />
@@ -99,7 +100,7 @@ const calculatorIcon = `
                                 />
                             </ul>
 
-                            <div class="mt-8">
+                            <div class="mt-6 sm:mt-8">
                                 <CTAButton
                                     :href="route('contact')"
                                     :primary="false"
@@ -121,7 +122,7 @@ const calculatorIcon = `
                             imageAlt="Upgrade PC Gaming"
                             :imageRight="false"
                         >
-                            <ul class="text-white space-y-4">
+                            <ul class="text-white space-y-3 sm:space-y-4">
                                 <CheckListItem
                                     text="Upgrade ciblé des composants pour améliorer les performances (GPU, CPU, RAM)"
                                 />
@@ -136,7 +137,7 @@ const calculatorIcon = `
                                 />
                             </ul>
 
-                            <div class="mt-8">
+                            <div class="mt-6 sm:mt-8">
                                 <CTAButton
                                     :href="route('budget.calculator')"
                                     :primary="false"
@@ -150,16 +151,22 @@ const calculatorIcon = `
                 </div>
 
                 <!-- Call to Action -->
-                <div class="mt-20 text-center">
-                    <h2 class="text-3xl font-play text-gaming-red mb-6">
+                <div class="mt-12 sm:mt-16 md:mt-20 text-center px-4 sm:px-0">
+                    <h2
+                        class="text-2xl sm:text-3xl font-play text-gaming-red mb-4 sm:mb-6"
+                    >
                         Prêt à booster votre expérience gaming?
                     </h2>
-                    <p class="text-white text-xl mb-8 max-w-3xl mx-auto">
+                    <p
+                        class="text-white text-base sm:text-lg md:text-xl mb-6 sm:mb-8 max-w-3xl mx-auto"
+                    >
                         Contactez-nous dès aujourd'hui pour discuter de votre
                         projet ou commencer à configurer votre PC gaming sur
                         mesure.
                     </p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <div
+                        class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
+                    >
                         <CTAButton
                             :href="route('devis')"
                             :primary="true"
@@ -222,6 +229,13 @@ const calculatorIcon = `
     }
     100% {
         background-position: 0 0;
+    }
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 640px) {
+    .custom-rgb-bg::before {
+        filter: blur(3px);
     }
 }
 </style>

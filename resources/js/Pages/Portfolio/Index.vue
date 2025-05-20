@@ -116,22 +116,22 @@ const getImageToShow = (project) => {
             height="min-h-50vh"
         />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-8 sm:py-10 md:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Projets mis en avant -->
                 <div
                     v-if="projects.some((project) => project.is_featured)"
-                    class="mb-16"
+                    class="mb-8 sm:mb-12 md:mb-16"
                 >
                     <!-- Utilisation du composant HeroTitle -->
                     <HeroTitle
                         title="Projets Phares"
                         :centered="true"
-                        marginBottom="mb-12"
+                        marginBottom="mb-8 sm:mb-10 md:mb-12"
                     />
 
                     <div
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
                     >
                         <div
                             v-for="project in projects.filter(
@@ -141,7 +141,7 @@ const getImageToShow = (project) => {
                             class="bg-deep-black border border-gaming-red rounded-lg overflow-hidden project-card"
                         >
                             <div
-                                class="h-56 overflow-hidden relative card-image-container"
+                                class="h-40 sm:h-48 md:h-56 overflow-hidden relative card-image-container"
                             >
                                 <!-- Utiliser la première image du projet si disponible -->
                                 <img
@@ -174,30 +174,34 @@ const getImageToShow = (project) => {
                                 >
                                     <button
                                         @click="showModal(project.id)"
-                                        class="px-4 py-2 bg-gaming-red text-white rounded-md transform translate-y-4 opacity-0 transition-all duration-300 view-details-btn"
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 bg-gaming-red text-white text-xs sm:text-sm rounded-md transform translate-y-4 opacity-0 transition-all duration-300 view-details-btn"
                                     >
                                         Voir les détails
                                     </button>
                                 </div>
                             </div>
 
-                            <div class="p-6">
+                            <div class="p-4 sm:p-6">
                                 <h3
-                                    class="text-2xl font-play text-led-green mb-3"
+                                    class="text-xl sm:text-2xl font-play text-led-green mb-2 sm:mb-3"
                                 >
                                     {{ project.title }}
                                 </h3>
-                                <p class="text-white/80 mb-4 line-clamp-2">
+                                <p
+                                    class="text-white/80 text-sm sm:text-base mb-3 sm:mb-4 line-clamp-2"
+                                >
                                     {{ project.description }}
                                 </p>
                                 <button
                                     @click="showModal(project.id)"
-                                    class="inline-flex items-center text-gaming-red hover:text-white transition group"
+                                    class="inline-flex items-center text-sm sm:text-base text-gaming-red hover:text-white transition group"
                                 >
-                                    <span class="mr-2">Voir les détails</span>
+                                    <span class="mr-1 sm:mr-2"
+                                        >Voir les détails</span
+                                    >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-200"
+                                        class="h-4 w-4 sm:h-5 sm:w-5 transform group-hover:translate-x-1 transition-transform duration-200"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -221,12 +225,12 @@ const getImageToShow = (project) => {
                                     "
                                     class="modal rounded-lg bg-deep-black border border-gaming-red p-0 w-full max-w-5xl"
                                 >
-                                    <div class="p-6">
+                                    <div class="p-4 sm:p-6">
                                         <div
-                                            class="flex justify-between items-center mb-6"
+                                            class="flex justify-between items-center mb-4 sm:mb-6"
                                         >
                                             <h3
-                                                class="text-3xl font-play text-led-green glow-text"
+                                                class="text-xl sm:text-2xl md:text-3xl font-play text-led-green glow-text pr-4"
                                             >
                                                 {{ project.title }}
                                             </h3>
@@ -236,7 +240,7 @@ const getImageToShow = (project) => {
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-7 w-7"
+                                                    class="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -251,14 +255,14 @@ const getImageToShow = (project) => {
                                             </button>
                                         </div>
                                         <div
-                                            class="flex flex-col lg:flex-row gap-8"
+                                            class="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8"
                                         >
                                             <!-- Carousel d'images -->
                                             <div class="lg:w-1/2">
                                                 <div class="relative">
                                                     <!-- Image principale -->
                                                     <div
-                                                        class="w-full h-80 overflow-hidden rounded-lg bg-gray-800 border border-gaming-red/50 shadow-glow"
+                                                        class="w-full h-60 sm:h-72 md:h-80 overflow-hidden rounded-lg bg-gray-800 border border-gaming-red/50 shadow-glow"
                                                     >
                                                         <img
                                                             v-if="
@@ -301,11 +305,11 @@ const getImageToShow = (project) => {
                                                                     project
                                                                 )
                                                             "
-                                                            class="carousel-btn left-2 bg-deep-black/90 hover:bg-gaming-red text-white p-2 rounded-full transition-colors duration-200 focus:outline-none"
+                                                            class="carousel-btn left-2 bg-deep-black/90 hover:bg-gaming-red text-white p-1.5 sm:p-2 rounded-full transition-colors duration-200 focus:outline-none"
                                                         >
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                class="h-6 w-6"
+                                                                class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6"
                                                                 fill="none"
                                                                 viewBox="0 0 24 24"
                                                                 stroke="currentColor"
@@ -334,11 +338,11 @@ const getImageToShow = (project) => {
                                                                     project
                                                                 )
                                                             "
-                                                            class="carousel-btn right-2 bg-deep-black/90 hover:bg-gaming-red text-white p-2 rounded-full transition-colors duration-200 focus:outline-none"
+                                                            class="carousel-btn right-2 bg-deep-black/90 hover:bg-gaming-red text-white p-1.5 sm:p-2 rounded-full transition-colors duration-200 focus:outline-none"
                                                         >
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                class="h-6 w-6"
+                                                                class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6"
                                                                 fill="none"
                                                                 viewBox="0 0 24 24"
                                                                 stroke="currentColor"
@@ -361,7 +365,7 @@ const getImageToShow = (project) => {
                                                         project.images.length >
                                                             1
                                                     "
-                                                    class="flex mt-4 space-x-3 overflow-x-auto py-2 custom-scrollbar"
+                                                    class="flex mt-3 sm:mt-4 space-x-2 sm:space-x-3 overflow-x-auto py-2 px-1 custom-scrollbar"
                                                 >
                                                     <button
                                                         v-for="(
@@ -374,7 +378,7 @@ const getImageToShow = (project) => {
                                                                 index
                                                             )
                                                         "
-                                                        class="thumbnail-btn w-16 h-16 flex-shrink-0 rounded-md overflow-hidden focus:outline-none transition-transform duration-200"
+                                                        class="thumbnail-btn w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 rounded-md overflow-hidden focus:outline-none transition-transform duration-200"
                                                         :class="
                                                             currentImageIndex[
                                                                 project.id
@@ -396,17 +400,17 @@ const getImageToShow = (project) => {
                                                 </div>
                                             </div>
 
-                                            <div class="lg:w-1/2">
+                                            <div class="lg:w-1/2 mt-4 lg:mt-0">
                                                 <div
-                                                    class="mb-6 bg-deep-black/50 rounded-lg p-4 border border-gaming-red/30 animate-fade-in"
+                                                    class="mb-4 sm:mb-6 bg-deep-black/50 rounded-lg p-3 sm:p-4 border border-gaming-red/30 animate-fade-in"
                                                 >
                                                     <h4
-                                                        class="text-xl font-play text-led-green mb-3"
+                                                        class="text-lg sm:text-xl font-play text-led-green mb-2 sm:mb-3"
                                                     >
                                                         Description
                                                     </h4>
                                                     <p
-                                                        class="text-white/90 leading-relaxed"
+                                                        class="text-white/90 text-sm sm:text-base leading-relaxed"
                                                     >
                                                         {{
                                                             project.description
@@ -416,16 +420,16 @@ const getImageToShow = (project) => {
 
                                                 <div
                                                     v-if="project.specs"
-                                                    class="bg-deep-black/50 rounded-lg p-4 border border-gaming-red/30 animate-fade-in"
+                                                    class="bg-deep-black/50 rounded-lg p-3 sm:p-4 border border-gaming-red/30 animate-fade-in"
                                                 >
                                                     <h4
-                                                        class="text-xl font-play text-led-green mb-3"
+                                                        class="text-lg sm:text-xl font-play text-led-green mb-2 sm:mb-3"
                                                     >
                                                         Caractéristiques
                                                         techniques
                                                     </h4>
                                                     <div
-                                                        class="text-white/90 whitespace-pre-line leading-relaxed specs-content"
+                                                        class="text-white/90 text-sm sm:text-base whitespace-pre-line leading-relaxed specs-content"
                                                     >
                                                         {{ project.specs }}
                                                     </div>
@@ -445,11 +449,11 @@ const getImageToShow = (project) => {
                     <HeroTitle
                         title="Toutes nos réalisations"
                         :centered="true"
-                        marginBottom="mb-12"
+                        marginBottom="mb-8 sm:mb-10 md:mb-12"
                     />
 
                     <div
-                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
                     >
                         <div
                             v-for="project in projects"
@@ -457,7 +461,7 @@ const getImageToShow = (project) => {
                             class="bg-deep-black border border-gaming-red rounded-lg overflow-hidden project-card"
                         >
                             <div
-                                class="h-44 overflow-hidden relative card-image-container"
+                                class="h-36 sm:h-40 md:h-44 overflow-hidden relative card-image-container"
                             >
                                 <!-- Image principale -->
                                 <img
@@ -490,32 +494,32 @@ const getImageToShow = (project) => {
                                 >
                                     <button
                                         @click="showModal(project.id)"
-                                        class="px-3 py-1 bg-gaming-red text-white rounded-md transform translate-y-4 opacity-0 transition-all duration-300 view-details-btn text-sm"
+                                        class="px-2 py-1 sm:px-3 sm:py-1.5 bg-gaming-red text-white rounded-md transform translate-y-4 opacity-0 transition-all duration-300 view-details-btn text-xs sm:text-sm"
                                     >
                                         Voir les détails
                                     </button>
                                 </div>
                             </div>
 
-                            <div class="p-4">
+                            <div class="p-3 sm:p-4">
                                 <h3
-                                    class="text-lg font-play text-led-green mb-2"
+                                    class="text-base sm:text-lg font-play text-led-green mb-1 sm:mb-2"
                                 >
                                     {{ project.title }}
                                 </h3>
                                 <p
-                                    class="text-white/80 text-sm mb-3 line-clamp-2"
+                                    class="text-white/80 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2"
                                 >
                                     {{ project.description }}
                                 </p>
                                 <button
                                     @click="showModal(project.id)"
-                                    class="inline-flex items-center text-sm text-gaming-red hover:text-white transition group"
+                                    class="inline-flex items-center text-xs sm:text-sm text-gaming-red hover:text-white transition group"
                                 >
                                     <span class="mr-1">Détails</span>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-200"
+                                        class="h-3 w-3 sm:h-4 sm:w-4 transform group-hover:translate-x-1 transition-transform duration-200"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -539,12 +543,12 @@ const getImageToShow = (project) => {
                                     "
                                     class="modal rounded-lg bg-deep-black border border-gaming-red p-0 w-full max-w-5xl"
                                 >
-                                    <div class="p-6">
+                                    <div class="p-4 sm:p-6">
                                         <div
-                                            class="flex justify-between items-center mb-6"
+                                            class="flex justify-between items-center mb-4 sm:mb-6"
                                         >
                                             <h3
-                                                class="text-3xl font-play text-led-green glow-text"
+                                                class="text-xl sm:text-2xl md:text-3xl font-play text-led-green glow-text pr-4"
                                             >
                                                 {{ project.title }}
                                             </h3>
@@ -554,7 +558,7 @@ const getImageToShow = (project) => {
                                             >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-7 w-7"
+                                                    class="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -569,14 +573,14 @@ const getImageToShow = (project) => {
                                             </button>
                                         </div>
                                         <div
-                                            class="flex flex-col lg:flex-row gap-8"
+                                            class="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8"
                                         >
                                             <!-- Carousel d'images -->
                                             <div class="lg:w-1/2">
                                                 <div class="relative">
                                                     <!-- Image principale -->
                                                     <div
-                                                        class="w-full h-80 overflow-hidden rounded-lg bg-gray-800 border border-gaming-red/50 shadow-glow"
+                                                        class="w-full h-60 sm:h-72 md:h-80 overflow-hidden rounded-lg bg-gray-800 border border-gaming-red/50 shadow-glow"
                                                     >
                                                         <img
                                                             v-if="
@@ -619,11 +623,11 @@ const getImageToShow = (project) => {
                                                                     project
                                                                 )
                                                             "
-                                                            class="carousel-btn left-2 bg-deep-black/90 hover:bg-gaming-red text-white p-2 rounded-full transition-colors duration-200 focus:outline-none"
+                                                            class="carousel-btn left-2 bg-deep-black/90 hover:bg-gaming-red text-white p-1.5 sm:p-2 rounded-full transition-colors duration-200 focus:outline-none"
                                                         >
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                class="h-6 w-6"
+                                                                class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6"
                                                                 fill="none"
                                                                 viewBox="0 0 24 24"
                                                                 stroke="currentColor"
@@ -652,11 +656,11 @@ const getImageToShow = (project) => {
                                                                     project
                                                                 )
                                                             "
-                                                            class="carousel-btn right-2 bg-deep-black/90 hover:bg-gaming-red text-white p-2 rounded-full transition-colors duration-200 focus:outline-none"
+                                                            class="carousel-btn right-2 bg-deep-black/90 hover:bg-gaming-red text-white p-1.5 sm:p-2 rounded-full transition-colors duration-200 focus:outline-none"
                                                         >
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                class="h-6 w-6"
+                                                                class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6"
                                                                 fill="none"
                                                                 viewBox="0 0 24 24"
                                                                 stroke="currentColor"
@@ -679,7 +683,7 @@ const getImageToShow = (project) => {
                                                         project.images.length >
                                                             1
                                                     "
-                                                    class="flex mt-4 space-x-3 overflow-x-auto py-2 custom-scrollbar"
+                                                    class="flex mt-3 sm:mt-4 space-x-2 sm:space-x-3 overflow-x-auto py-2 px-1 custom-scrollbar"
                                                 >
                                                     <button
                                                         v-for="(
@@ -692,7 +696,7 @@ const getImageToShow = (project) => {
                                                                 index
                                                             )
                                                         "
-                                                        class="thumbnail-btn w-16 h-16 flex-shrink-0 rounded-md overflow-hidden focus:outline-none transition-transform duration-200"
+                                                        class="thumbnail-btn w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 rounded-md overflow-hidden focus:outline-none transition-transform duration-200"
                                                         :class="
                                                             currentImageIndex[
                                                                 project.id
@@ -714,17 +718,17 @@ const getImageToShow = (project) => {
                                                 </div>
                                             </div>
 
-                                            <div class="lg:w-1/2">
+                                            <div class="lg:w-1/2 mt-4 lg:mt-0">
                                                 <div
-                                                    class="mb-6 bg-deep-black/50 rounded-lg p-4 border border-gaming-red/30 animate-fade-in"
+                                                    class="mb-4 sm:mb-6 bg-deep-black/50 rounded-lg p-3 sm:p-4 border border-gaming-red/30 animate-fade-in"
                                                 >
                                                     <h4
-                                                        class="text-xl font-play text-led-green mb-3"
+                                                        class="text-lg sm:text-xl font-play text-led-green mb-2 sm:mb-3"
                                                     >
                                                         Description
                                                     </h4>
                                                     <p
-                                                        class="text-white/90 leading-relaxed"
+                                                        class="text-white/90 text-sm sm:text-base leading-relaxed"
                                                     >
                                                         {{
                                                             project.description
@@ -734,16 +738,16 @@ const getImageToShow = (project) => {
 
                                                 <div
                                                     v-if="project.specs"
-                                                    class="bg-deep-black/50 rounded-lg p-4 border border-gaming-red/30 animate-fade-in"
+                                                    class="bg-deep-black/50 rounded-lg p-3 sm:p-4 border border-gaming-red/30 animate-fade-in"
                                                 >
                                                     <h4
-                                                        class="text-xl font-play text-led-green mb-3"
+                                                        class="text-lg sm:text-xl font-play text-led-green mb-2 sm:mb-3"
                                                     >
                                                         Caractéristiques
                                                         techniques
                                                     </h4>
                                                     <div
-                                                        class="text-white/90 whitespace-pre-line leading-relaxed specs-content"
+                                                        class="text-white/90 text-sm sm:text-base whitespace-pre-line leading-relaxed specs-content"
                                                     >
                                                         {{ project.specs }}
                                                     </div>
@@ -758,13 +762,16 @@ const getImageToShow = (project) => {
                 </div>
 
                 <!-- Message si aucun projet n'est disponible -->
-                <div v-if="!projects.length" class="text-center py-16">
+                <div
+                    v-if="!projects.length"
+                    class="text-center py-8 sm:py-12 md:py-16"
+                >
                     <div
-                        class="inline-block p-8 border border-gaming-red/50 rounded-lg bg-deep-black/50 shadow-glow"
+                        class="inline-block p-6 sm:p-8 border border-gaming-red/50 rounded-lg bg-deep-black/50 shadow-glow"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            class="h-12 w-12 text-gaming-red/70 mx-auto mb-4"
+                            class="h-10 w-10 sm:h-12 sm:w-12 text-gaming-red/70 mx-auto mb-3 sm:mb-4"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -776,7 +783,9 @@ const getImageToShow = (project) => {
                                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                             />
                         </svg>
-                        <p class="text-white/70 text-lg">
+                        <p
+                            class="text-white/70 text-sm sm:text-base md:text-lg"
+                        >
                             Aucune réalisation n'est disponible pour le moment.
                         </p>
                     </div>
@@ -825,6 +834,15 @@ dialog[open] {
     border-color: rgba(236, 64, 122, 0.8);
 }
 
+/* Adaptation pour mobile */
+@media (max-width: 640px) {
+    .project-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+}
+
 .card-image-container:hover img {
     transform: scale(1.05);
 }
@@ -845,6 +863,21 @@ dialog[open] {
 
 .shadow-glow-sm {
     box-shadow: 0 0 10px rgba(236, 64, 122, 0.4);
+}
+
+/* Réduire l'effet glow sur mobile */
+@media (max-width: 640px) {
+    .shadow-glow {
+        box-shadow: 0 0 10px rgba(236, 64, 122, 0.3);
+    }
+
+    .shadow-glow-sm {
+        box-shadow: 0 0 5px rgba(236, 64, 122, 0.3);
+    }
+
+    .glow-text {
+        text-shadow: 0 0 5px rgba(236, 64, 122, 0.4);
+    }
 }
 
 /* Custom scrollbar pour les miniatures */
@@ -883,10 +916,30 @@ dialog[open] {
     }
 }
 
+/* Animation optimisée pour mobile */
+@media (max-width: 640px) {
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(6px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
 /* Adaptation pour les écrans mobiles */
 @media (max-width: 768px) {
     .section-title {
         font-size: 2rem;
+    }
+
+    /* Améliorer la vitesse de scrolling sur mobile */
+    dialog {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
     }
 }
 </style>

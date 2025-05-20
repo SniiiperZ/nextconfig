@@ -19,18 +19,38 @@
     @inertiaHead
     <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
 
-    <!-- Code de suivi Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5GLJQE505D"></script>
+    <!-- Code de suivi Google Analytics 4 avec respect RGPD -->
     <script>
+        // Vérifier les préférences de cookies avant d'activer Google Analytics
+        const checkCookieConsent = function() {
+            try {
+                const consent = localStorage.getItem('nextconfig_cookie_consent');
+                if (consent) {
+                    const preferences = JSON.parse(consent);
+                    window['ga-disable-G-5GLJQE505D'] = !preferences.analytics;
+                } else {
+                    // Par défaut, désactiver Google Analytics jusqu'à consentement
+                    window['ga-disable-G-5GLJQE505D'] = true;
+                }
+            } catch (e) {
+                window['ga-disable-G-5GLJQE505D'] = true;
+            }
+        };
+
+        checkCookieConsent();
+
+        // Configuration Google Analytics
         window.dataLayer = window.dataLayer || [];
 
         function gtag() {
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-
-        gtag('config', 'G-5GLJQE505D');
+        gtag('config', 'G-5GLJQE505D', {
+            'cookie_flags': 'SameSite=None;Secure'
+        });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5GLJQE505D"></script>
 </head>
 
 <body class="font-roboto bg-deep-black text-white">

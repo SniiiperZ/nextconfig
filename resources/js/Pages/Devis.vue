@@ -113,16 +113,18 @@ const closeToast = () => {
             height="min-h-50vh"
         />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-6 sm:py-8 md:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Introduction au formulaire -->
                 <HeroTitle
                     title="Votre futur PC gaming"
                     :centered="true"
-                    marginBottom="mb-10"
+                    marginBottom="mb-6 sm:mb-8 md:mb-10"
                 />
 
-                <p class="text-white text-center max-w-3xl mx-auto mb-12">
+                <p
+                    class="text-white text-center max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 text-sm sm:text-base"
+                >
                     Remplissez ce formulaire en nous donnant un maximum de
                     détails sur vos besoins. Notre équipe vous recontactera
                     rapidement avec une proposition adaptée à votre utilisation
@@ -131,21 +133,24 @@ const closeToast = () => {
 
                 <!-- Formulaire de devis amélioré -->
                 <div
-                    class="bg-deep-black p-8 rounded-lg border border-gaming-red shadow-glow-sm hover-card animate-fade-in"
+                    class="bg-deep-black p-4 sm:p-6 md:p-8 rounded-lg border border-gaming-red shadow-glow-sm hover-card animate-fade-in"
                 >
-                    <form @submit.prevent="submit" class="space-y-8">
+                    <form
+                        @submit.prevent="submit"
+                        class="space-y-6 sm:space-y-8"
+                    >
                         <!-- Information personnelle -->
                         <div
-                            class="bg-gaming-red/5 p-6 rounded-lg border border-gaming-red/30 mb-6 animate-fade-in"
+                            class="bg-gaming-red/5 p-3 sm:p-5 md:p-6 rounded-lg border border-gaming-red/30 mb-4 sm:mb-6 animate-fade-in"
                             style="animation-delay: 0.1s"
                         >
-                            <div class="flex items-center mb-4">
+                            <div class="flex items-center mb-3 sm:mb-4">
                                 <div
-                                    class="bg-led-green w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-glow-sm"
+                                    class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-deep-black"
+                                        class="h-5 w-5 sm:h-6 sm:w-6 text-deep-black"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -158,16 +163,21 @@ const closeToast = () => {
                                         />
                                     </svg>
                                 </div>
-                                <h2 class="text-xl font-play text-led-green">
+                                <h2
+                                    class="text-lg sm:text-xl font-play text-led-green"
+                                >
                                     Vos coordonnées
                                 </h2>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div
+                                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
+                            >
                                 <FormInput
                                     v-model="form.name"
                                     label="Nom complet"
                                     :error="form.errors.name"
+                                    placeholder="Votre nom et prénom"
                                 />
 
                                 <FormInput
@@ -175,28 +185,30 @@ const closeToast = () => {
                                     type="email"
                                     label="Email"
                                     :error="form.errors.email"
+                                    placeholder="votre.email@exemple.com"
                                 />
 
                                 <FormInput
                                     v-model="form.phone"
                                     label="Téléphone"
                                     :error="form.errors.phone"
+                                    placeholder="Ex: +32 xxx xxx xxx"
                                 />
                             </div>
                         </div>
 
                         <!-- Type d'utilisation -->
                         <div
-                            class="bg-gaming-red/5 p-6 rounded-lg border border-gaming-red/30 mb-6 animate-fade-in"
+                            class="bg-gaming-red/5 p-3 sm:p-5 md:p-6 rounded-lg border border-gaming-red/30 mb-4 sm:mb-6 animate-fade-in"
                             style="animation-delay: 0.2s"
                         >
-                            <div class="flex items-center mb-4">
+                            <div class="flex items-center mb-3 sm:mb-4">
                                 <div
-                                    class="bg-led-green w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-glow-sm"
+                                    class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-deep-black"
+                                        class="h-5 w-5 sm:h-6 sm:w-6 text-deep-black"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -209,7 +221,9 @@ const closeToast = () => {
                                         />
                                     </svg>
                                 </div>
-                                <h2 class="text-xl font-play text-led-green">
+                                <h2
+                                    class="text-lg sm:text-xl font-play text-led-green"
+                                >
                                     Utilisation prévue
                                 </h2>
                             </div>
@@ -222,21 +236,21 @@ const closeToast = () => {
                                 @update:model-value="updateUsagePlaceholder"
                             />
 
-                            <div class="mb-4">
+                            <div class="mb-3 sm:mb-4">
                                 <label
-                                    class="block text-white text-sm font-medium mb-2"
+                                    class="block text-white text-xs sm:text-sm font-medium mb-1 sm:mb-2"
                                 >
                                     Détails de votre utilisation
                                 </label>
                                 <textarea
                                     v-model="form.usage_details"
-                                    rows="4"
-                                    class="w-full px-3 py-2 bg-deep-black border border-gaming-red rounded-md text-white focus:outline-none focus:ring-2 focus:ring-led-green transition duration-200"
+                                    rows="3"
+                                    class="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-deep-black border border-gaming-red rounded-md text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-led-green transition duration-200"
                                     :placeholder="usagePlaceholder"
                                 ></textarea>
                                 <p
                                     v-if="form.errors.usage_details"
-                                    class="mt-1 text-sm text-gaming-red"
+                                    class="mt-1 text-xs sm:text-sm text-gaming-red"
                                 >
                                     {{ form.errors.usage_details }}
                                 </p>
@@ -245,16 +259,16 @@ const closeToast = () => {
 
                         <!-- Préférences -->
                         <div
-                            class="bg-gaming-red/5 p-6 rounded-lg border border-gaming-red/30 mb-6 animate-fade-in"
+                            class="bg-gaming-red/5 p-3 sm:p-5 md:p-6 rounded-lg border border-gaming-red/30 mb-4 sm:mb-6 animate-fade-in"
                             style="animation-delay: 0.3s"
                         >
-                            <div class="flex items-center mb-4">
+                            <div class="flex items-center mb-3 sm:mb-4">
                                 <div
-                                    class="bg-led-green w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-glow-sm"
+                                    class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-deep-black"
+                                        class="h-5 w-5 sm:h-6 sm:w-6 text-deep-black"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -267,7 +281,9 @@ const closeToast = () => {
                                         />
                                     </svg>
                                 </div>
-                                <h2 class="text-xl font-play text-led-green">
+                                <h2
+                                    class="text-lg sm:text-xl font-play text-led-green"
+                                >
                                     Vos préférences et budget
                                 </h2>
                             </div>
@@ -289,21 +305,21 @@ const closeToast = () => {
                                 :error="form.errors.preferred_brands"
                             />
 
-                            <div class="mb-6">
+                            <div class="mb-4 sm:mb-6">
                                 <label
-                                    class="flex items-center space-x-3 cursor-pointer p-3 border border-gaming-red/30 rounded-md hover:border-led-green/50 transition-colors duration-300"
+                                    class="flex items-center space-x-2 sm:space-x-3 cursor-pointer p-2 sm:p-3 border border-gaming-red/30 rounded-md hover:border-led-green/50 transition-colors duration-300"
                                 >
                                     <input
                                         type="checkbox"
                                         v-model="form.rgb_lighting"
-                                        class="form-checkbox h-5 w-5 text-led-green rounded border-gaming-red bg-deep-black"
+                                        class="form-checkbox h-4 w-4 sm:h-5 sm:w-5 text-led-green rounded border-gaming-red bg-deep-black"
                                     />
                                     <span
-                                        class="text-white text-sm font-medium flex items-center"
+                                        class="text-white text-xs sm:text-sm font-medium flex items-center"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
-                                            class="h-5 w-5 text-gaming-red mr-2"
+                                            class="h-4 w-4 sm:h-5 sm:w-5 text-gaming-red mr-1.5 sm:mr-2"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -335,32 +351,32 @@ const closeToast = () => {
                             style="animation-delay: 0.4s"
                         >
                             <label
-                                class="block text-white text-sm font-medium mb-2"
+                                class="block text-white text-xs sm:text-sm font-medium mb-1 sm:mb-2"
                             >
                                 Notes supplémentaires (optionnel)
                             </label>
                             <textarea
                                 v-model="form.additional_notes"
                                 rows="3"
-                                class="w-full px-3 py-2 bg-deep-black border border-gaming-red rounded-md text-white focus:outline-none focus:ring-2 focus:ring-led-green transition duration-200"
+                                class="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-deep-black border border-gaming-red rounded-md text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-led-green transition duration-200"
                                 placeholder="Y a-t-il d'autres informations que vous aimeriez nous transmettre ?"
                             ></textarea>
                         </div>
 
                         <!-- Bouton de soumission -->
                         <div
-                            class="pt-4 flex justify-center animate-fade-in"
+                            class="pt-3 sm:pt-4 flex justify-center animate-fade-in"
                             style="animation-delay: 0.5s"
                         >
                             <button
                                 type="submit"
                                 :disabled="form.processing"
-                                class="main-cta-button inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300 disabled:opacity-50 font-play min-w-[250px]"
+                                class="main-cta-button inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 border border-transparent text-base sm:text-lg font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300 disabled:opacity-50 font-play min-w-[200px] sm:min-w-[250px]"
                             >
                                 <svg
                                     v-if="!form.processing"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 mr-2"
+                                    class="h-5 w-5 sm:h-6 sm:w-6 mr-1.5 sm:mr-2"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -374,7 +390,7 @@ const closeToast = () => {
                                 </svg>
                                 <svg
                                     v-else
-                                    class="animate-spin h-5 w-5 mr-2"
+                                    class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -405,24 +421,28 @@ const closeToast = () => {
 
                 <!-- Section calculateur de budget -->
                 <div
-                    class="mt-16 p-8 border border-gaming-red rounded-lg bg-deep-black/50 shadow-glow-sm hover-card text-center animate-fade-in"
+                    class="mt-8 sm:mt-12 md:mt-16 p-4 sm:p-6 md:p-8 border border-gaming-red rounded-lg bg-deep-black/50 shadow-glow-sm hover-card text-center animate-fade-in"
                     style="animation-delay: 0.6s"
                 >
-                    <h2 class="text-2xl font-play text-led-green mb-4">
+                    <h2
+                        class="text-xl sm:text-2xl font-play text-led-green mb-3 sm:mb-4"
+                    >
                         Besoin d'aide pour estimer votre budget ?
                     </h2>
-                    <p class="text-white mb-6 max-w-3xl mx-auto">
+                    <p
+                        class="text-white mb-4 sm:mb-6 max-w-3xl mx-auto text-sm sm:text-base"
+                    >
                         Utilisez notre calculateur de budget pour obtenir une
                         estimation et découvrir les différentes options
                         disponibles selon votre budget.
                     </p>
                     <Link
                         :href="route('budget.calculator')"
-                        class="main-cta-button inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300"
+                        class="main-cta-button inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 mr-2"
+                            class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -499,6 +519,31 @@ const closeToast = () => {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+    .main-cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 15px rgba(236, 64, 122, 0.5);
+    }
+
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
 </style>

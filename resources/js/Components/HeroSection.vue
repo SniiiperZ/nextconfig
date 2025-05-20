@@ -29,17 +29,19 @@ defineProps({
     >
         <div class="hero-content z-10 relative text-center">
             <h1
-                class="text-6xl md:text-7xl font-play text-gaming-red mb-6 hero-title"
+                class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-play text-gaming-red mb-4 sm:mb-6 hero-title"
             >
                 {{ title }}
             </h1>
             <p
                 v-if="subtitle"
-                class="text-2xl text-white mb-12 max-w-3xl mx-auto font-medium text-shadow-lg"
+                class="text-lg sm:text-xl md:text-2xl text-white mb-6 sm:mb-8 md:mb-12 max-w-3xl mx-auto font-medium text-shadow-lg px-4"
             >
                 {{ subtitle }}
             </p>
-            <slot name="actions"></slot>
+            <div class="px-4">
+                <slot name="actions"></slot>
+            </div>
         </div>
     </div>
 </template>
@@ -54,8 +56,23 @@ defineProps({
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+@media (min-width: 640px) {
+    .hero-section {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero-section {
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
 }
 
 .min-h-50vh {
@@ -63,14 +80,32 @@ defineProps({
 }
 
 .min-h-91vh {
-    min-height: 91vh;
+    min-height: 80vh;
+}
+
+@media (min-width: 768px) {
+    .min-h-91vh {
+        min-height: 91vh;
+    }
 }
 
 .hero-content {
     width: 100%;
     max-width: 1200px;
-    padding: 3rem 1.5rem;
+    padding: 1.5rem 0.75rem;
     animation: fadeIn 1.2s ease-out;
+}
+
+@media (min-width: 640px) {
+    .hero-content {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero-content {
+        padding: 3rem 1.5rem;
+    }
 }
 
 .text-shadow-lg {
@@ -105,12 +140,6 @@ defineProps({
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 3rem;
     }
 }
 </style>

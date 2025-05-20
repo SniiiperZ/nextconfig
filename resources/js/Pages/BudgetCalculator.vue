@@ -324,16 +324,18 @@ const componentIcons = {
             height="min-h-50vh"
         />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-6 sm:py-8 md:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Introduction -->
-                <div class="mb-10">
+                <div class="mb-6 sm:mb-10">
                     <HeroTitle
                         title="Configurez votre budget idéal"
                         :centered="true"
-                        marginBottom="mb-6"
+                        marginBottom="mb-4 sm:mb-6"
                     />
-                    <p class="text-white text-center mb-10 max-w-3xl mx-auto">
+                    <p
+                        class="text-white text-center mb-6 sm:mb-10 max-w-3xl mx-auto text-sm sm:text-base"
+                    >
                         Cet outil vous donne une première idée de la répartition
                         optimale de votre budget et des composants recommandés
                         selon votre utilisation.
@@ -341,17 +343,19 @@ const componentIcons = {
                 </div>
 
                 <!-- Contenu principal en deux colonnes -->
-                <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12 md:mb-16"
+                >
                     <!-- Panneau de configuration -->
                     <div
-                        class="bg-deep-black p-6 border border-gaming-red rounded-lg shadow-glow-sm hover-card animate-fade-in"
+                        class="bg-deep-black p-4 sm:p-6 border border-gaming-red rounded-lg shadow-glow-sm hover-card animate-fade-in"
                     >
                         <h2
-                            class="text-2xl font-play text-led-green mb-6 flex items-center"
+                            class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6 flex items-center"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 mr-2"
+                                class="h-5 w-5 sm:h-6 sm:w-6 mr-1.5 sm:mr-2"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -374,7 +378,7 @@ const componentIcons = {
 
                         <!-- Slider de budget avec effet glow -->
                         <div
-                            class="mb-8 transform transition-all duration-300 hover:scale-102"
+                            class="mb-6 sm:mb-8 transform transition-all duration-300 hover:scale-102"
                         >
                             <RangeSlider
                                 v-model="budget"
@@ -386,13 +390,13 @@ const componentIcons = {
                         </div>
 
                         <!-- Sélection d'usage avec composant BudgetOption -->
-                        <div class="mb-8">
+                        <div class="mb-6 sm:mb-8">
                             <h3
-                                class="text-white text-lg mb-3 flex items-center"
+                                class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 mr-2"
+                                    class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -407,7 +411,9 @@ const componentIcons = {
                                 Utilisation principale
                             </h3>
 
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div
+                                class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3"
+                            >
                                 <BudgetOption
                                     v-for="usage in usageOptions"
                                     :key="usage.id"
@@ -421,13 +427,13 @@ const componentIcons = {
                         </div>
 
                         <!-- Priorités avec composant BudgetOption -->
-                        <div class="mb-8">
+                        <div class="mb-6 sm:mb-8">
                             <h3
-                                class="text-white text-lg mb-3 flex items-center"
+                                class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 mr-2"
+                                    class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -442,7 +448,7 @@ const componentIcons = {
                                 Votre priorité
                             </h3>
 
-                            <div class="grid grid-cols-2 gap-3">
+                            <div class="grid grid-cols-2 gap-2 sm:gap-3">
                                 <BudgetOption
                                     v-for="priority in priorityOptions"
                                     :key="priority.id"
@@ -456,7 +462,7 @@ const componentIcons = {
                         </div>
 
                         <!-- Bouton vers le devis complet avec CTAButton -->
-                        <div class="mt-10">
+                        <div class="mt-6 sm:mt-10">
                             <CTAButton
                                 :href="route('devis')"
                                 primary
@@ -464,7 +470,7 @@ const componentIcons = {
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 mr-2"
+                                    class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -483,15 +489,15 @@ const componentIcons = {
 
                     <!-- Panneau des résultats -->
                     <div
-                        class="bg-deep-black p-6 border border-gaming-red rounded-lg shadow-glow-sm hover-card animate-fade-in"
+                        class="bg-deep-black p-4 sm:p-6 border border-gaming-red rounded-lg shadow-glow-sm hover-card animate-fade-in"
                         style="animation-delay: 0.2s"
                     >
                         <h2
-                            class="text-2xl font-play text-led-green mb-6 flex items-center"
+                            class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6 flex items-center"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 mr-2"
+                                class="h-5 w-5 sm:h-6 sm:w-6 mr-1.5 sm:mr-2"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -507,7 +513,7 @@ const componentIcons = {
                         </h2>
 
                         <!-- Score de performance avec composant PerformanceIndicator -->
-                        <div class="mb-8">
+                        <div class="mb-6 sm:mb-8">
                             <PerformanceIndicator
                                 :score="performanceScore"
                                 :text="performanceText"
@@ -515,13 +521,13 @@ const componentIcons = {
                         </div>
 
                         <!-- Répartition du budget avec composant BudgetAllocation -->
-                        <div class="mb-8">
+                        <div class="mb-6 sm:mb-8">
                             <h3
-                                class="text-white text-lg mb-3 flex items-center"
+                                class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 mr-2 text-led-green"
+                                    class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-led-green"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -546,11 +552,11 @@ const componentIcons = {
                         <!-- Recommandations de composants avec composant ComponentRecommendation -->
                         <div>
                             <h3
-                                class="text-white text-lg mb-3 flex items-center"
+                                class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 mr-2 text-led-green"
+                                    class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-led-green"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -573,12 +579,12 @@ const componentIcons = {
 
                         <!-- Note d'avertissement avec style amélioré -->
                         <div
-                            class="mt-6 p-3 bg-gaming-red/10 rounded-lg border border-gaming-red/20 text-sm text-white/80"
+                            class="mt-5 sm:mt-6 p-2 sm:p-3 bg-gaming-red/10 rounded-lg border border-gaming-red/20 text-xs sm:text-sm text-white/80"
                         >
                             <div class="flex items-start">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 mr-2 text-gaming-red flex-shrink-0 mt-0.5"
+                                    class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-gaming-red flex-shrink-0 mt-0.5"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -604,15 +610,19 @@ const componentIcons = {
 
                 <!-- Appel à l'action - Contact personnel -->
                 <div
-                    class="bg-deep-black border border-gaming-red rounded-lg p-8 shadow-glow service-card animate-fade-in"
+                    class="bg-deep-black border border-gaming-red rounded-lg p-4 sm:p-6 md:p-8 shadow-glow service-card animate-fade-in"
                     style="animation-delay: 0.4s"
                 >
                     <div class="flex flex-col md:flex-row items-center">
-                        <div class="mb-6 md:mb-0 md:mr-8 md:w-3/4">
-                            <h3 class="text-2xl font-play text-led-green mb-3">
+                        <div class="mb-4 sm:mb-6 md:mb-0 md:mr-6 md:w-3/4">
+                            <h3
+                                class="text-xl sm:text-2xl font-play text-led-green mb-2 sm:mb-3"
+                            >
                                 Besoin d'une configuration personnalisée?
                             </h3>
-                            <p class="text-white mb-4">
+                            <p
+                                class="text-white mb-3 sm:mb-4 text-sm sm:text-base"
+                            >
                                 Ce calculateur donne une estimation rapide. Pour
                                 une configuration précise et adaptée à vos
                                 besoins spécifiques, contactez-moi directement.
@@ -620,11 +630,17 @@ const componentIcons = {
                                 correspond exactement à votre utilisation et à
                                 votre budget.
                             </p>
-                            <div class="flex space-x-4">
-                                <CTAButton :href="route('devis')" primary>
+                            <div
+                                class="flex flex-col sm:flex-row gap-2 sm:gap-4"
+                            >
+                                <CTAButton
+                                    :href="route('devis')"
+                                    primary
+                                    class="w-full sm:w-auto"
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-5 w-5 mr-2"
+                                        class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -638,10 +654,13 @@ const componentIcons = {
                                     </svg>
                                     Devis détaillé
                                 </CTAButton>
-                                <CTAButton :href="route('contact')">
+                                <CTAButton
+                                    :href="route('contact')"
+                                    class="w-full sm:w-auto"
+                                >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-5 w-5 mr-2"
+                                        class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -659,11 +678,11 @@ const componentIcons = {
                         </div>
                         <div class="md:w-1/4 flex justify-center">
                             <div
-                                class="p-4 bg-led-green/10 border border-led-green rounded-full shadow-glow-green flex items-center justify-center"
+                                class="p-3 sm:p-4 bg-led-green/10 border border-led-green rounded-full shadow-glow-green flex items-center justify-center"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-16 w-16 text-led-green"
+                                    class="h-12 w-12 sm:h-16 sm:w-16 text-led-green"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -764,5 +783,35 @@ const componentIcons = {
 
 .scale-102:hover {
     transform: scale(1.02);
+}
+
+/* Ajustements responsive pour mobile */
+@media (max-width: 640px) {
+    .service-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .scale-102:hover {
+        transform: scale(1.01);
+    }
 }
 </style>

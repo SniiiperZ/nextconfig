@@ -1,3 +1,4 @@
+// filepath: c:\laragon\www\nextconfig\resources\js\Pages\About.vue
 <script setup>
 import { ref } from "vue";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
@@ -58,10 +59,10 @@ const supportIcon = `
             subtitle="Expertise et passion au service de vos configurations gaming"
         />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-8 sm:py-10 md:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Section Présentation avec style amélioré -->
-                <div class="mb-16">
+                <div class="mb-10 sm:mb-12 md:mb-16">
                     <HeroTitle title="Qui suis-je" />
 
                     <FeatureBlock
@@ -70,17 +71,17 @@ const supportIcon = `
                         imageAlt="PC Gaming Personnalisé"
                         :imageRight="false"
                     >
-                        <p class="text-white mb-6 text-lg">
+                        <p class="text-white mb-4 sm:mb-6 text-base sm:text-lg">
                             Passionné d'informatique et expert en assemblage PC,
                             je me suis spécialisé dans la création de
                             configurations gaming sur mesure.
                         </p>
-                        <p class="text-white mb-6">
+                        <p class="text-white mb-4 sm:mb-6 text-sm sm:text-base">
                             Avec plus de 5 années d'expérience dans le domaine,
                             je vous accompagne dans le choix des meilleurs
                             composants pour créer la machine de vos rêves.
                         </p>
-                        <p class="text-white">
+                        <p class="text-white text-sm sm:text-base">
                             Chaque PC est assemblé avec un souci du détail et
                             une attention particulière portée aux performances,
                             à l'esthétique et à la fiabilité.
@@ -89,7 +90,7 @@ const supportIcon = `
                 </div>
 
                 <!-- Section Expérience -->
-                <div class="mb-16">
+                <div class="mb-10 sm:mb-12 md:mb-16">
                     <HeroTitle title="Mon Parcours" />
 
                     <div class="timeline-container">
@@ -104,24 +105,30 @@ const supportIcon = `
                         >
                             <div class="timeline-content hover-card">
                                 <h3
-                                    class="text-xl font-play text-led-green mb-2"
+                                    class="text-lg sm:text-xl font-play text-led-green mb-2"
                                 >
                                     {{ exp.title }}
                                 </h3>
-                                <p class="text-gaming-red font-semibold mb-3">
+                                <p
+                                    class="text-gaming-red font-semibold mb-2 sm:mb-3 text-sm sm:text-base"
+                                >
                                     {{ exp.period }}
                                 </p>
-                                <p class="text-white">{{ exp.description }}</p>
+                                <p class="text-white text-sm sm:text-base">
+                                    {{ exp.description }}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Section Valeurs avec cards améliorées -->
-                <div class="mb-16">
+                <div class="mb-8 sm:mb-10 md:mb-16">
                     <HeroTitle title="Mes Valeurs" />
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
+                    >
                         <ServiceCard
                             title="Expertise"
                             :iconComponent="expertiseIcon"
@@ -143,6 +150,7 @@ const supportIcon = `
                         <ServiceCard
                             title="Support"
                             :iconComponent="supportIcon"
+                            class="sm:col-span-2 md:col-span-1 sm:max-w-md sm:mx-auto md:max-w-none"
                         >
                             Un accompagnement personnalisé et un service
                             après-vente réactif pour vous garantir une
@@ -191,11 +199,17 @@ const supportIcon = `
 }
 
 .timeline-content {
-    padding: 20px;
+    padding: 16px;
     border: 1px solid #ec407a;
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
+}
+
+@media (min-width: 640px) {
+    .timeline-content {
+        padding: 20px;
+    }
 }
 
 .timeline-content:hover {
@@ -219,6 +233,25 @@ const supportIcon = `
     .right {
         left: 0%;
     }
+
+    .timeline-content:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+}
+
+/* Plus de spécificité pour les appareils très petits */
+@media (max-width: 480px) {
+    .timeline-container::after {
+        left: 20px;
+    }
+
+    .timeline-item {
+        padding-left: 50px;
+        padding-right: 15px;
+        margin-bottom: 15px;
+    }
 }
 
 .hover-card {
@@ -228,5 +261,13 @@ const supportIcon = `
 .hover-card:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(236, 64, 122, 0.3);
     transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
 }
 </style>

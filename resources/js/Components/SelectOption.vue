@@ -26,15 +26,17 @@ defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-    <div class="mb-4">
-        <label class="block text-white text-sm font-medium mb-2">
+    <div class="mb-3 sm:mb-4">
+        <label
+            class="block text-white text-xs sm:text-sm font-medium mb-1 sm:mb-2"
+        >
             {{ label }}
         </label>
         <select
             v-if="!multiple"
             :value="modelValue"
             @change="$emit('update:modelValue', $event.target.value)"
-            class="w-full px-3 py-2 bg-deep-black border border-gaming-red rounded-md text-white focus:outline-none focus:ring-2 focus:ring-led-green"
+            class="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-deep-black border border-gaming-red rounded-md text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-led-green"
         >
             <option
                 v-for="option in options"
@@ -44,7 +46,10 @@ defineEmits(["update:modelValue"]);
                 {{ option.label }}
             </option>
         </select>
-        <div v-else class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div
+            v-else
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3"
+        >
             <div v-for="option in options" :key="option.value" class="relative">
                 <input
                     type="checkbox"
@@ -74,7 +79,7 @@ defineEmits(["update:modelValue"]);
                 />
                 <label
                     :for="option.value"
-                    class="flex items-center justify-center p-3 border rounded-md cursor-pointer transition-all"
+                    class="flex items-center justify-center p-1.5 sm:p-3 border rounded-md cursor-pointer transition-all text-xs sm:text-sm"
                     :class="
                         Array.isArray(modelValue) &&
                         modelValue.includes(option.value)
@@ -86,8 +91,14 @@ defineEmits(["update:modelValue"]);
                 </label>
             </div>
         </div>
-        <p v-if="error" class="mt-1 text-sm text-gaming-red">
+        <p v-if="error" class="mt-1 text-2xs sm:text-xs text-gaming-red">
             {{ error }}
         </p>
     </div>
 </template>
+
+<style scoped>
+.text-2xs {
+    font-size: 0.65rem;
+}
+</style>

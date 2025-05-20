@@ -23,16 +23,18 @@ defineProps({
             height="min-h-50vh"
         />
 
-        <div class="py-12">
+        <div class="py-8 sm:py-10 md:py-12">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Explication et introduction -->
-                <div class="mb-12 text-center animate-fade-in">
+                <div class="mb-8 sm:mb-10 md:mb-12 text-center animate-fade-in">
                     <HeroTitle
                         title="Vos questions, nos réponses"
                         :centered="true"
-                        marginBottom="mb-10"
+                        marginBottom="mb-6 sm:mb-8 md:mb-10"
                     />
-                    <p class="text-white/80 max-w-3xl mx-auto">
+                    <p
+                        class="text-white/80 max-w-3xl mx-auto text-sm sm:text-base"
+                    >
                         Retrouvez ci-dessous les réponses aux questions les plus
                         courantes concernant nos services de montage PC gaming,
                         d'optimisation et de maintenance. Si vous ne trouvez pas
@@ -42,7 +44,7 @@ defineProps({
                 </div>
 
                 <!-- Accordéons améliorés -->
-                <div class="space-y-5">
+                <div class="space-y-3 sm:space-y-5">
                     <div
                         v-for="(faq, index) in faqs"
                         :key="faq.id"
@@ -53,7 +55,9 @@ defineProps({
                             :title="faq.question"
                             :default-open="index === 0"
                         >
-                            <div class="text-white/90 leading-relaxed">
+                            <div
+                                class="text-white/90 leading-relaxed text-sm sm:text-base"
+                            >
                                 <p>{{ faq.answer }}</p>
                             </div>
                         </Accordion>
@@ -62,22 +66,24 @@ defineProps({
 
                 <!-- Section d'appel à l'action -->
                 <div
-                    class="mt-16 bg-deep-black p-8 rounded-lg border border-gaming-red hover-card text-center animate-fade-in"
+                    class="mt-10 sm:mt-12 md:mt-16 bg-deep-black p-5 sm:p-6 md:p-8 rounded-lg border border-gaming-red hover-card text-center animate-fade-in"
                 >
-                    <h3 class="text-2xl font-play text-led-green mb-4">
+                    <h3
+                        class="text-xl sm:text-2xl font-play text-led-green mb-3 sm:mb-4"
+                    >
                         Vous avez d'autres questions ?
                     </h3>
-                    <p class="text-white mb-6">
+                    <p class="text-white mb-4 sm:mb-6 text-sm sm:text-base">
                         N'hésitez pas à nous contacter directement, nous serons
                         ravis de vous aider.
                     </p>
                     <a
                         :href="route('contact')"
-                        class="main-cta-button inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300"
+                        class="main-cta-button inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 mr-2"
+                            class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -116,6 +122,18 @@ defineProps({
     transform: translateY(0);
 }
 
+/* Ajustements responsive pour les appareils mobiles */
+@media (max-width: 640px) {
+    .main-cta-button {
+        box-shadow: 0 0 10px rgba(236, 64, 122, 0.4);
+    }
+
+    .main-cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 15px rgba(236, 64, 122, 0.6);
+    }
+}
+
 /* Animations d'entrée pour les blocs */
 .animate-fade-in {
     animation: fadeIn 0.6s ease-out forwards;
@@ -133,6 +151,20 @@ defineProps({
     }
 }
 
+/* Animation réduite pour les appareils mobiles */
+@media (max-width: 640px) {
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
 /* Animation spéciale pour les accordéons */
 .faq-accordion {
     transition: all 0.3s ease;
@@ -140,6 +172,13 @@ defineProps({
 
 .faq-accordion:hover {
     transform: translateX(5px);
+}
+
+/* Ajustements pour mobile */
+@media (max-width: 480px) {
+    .faq-accordion:hover {
+        transform: translateX(3px);
+    }
 }
 
 /* Cards avec hover effect */
@@ -151,5 +190,14 @@ defineProps({
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 0 0 15px rgba(236, 64, 122, 0.3);
     border-color: rgba(236, 64, 122, 0.8);
     transform: translateY(-5px);
+}
+
+/* Ajustements pour mobile */
+@media (max-width: 640px) {
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
 }
 </style>

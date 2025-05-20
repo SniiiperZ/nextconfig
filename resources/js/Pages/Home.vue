@@ -76,12 +76,14 @@ const devisIcon = `
             </template>
         </HeroSection>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-8 sm:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Services Section avec les nouveaux composants -->
                 <HeroTitle title="Nos services" />
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 mb-16 sm:mb-24"
+                >
                     <ServiceCard
                         title="Montage PC Sur Mesure"
                         :iconComponent="montageIcon"
@@ -107,13 +109,13 @@ const devisIcon = `
                 </div>
 
                 <!-- Reviews Section -->
-                <div class="mt-20">
+                <div class="mt-12 sm:mt-20">
                     <HeroTitle title="Ce que nos clients disent" />
 
                     <!-- Alert de succès -->
                     <div
                         v-if="successMessage"
-                        class="mb-6 bg-green-600/80 text-white p-4 rounded-lg text-center"
+                        class="mb-4 sm:mb-6 bg-green-600/80 text-white p-3 sm:p-4 rounded-lg text-center mx-4 sm:mx-0"
                     >
                         {{ successMessage }}
                     </div>
@@ -123,8 +125,10 @@ const devisIcon = `
                         <ReviewForm @submitted="handleReviewSubmitted" />
                     </div>
 
-                    <div v-else class="text-center mb-8">
-                        <p class="text-white/70 mb-4">
+                    <div v-else class="text-center mb-6 sm:mb-8 px-4 sm:px-0">
+                        <p
+                            class="text-white/70 mb-3 sm:mb-4 text-sm sm:text-base"
+                        >
                             Aucun avis pour le moment. Soyez le premier à
                             partager votre expérience !
                         </p>

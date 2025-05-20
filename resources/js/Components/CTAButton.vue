@@ -21,7 +21,7 @@ defineProps({
     <Link
         :href="href"
         :class="[
-            'inline-flex items-center justify-center px-6 py-3 border text-lg font-medium rounded-md text-white transition duration-300',
+            'inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border text-base sm:text-lg font-medium rounded-md text-white transition duration-300',
             primary
                 ? 'main-cta-button border-transparent'
                 : 'border-led-green hover:bg-led-green/10',
@@ -30,7 +30,7 @@ defineProps({
         <svg
             v-if="icon"
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 mr-2"
+            class="h-5 w-5 sm:h-6 sm:w-6 mr-1 sm:mr-2"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -57,5 +57,15 @@ defineProps({
 
 .main-cta-button:active {
     transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+    .main-cta-button {
+        box-shadow: 0 0 10px rgba(236, 64, 122, 0.4);
+    }
+
+    .main-cta-button:hover {
+        box-shadow: 0 0 15px rgba(236, 64, 122, 0.6);
+    }
 }
 </style>

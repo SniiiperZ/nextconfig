@@ -10,14 +10,16 @@ defineProps({
     },
     marginBottom: {
         type: String,
-        default: "mb-10",
+        default: "mb-6 sm:mb-8 md:mb-10",
     },
 });
 </script>
 
 <template>
     <div :class="[centered ? 'flex justify-center' : '', marginBottom]">
-        <h2 class="text-4xl font-play text-gaming-red section-title">
+        <h2
+            class="text-3xl sm:text-3xl md:text-4xl font-play text-gaming-red section-title px-4"
+        >
             {{ title }}
         </h2>
     </div>
@@ -30,6 +32,7 @@ defineProps({
     padding-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
 }
 
 .section-title::after {
@@ -45,5 +48,11 @@ defineProps({
         rgba(236, 64, 122, 0.8),
         transparent
     );
+}
+
+@media (max-width: 640px) {
+    .section-title::after {
+        height: 2px;
+    }
 }
 </style>

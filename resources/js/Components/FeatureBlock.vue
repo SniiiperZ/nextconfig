@@ -21,11 +21,13 @@ defineProps({
 
 <template>
     <div
-        class="bg-deep-black p-8 rounded-lg border border-gaming-red hover-card"
+        class="bg-deep-black p-4 sm:p-6 md:p-8 rounded-lg border border-gaming-red hover-card"
     >
-        <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div class="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-center">
             <div v-if="!imageRight" class="animate-fade-in-left">
-                <h3 class="text-2xl font-play text-led-green mb-6">
+                <h3
+                    class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6"
+                >
                     {{ title }}
                 </h3>
                 <slot></slot>
@@ -36,23 +38,25 @@ defineProps({
                     'flex justify-center',
                     !imageRight
                         ? 'animate-fade-in-right'
-                        : 'order-2 md:order-1 animate-fade-in-left',
+                        : 'order-first md:order-last animate-fade-in-left',
                 ]"
             >
                 <div class="service-image">
                     <img
                         :src="image"
                         :alt="imageAlt"
-                        class="rounded-lg shadow-glow"
+                        class="rounded-lg shadow-glow w-full"
                     />
                 </div>
             </div>
 
             <div
                 v-if="imageRight"
-                :class="['order-1 md:order-2 animate-fade-in-right']"
+                :class="['order-last md:order-first animate-fade-in-right']"
             >
-                <h3 class="text-2xl font-play text-led-green mb-6">
+                <h3
+                    class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6"
+                >
                     {{ title }}
                 </h3>
                 <slot></slot>
@@ -71,6 +75,14 @@ defineProps({
     transform: translateY(-5px);
 }
 
+@media (max-width: 768px) {
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+}
+
 .service-image {
     position: relative;
     display: inline-block;
@@ -82,12 +94,24 @@ defineProps({
 }
 
 .shadow-glow {
-    box-shadow: 0 0 20px rgba(236, 64, 122, 0.5);
+    box-shadow: 0 0 15px rgba(236, 64, 122, 0.5);
     transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .shadow-glow {
+        box-shadow: 0 0 10px rgba(236, 64, 122, 0.5);
+    }
 }
 
 .service-image:hover .shadow-glow {
     box-shadow: 0 0 30px rgba(236, 64, 122, 0.8);
+}
+
+@media (max-width: 768px) {
+    .service-image:hover .shadow-glow {
+        box-shadow: 0 0 20px rgba(236, 64, 122, 0.8);
+    }
 }
 
 .animate-fade-in-left {
@@ -117,6 +141,30 @@ defineProps({
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 }
 </style>

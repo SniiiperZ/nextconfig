@@ -68,23 +68,28 @@ const sortedComponents = computed(() => {
 </script>
 
 <template>
-    <div class="space-y-3">
+    <div class="space-y-2 sm:space-y-3">
         <div
             v-for="(amount, component) in sortedComponents"
             :key="component"
-            class="flex items-center component-row p-2 hover:bg-gaming-red/5 transition-colors duration-300 rounded"
+            class="flex items-center component-row p-1.5 sm:p-2 hover:bg-gaming-red/5 transition-colors duration-300 rounded"
         >
             <span
-                class="text-white/90 w-32 flex items-center text-sm font-medium"
+                class="text-white/90 w-24 sm:w-32 flex items-center text-xs sm:text-sm font-medium"
             >
-                <span v-html="componentIcons[component]"></span>
-                {{ componentLabels[component] || component }}
+                <span
+                    class="mr-1 sm:mr-2"
+                    v-html="componentIcons[component]"
+                ></span>
+                <span class="truncate">{{
+                    componentLabels[component] || component
+                }}</span>
             </span>
 
-            <div class="flex-grow mx-4 relative">
+            <div class="flex-grow mx-2 sm:mx-4 relative">
                 <!-- Barre de fond grisée représentant la plage totale possible -->
                 <div
-                    class="w-full h-2 bg-deep-black border border-gaming-red/20 rounded-full overflow-hidden"
+                    class="w-full h-1.5 sm:h-2 bg-deep-black border border-gaming-red/20 rounded-full overflow-hidden"
                 >
                     <!-- Barre de progression colorée représentant la valeur actuelle -->
                     <div
@@ -98,7 +103,8 @@ const sortedComponents = computed(() => {
             </div>
 
             <!-- Utiliser une largeur fixe pour éviter les décalages -->
-            <span class="font-medium text-led-green w-20 text-right"
+            <span
+                class="font-medium text-led-green w-16 sm:w-20 text-right text-xs sm:text-sm"
                 >{{ amount }}€</span
             >
         </div>
@@ -113,5 +119,25 @@ const sortedComponents = computed(() => {
 .component-row:hover {
     background: rgba(236, 64, 122, 0.05);
     transform: translateX(5px);
+}
+
+/* Ajustement des icônes SVG */
+:deep(svg) {
+    width: 16px;
+    height: 16px;
+}
+
+@media (min-width: 640px) {
+    :deep(svg) {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Ajustements responsive pour mobile */
+@media (max-width: 640px) {
+    .component-row:hover {
+        transform: translateX(3px);
+    }
 }
 </style>

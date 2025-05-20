@@ -26,18 +26,18 @@ const toggle = () => {
     >
         <button
             @click="toggle"
-            class="w-full px-6 py-4 flex justify-between items-center bg-deep-black hover:bg-gray-900/50 transition-all duration-300"
+            class="w-full px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center bg-deep-black hover:bg-gray-900/50 transition-all duration-300"
             :class="{ 'active-accordion': isOpen }"
         >
             <h3
-                class="text-xl font-play font-semibold text-left transition-colors duration-300"
+                class="text-base sm:text-lg md:text-xl font-play font-semibold text-left transition-colors duration-300 pr-2"
                 :class="isOpen ? 'text-gaming-red' : 'text-led-green'"
             >
                 {{ title }}
             </h3>
-            <div class="accordion-icon-wrapper">
+            <div class="accordion-icon-wrapper flex-shrink-0">
                 <svg
-                    class="w-5 h-5 transform transition-all duration-300"
+                    class="w-4 h-4 sm:w-5 sm:h-5 transform transition-all duration-300"
                     :class="{
                         'rotate-180 text-gaming-red': isOpen,
                         'text-led-green': !isOpen,
@@ -65,7 +65,7 @@ const toggle = () => {
             leave-to="opacity-0 max-h-0"
         >
             <div
-                class="px-6 py-5 bg-deep-black/50 border-t border-gaming-red/30 accordion-content"
+                class="px-4 sm:px-6 py-4 sm:py-5 bg-deep-black/50 border-t border-gaming-red/30 accordion-content"
             >
                 <slot></slot>
             </div>
@@ -95,11 +95,18 @@ const toggle = () => {
 
 .accordion-icon-wrapper {
     position: relative;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .accordion-icon-wrapper {
+        width: 24px;
+        height: 24px;
+    }
 }
 
 .shadow-glow-sm {
@@ -130,5 +137,20 @@ const toggle = () => {
         rgba(236, 64, 122, 0.6),
         transparent
     );
+}
+
+/* Ajustements responsive pour appareils mobiles */
+@media (max-width: 480px) {
+    .accordion-container:hover {
+        transform: translateY(-1px);
+    }
+
+    .shadow-glow-sm {
+        box-shadow: 0 0 5px rgba(236, 64, 122, 0.2);
+    }
+
+    .accordion-container:hover .shadow-glow-sm {
+        box-shadow: 0 0 10px rgba(236, 64, 122, 0.4);
+    }
 }
 </style>

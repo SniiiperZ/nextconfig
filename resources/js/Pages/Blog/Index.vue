@@ -45,32 +45,34 @@ const readingTime = (content) => {
             height="min-h-50vh"
         />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-8 sm:py-10 md:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Featured Posts -->
                 <div
                     v-if="
                         posts.length && posts.some((post) => post.is_featured)
                     "
-                    class="mb-16"
+                    class="mb-8 sm:mb-12 md:mb-16"
                 >
                     <HeroTitle
                         title="Articles à la une"
                         :centered="true"
-                        marginBottom="mb-10"
+                        marginBottom="mb-6 sm:mb-8 md:mb-10"
                     />
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8"
+                    >
                         <div
                             v-for="post in posts
                                 .filter((p) => p.is_featured)
                                 .slice(0, 2)"
                             :key="post.id"
-                            class="featured-post bg-deep-black border border-gaming-red rounded-lg overflow-hidden hover-card"
+                            class="featured-post bg-deep-black border border-gaming-red rounded-lg overflow-hidden hover-card animate-fade-in"
                         >
                             <!-- Image -->
                             <div
-                                class="h-64 overflow-hidden relative card-image-container"
+                                class="h-48 sm:h-56 md:h-64 overflow-hidden relative card-image-container"
                             >
                                 <img
                                     v-if="post.featured_image"
@@ -93,35 +95,41 @@ const readingTime = (content) => {
                             </div>
 
                             <!-- Content -->
-                            <div class="p-6">
-                                <div class="flex flex-wrap gap-2 mb-3">
+                            <div class="p-4 sm:p-5 md:p-6">
+                                <div
+                                    class="flex flex-wrap gap-1.5 sm:gap-2 mb-2 sm:mb-3"
+                                >
                                     <span
                                         v-for="tag in post.tags"
                                         :key="tag.id"
-                                        class="text-xs bg-gaming-red/20 text-led-green px-2 py-1 rounded"
+                                        class="text-xs bg-gaming-red/20 text-led-green px-1.5 sm:px-2 py-0.5 sm:py-1 rounded"
                                     >
                                         {{ tag.name }}
                                     </span>
                                 </div>
 
                                 <h2
-                                    class="text-2xl font-play text-led-green mb-2 hover-glow"
+                                    class="text-xl sm:text-2xl font-play text-led-green mb-1.5 sm:mb-2 hover-glow line-clamp-2"
                                 >
                                     {{ post.title }}
                                 </h2>
 
-                                <div class="text-white/60 text-sm mb-3">
+                                <div
+                                    class="text-white/60 text-xs sm:text-sm mb-2 sm:mb-3"
+                                >
                                     <span>{{
                                         formatDate(post.created_at)
                                     }}</span>
-                                    <span class="mx-2">•</span>
+                                    <span class="mx-1 sm:mx-2">•</span>
                                     <span
                                         >{{ readingTime(post.content) }} min de
                                         lecture</span
                                     >
                                 </div>
 
-                                <p class="text-white/80 mb-4 line-clamp-3">
+                                <p
+                                    class="text-white/80 text-sm sm:text-base mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-3"
+                                >
                                     {{
                                         post.excerpt ||
                                         post.content
@@ -132,12 +140,14 @@ const readingTime = (content) => {
 
                                 <Link
                                     :href="route('blog.show', post.slug)"
-                                    class="inline-flex items-center text-gaming-red hover:text-white transition group"
+                                    class="inline-flex items-center text-sm sm:text-base text-gaming-red hover:text-white transition group"
                                 >
-                                    <span class="mr-2">Lire l'article</span>
+                                    <span class="mr-1.5 sm:mr-2"
+                                        >Lire l'article</span
+                                    >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-200"
+                                        class="h-4 w-4 sm:h-5 sm:w-5 transform group-hover:translate-x-1 transition-transform duration-200"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -156,16 +166,16 @@ const readingTime = (content) => {
                 </div>
 
                 <!-- Latest Posts -->
-                <div class="mb-16">
+                <div class="mb-8 sm:mb-12 md:mb-16">
                     <HeroTitle
                         title="Derniers articles"
                         :centered="true"
-                        marginBottom="mb-10"
+                        marginBottom="mb-6 sm:mb-8 md:mb-10"
                     />
 
                     <div
                         v-if="posts.length"
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
                     >
                         <div
                             v-for="post in posts"
@@ -174,7 +184,7 @@ const readingTime = (content) => {
                         >
                             <!-- Image -->
                             <div
-                                class="h-48 overflow-hidden relative card-image-container"
+                                class="h-40 sm:h-44 md:h-48 overflow-hidden relative card-image-container"
                             >
                                 <img
                                     v-if="post.featured_image"
@@ -193,11 +203,11 @@ const readingTime = (content) => {
 
                                 <!-- Overlay avec effet de brillance -->
                                 <div
-                                    class="absolute inset-0 bg-gradient-to-t from-deep-black to-transparent opacity-0 hover:opacity-70 transition-opacity duration-300 flex items-end justify-center p-4"
+                                    class="absolute inset-0 bg-gradient-to-t from-deep-black to-transparent opacity-0 hover:opacity-70 transition-opacity duration-300 flex items-end justify-center p-3 sm:p-4"
                                 >
                                     <Link
                                         :href="route('blog.show', post.slug)"
-                                        class="px-4 py-2 bg-gaming-red text-white rounded-md transform translate-y-4 opacity-0 transition-all duration-300 view-details-btn"
+                                        class="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-gaming-red text-white text-xs sm:text-sm rounded-md transform translate-y-4 opacity-0 transition-all duration-300 view-details-btn"
                                     >
                                         Lire l'article
                                     </Link>
@@ -205,28 +215,32 @@ const readingTime = (content) => {
                             </div>
 
                             <!-- Contenu -->
-                            <div class="p-6">
-                                <div class="flex flex-wrap gap-2 mb-3">
+                            <div class="p-4 sm:p-5 md:p-6">
+                                <div
+                                    class="flex flex-wrap gap-1.5 sm:gap-2 mb-2 sm:mb-3"
+                                >
                                     <span
                                         v-for="tag in post.tags"
                                         :key="tag.id"
-                                        class="text-xs bg-gaming-red/20 text-led-green px-2 py-1 rounded"
+                                        class="text-xs bg-gaming-red/20 text-led-green px-1.5 sm:px-2 py-0.5 sm:py-1 rounded"
                                     >
                                         {{ tag.name }}
                                     </span>
                                 </div>
 
                                 <h2
-                                    class="text-xl font-play text-led-green mb-2 group-hover:text-gaming-red transition-colors duration-300"
+                                    class="text-lg sm:text-xl font-play text-led-green mb-1.5 sm:mb-2 group-hover:text-gaming-red transition-colors duration-300 line-clamp-2"
                                 >
                                     {{ post.title }}
                                 </h2>
 
-                                <div class="text-white/60 text-sm mb-3">
+                                <div
+                                    class="text-white/60 text-xs sm:text-sm mb-2 sm:mb-3"
+                                >
                                     <span>{{
                                         formatDate(post.created_at)
                                     }}</span>
-                                    <span class="mx-2">•</span>
+                                    <span class="mx-1 sm:mx-2">•</span>
                                     <span
                                         >{{ readingTime(post.content) }} min de
                                         lecture</span
@@ -234,30 +248,26 @@ const readingTime = (content) => {
                                 </div>
 
                                 <p
-                                    v-if="post.excerpt"
-                                    class="text-white/80 mb-4 line-clamp-3"
-                                >
-                                    {{ post.excerpt }}
-                                </p>
-                                <p
-                                    v-else
-                                    class="text-white/80 mb-4 line-clamp-3"
+                                    class="text-white/80 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-3"
                                 >
                                     {{
+                                        post.excerpt ||
                                         post.content
                                             .replace(/<[^>]*>?/gm, "")
-                                            .substring(0, 150)
-                                    }}...
+                                            .substring(0, 150) + "..."
+                                    }}
                                 </p>
 
                                 <Link
                                     :href="route('blog.show', post.slug)"
-                                    class="inline-flex items-center text-gaming-red hover:text-white transition group"
+                                    class="inline-flex items-center text-xs sm:text-sm text-gaming-red hover:text-white transition group"
                                 >
-                                    <span class="mr-1">Lire la suite</span>
+                                    <span class="mr-1 sm:mr-1.5"
+                                        >Lire la suite</span
+                                    >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-200"
+                                        class="h-3.5 w-3.5 sm:h-4 sm:w-4 transform group-hover:translate-x-1 transition-transform duration-200"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -275,13 +285,16 @@ const readingTime = (content) => {
                     </div>
 
                     <!-- Message si aucun article n'est disponible -->
-                    <div v-if="!posts.length" class="text-center py-12">
+                    <div
+                        v-if="!posts.length"
+                        class="text-center py-8 sm:py-10 md:py-12"
+                    >
                         <div
-                            class="inline-block p-8 border border-gaming-red/50 rounded-lg bg-deep-black/50 shadow-glow"
+                            class="inline-block p-5 sm:p-6 md:p-8 border border-gaming-red/50 rounded-lg bg-deep-black/50 shadow-glow"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                class="h-12 w-12 text-gaming-red/70 mx-auto mb-4"
+                                class="h-10 w-10 sm:h-12 sm:w-12 text-gaming-red/70 mx-auto mb-3 sm:mb-4"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -293,7 +306,9 @@ const readingTime = (content) => {
                                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                                 />
                             </svg>
-                            <p class="text-white/70 text-lg">
+                            <p
+                                class="text-white/70 text-sm sm:text-base md:text-lg"
+                            >
                                 Aucun article n'est disponible pour le moment.
                             </p>
                         </div>
@@ -375,5 +390,55 @@ const readingTime = (content) => {
 
 .shadow-glow {
     box-shadow: 0 0 20px rgba(236, 64, 122, 0.4);
+}
+
+/* Animation d'entrée pour les blocs de contenu */
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajustements responsive pour les appareils mobiles */
+@media (max-width: 640px) {
+    .blog-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+
+    .hover-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px rgba(236, 64, 122, 0.3);
+    }
+
+    .hover-glow:hover {
+        text-shadow: 0 0 5px rgba(236, 64, 122, 0.4);
+    }
+
+    .shadow-glow {
+        box-shadow: 0 0 10px rgba(236, 64, 122, 0.3);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(6px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }
 </style>

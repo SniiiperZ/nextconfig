@@ -123,16 +123,16 @@ watch(
     >
         <div
             v-if="isVisible"
-            class="fixed z-50 max-w-sm w-full shadow-lg rounded-lg pointer-events-auto border"
+            class="fixed z-50 max-w-xs sm:max-w-sm w-full shadow-lg rounded-lg pointer-events-auto border"
             :class="[positionClasses, typeClasses]"
         >
-            <div class="p-4">
+            <div class="p-3 sm:p-4">
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
                         <!-- Icônes pour chaque type de toast -->
                         <svg
                             v-if="type === 'success'"
-                            class="h-6 w-6"
+                            class="h-5 w-5 sm:h-6 sm:w-6"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -147,7 +147,7 @@ watch(
                         </svg>
                         <svg
                             v-else-if="type === 'error'"
-                            class="h-6 w-6"
+                            class="h-5 w-5 sm:h-6 sm:w-6"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -162,7 +162,7 @@ watch(
                         </svg>
                         <svg
                             v-else-if="type === 'warning'"
-                            class="h-6 w-6"
+                            class="h-5 w-5 sm:h-6 sm:w-6"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -177,7 +177,7 @@ watch(
                         </svg>
                         <svg
                             v-else-if="type === 'info'"
-                            class="h-6 w-6"
+                            class="h-5 w-5 sm:h-6 sm:w-6"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -191,19 +191,19 @@ watch(
                             />
                         </svg>
                     </div>
-                    <div class="ml-3 w-0 flex-1">
-                        <p class="text-sm font-medium">
+                    <div class="ml-2 sm:ml-3 w-0 flex-1">
+                        <p class="text-xs sm:text-sm font-medium">
                             {{ message }}
                         </p>
                     </div>
-                    <div class="ml-4 flex-shrink-0 flex">
+                    <div class="ml-3 sm:ml-4 flex-shrink-0 flex">
                         <button
                             @click="closeToast"
                             class="inline-flex hover:opacity-70 transition-opacity"
                         >
                             <span class="sr-only">Fermer</span>
                             <svg
-                                class="h-5 w-5"
+                                class="h-4 w-4 sm:h-5 sm:w-5"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
