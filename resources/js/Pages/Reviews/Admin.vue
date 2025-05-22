@@ -214,11 +214,13 @@ const formatDate = (dateString) => {
 <template>
     <AdminLayout title="Gestion des Avis">
         <template #header>
-            <div class="flex justify-between items-center">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
                 <h2 class="font-semibold text-xl text-white leading-tight">
                     Gestion des Avis Clients
                 </h2>
-                <div class="relative">
+                <div class="relative w-full sm:w-auto">
                     <div
                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                     >
@@ -238,11 +240,11 @@ const formatDate = (dateString) => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Formulaire d'ajout/modification d'avis -->
                 <div
                     id="review-form"
-                    class="bg-deep-black p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
+                    class="bg-deep-black p-4 sm:p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
                 >
                     <h3
                         class="text-xl font-play font-semibold text-led-green mb-4"
@@ -359,7 +361,9 @@ const formatDate = (dateString) => {
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+                        >
                             <div>
                                 <label class="block text-white mb-2 font-medium"
                                     >Ordre d'affichage</label
@@ -439,7 +443,7 @@ const formatDate = (dateString) => {
                             </div>
                         </div>
 
-                        <div class="flex gap-4 pt-2">
+                        <div class="flex flex-wrap gap-4 pt-2">
                             <button
                                 type="submit"
                                 class="bg-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/90 transition duration-150 flex items-center"
@@ -490,8 +494,9 @@ const formatDate = (dateString) => {
                 </div>
 
                 <div v-else class="space-y-4">
+                    <!-- En-têtes du tableau - visible uniquement sur desktop -->
                     <div
-                        class="bg-gaming-red/20 p-4 rounded-lg mb-4 grid grid-cols-12 gap-4 items-center font-semibold text-white"
+                        class="hidden lg:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-12 gap-4 items-center font-semibold text-white"
                     >
                         <div
                             class="col-span-3 flex items-center cursor-pointer"
@@ -575,16 +580,217 @@ const formatDate = (dateString) => {
                         <div class="col-span-2 text-center">Actions</div>
                     </div>
 
+                    <!-- Barre de tri mobile visible uniquement sur petit écran -->
+                    <div
+                        class="lg:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
+                    >
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm font-medium">Trier par:</div>
+                            <div class="flex gap-2 flex-wrap">
+                                <button
+                                    @click="toggleSort('name')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'name',
+                                        'bg-deep-black/30': sortBy !== 'name',
+                                    }"
+                                >
+                                    Client
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'name' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'name' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('rating')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'rating',
+                                        'bg-deep-black/30': sortBy !== 'rating',
+                                    }"
+                                >
+                                    Note
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'rating' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'rating' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('is_approved')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'is_approved',
+                                        'bg-deep-black/30':
+                                            sortBy !== 'is_approved',
+                                    }"
+                                >
+                                    Statut
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'is_approved' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'is_approved' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <transition-group name="list" tag="div" class="space-y-4">
                         <div
                             v-for="review in filteredReviews"
                             :key="review.id"
-                            class="bg-deep-black p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
+                            class="bg-deep-black p-4 sm:p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
                             :class="{
                                 'border-yellow-500/50': review.is_featured,
                             }"
                         >
-                            <div class="grid grid-cols-12 gap-4 items-start">
+                            <!-- Vue mobile/tablette (structure en carte) -->
+                            <div class="lg:hidden">
+                                <div class="mb-3">
+                                    <h4
+                                        class="text-lg font-play font-semibold text-led-green"
+                                    >
+                                        {{ review.name }}
+                                    </h4>
+                                    <p
+                                        v-if="review.email"
+                                        class="text-white/60 text-sm mt-1"
+                                    >
+                                        {{ review.email }}
+                                    </p>
+
+                                    <div
+                                        class="flex space-x-2 items-center mt-2"
+                                    >
+                                        <div
+                                            class="flex text-yellow-400 space-x-0.5"
+                                        >
+                                            <span
+                                                v-for="star in 5"
+                                                :key="star"
+                                                :class="
+                                                    star <= review.rating
+                                                        ? 'text-yellow-400'
+                                                        : 'text-gray-600'
+                                                "
+                                                >★</span
+                                            >
+                                        </div>
+
+                                        <span
+                                            v-if="review.is_featured"
+                                            class="bg-yellow-600/30 text-yellow-400 px-2 py-0.5 text-xs rounded-full"
+                                        >
+                                            Mis en avant
+                                        </span>
+                                    </div>
+
+                                    <p class="text-white/80 mt-3">
+                                        {{ review.comment }}
+                                    </p>
+
+                                    <div class="flex flex-wrap gap-2 mt-3">
+                                        <span class="text-white/80 text-sm">
+                                            Ajouté le
+                                            {{ formatDate(review.created_at) }}
+                                        </span>
+
+                                        <span
+                                            v-if="review.order > 0"
+                                            class="bg-deep-black border border-gaming-red/50 px-2 py-0.5 text-xs rounded-full text-white"
+                                        >
+                                            Ordre: {{ review.order }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="flex flex-wrap justify-between items-center gap-y-3 mt-4 pt-3 border-t border-gaming-red/20"
+                                >
+                                    <div>
+                                        <span
+                                            v-if="review.is_approved"
+                                            class="bg-led-green/20 text-led-green px-3 py-1 rounded-full inline-block"
+                                        >
+                                            Approuvé
+                                        </span>
+                                        <span
+                                            v-else
+                                            class="bg-gaming-red/20 text-gaming-red px-3 py-1 rounded-full inline-block"
+                                        >
+                                            En attente
+                                        </span>
+                                    </div>
+
+                                    <div class="flex gap-2">
+                                        <button
+                                            v-if="!review.is_approved"
+                                            @click="approveReview(review)"
+                                            class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition-colors duration-200"
+                                            title="Approuver"
+                                        >
+                                            ✓
+                                        </button>
+                                        <button
+                                            v-if="review.is_approved"
+                                            @click="rejectReview(review)"
+                                            class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                            title="Suspendre"
+                                        >
+                                            ⏸
+                                        </button>
+                                        <button
+                                            @click="editReview(review)"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                        >
+                                            Éditer
+                                        </button>
+                                        <button
+                                            @click="confirmDelete(review)"
+                                            class="bg-gaming-red hover:bg-red-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                        >
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vue desktop (structure en grille) -->
+                            <div
+                                class="hidden lg:grid grid-cols-12 gap-4 items-start"
+                            >
                                 <div class="col-span-3">
                                     <h4
                                         class="text-lg font-play font-semibold text-led-green"
@@ -730,27 +936,29 @@ const formatDate = (dateString) => {
                             leave-to="opacity-0 scale-95"
                         >
                             <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-6 text-left align-middle shadow-xl transition-all"
+                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-4 sm:p-6 text-left align-middle shadow-xl transition-all"
                             >
                                 <div
                                     class="flex items-center justify-center mb-5 text-gaming-red"
                                 >
                                     <ExclamationTriangleIcon
-                                        class="h-12 w-12"
+                                        class="h-10 w-10 sm:h-12 sm:w-12"
                                     />
                                 </div>
 
                                 <div class="text-center">
                                     <h3
-                                        class="text-xl font-medium text-white mb-4"
+                                        class="text-lg sm:text-xl font-medium text-white mb-4"
                                     >
                                         Confirmer la suppression
                                     </h3>
-                                    <p class="text-white/70 mb-6">
+                                    <p
+                                        class="text-white/70 mb-6 text-sm sm:text-base"
+                                    >
                                         Êtes-vous sûr de vouloir supprimer
                                         l'avis de : <br />
                                         <span
-                                            class="font-semibold text-led-green"
+                                            class="font-semibold text-led-green break-words"
                                             >{{ reviewToDelete?.name }}</span
                                         >
                                     </p>
@@ -759,13 +967,13 @@ const formatDate = (dateString) => {
                                 <div class="flex justify-center gap-4 mt-6">
                                     <button
                                         @click="showDeleteModal = false"
-                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-4 py-2 text-white hover:bg-gaming-red/10 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/10 transition-colors"
                                     >
                                         Annuler
                                     </button>
                                     <button
                                         @click="deleteReview"
-                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-4 py-2 text-white hover:bg-gaming-red/90 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/90 transition-colors"
                                     >
                                         Supprimer
                                     </button>

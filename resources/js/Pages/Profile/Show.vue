@@ -14,15 +14,19 @@ defineProps({
 </script>
 
 <template>
-    <AdminLayout title="Profile">
+    <AdminLayout title="Profil">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Profile
-            </h2>
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
+                <h2 class="font-semibold text-xl text-white leading-tight">
+                    Paramètres du profil
+                </h2>
+            </div>
         </template>
 
         <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateProfileInformationForm
                         :user="$page.props.auth.user"
@@ -32,7 +36,7 @@ defineProps({
                 </div>
 
                 <div v-if="$page.props.jetstream.canUpdatePassword">
-                    <UpdatePasswordForm class="mt-10 sm:mt-0" />
+                    <UpdatePasswordForm class="mt-6 sm:mt-10" />
 
                     <SectionBorder />
                 </div>
@@ -44,7 +48,7 @@ defineProps({
                 >
                     <TwoFactorAuthenticationForm
                         :requires-confirmation="confirmsTwoFactorAuthentication"
-                        class="mt-10 sm:mt-0"
+                        class="mt-6 sm:mt-10"
                     />
 
                     <SectionBorder />
@@ -52,7 +56,7 @@ defineProps({
 
                 <LogoutOtherBrowserSessionsForm
                     :sessions="sessions"
-                    class="mt-10 sm:mt-0"
+                    class="mt-6 sm:mt-10"
                 />
 
                 <template
@@ -60,7 +64,7 @@ defineProps({
                 >
                     <SectionBorder />
 
-                    <DeleteUserForm class="mt-10 sm:mt-0" />
+                    <DeleteUserForm class="mt-6 sm:mt-10" />
                 </template>
             </div>
         </div>

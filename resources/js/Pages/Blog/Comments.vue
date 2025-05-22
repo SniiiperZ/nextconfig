@@ -162,11 +162,13 @@ const truncateText = (text, length = 100) => {
 <template>
     <AdminLayout title="Gestion des commentaires">
         <template #header>
-            <div class="flex justify-between items-center">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
                 <h2 class="font-semibold text-xl text-white leading-tight">
                     Modération des commentaires
                 </h2>
-                <div class="relative">
+                <div class="relative w-full sm:w-auto">
                     <div
                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                     >
@@ -186,13 +188,15 @@ const truncateText = (text, length = 100) => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Onglets de navigation -->
-                <div class="flex border-b border-gaming-red mb-6">
+                <div
+                    class="flex border-b border-gaming-red mb-6 overflow-x-auto"
+                >
                     <button
                         @click="activeTab = 'pending'"
                         :class="[
-                            'py-2 px-4 font-medium text-sm focus:outline-none',
+                            'py-2 px-4 font-medium text-sm focus:outline-none whitespace-nowrap',
                             activeTab === 'pending'
                                 ? 'border-b-2 border-gaming-red text-gaming-red'
                                 : 'text-white/70 hover:text-white hover:border-gaming-red/50 hover:border-b',
@@ -209,7 +213,7 @@ const truncateText = (text, length = 100) => {
                     <button
                         @click="activeTab = 'approved'"
                         :class="[
-                            'py-2 px-4 font-medium text-sm focus:outline-none',
+                            'py-2 px-4 font-medium text-sm focus:outline-none whitespace-nowrap',
                             activeTab === 'approved'
                                 ? 'border-b-2 border-led-green text-led-green'
                                 : 'text-white/70 hover:text-white hover:border-led-green/50 hover:border-b',
@@ -245,8 +249,9 @@ const truncateText = (text, length = 100) => {
                     </div>
 
                     <div v-else class="space-y-4">
+                        <!-- En-têtes du tableau - visibles uniquement sur desktop -->
                         <div
-                            class="bg-gaming-red/20 p-4 rounded-lg mb-4 grid grid-cols-12 gap-4 items-center font-semibold text-white"
+                            class="hidden lg:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-12 gap-4 items-center font-semibold text-white"
                         >
                             <div
                                 class="col-span-2 flex items-center cursor-pointer"
@@ -331,6 +336,97 @@ const truncateText = (text, length = 100) => {
                             <div class="col-span-1 text-center">Actions</div>
                         </div>
 
+                        <!-- Barre de tri mobile visible uniquement sur petit écran -->
+                        <div
+                            class="lg:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
+                        >
+                            <div class="flex justify-between items-center">
+                                <div class="text-sm font-medium">
+                                    Trier par:
+                                </div>
+                                <div class="flex gap-2 flex-wrap">
+                                    <button
+                                        @click="toggleSort('name')"
+                                        class="px-2 py-1 rounded text-sm flex items-center"
+                                        :class="{
+                                            'bg-led-green text-deep-black':
+                                                sortBy === 'name',
+                                            'bg-deep-black/30':
+                                                sortBy !== 'name',
+                                        }"
+                                    >
+                                        Auteur
+                                        <ArrowUpIcon
+                                            v-if="
+                                                sortBy === 'name' &&
+                                                sortDirection === 'asc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                        <ArrowDownIcon
+                                            v-else-if="
+                                                sortBy === 'name' &&
+                                                sortDirection === 'desc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                    </button>
+                                    <button
+                                        @click="toggleSort('post_title')"
+                                        class="px-2 py-1 rounded text-sm flex items-center"
+                                        :class="{
+                                            'bg-led-green text-deep-black':
+                                                sortBy === 'post_title',
+                                            'bg-deep-black/30':
+                                                sortBy !== 'post_title',
+                                        }"
+                                    >
+                                        Article
+                                        <ArrowUpIcon
+                                            v-if="
+                                                sortBy === 'post_title' &&
+                                                sortDirection === 'asc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                        <ArrowDownIcon
+                                            v-else-if="
+                                                sortBy === 'post_title' &&
+                                                sortDirection === 'desc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                    </button>
+                                    <button
+                                        @click="toggleSort('created_at')"
+                                        class="px-2 py-1 rounded text-sm flex items-center"
+                                        :class="{
+                                            'bg-led-green text-deep-black':
+                                                sortBy === 'created_at',
+                                            'bg-deep-black/30':
+                                                sortBy !== 'created_at',
+                                        }"
+                                    >
+                                        Date
+                                        <ArrowUpIcon
+                                            v-if="
+                                                sortBy === 'created_at' &&
+                                                sortDirection === 'asc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                        <ArrowDownIcon
+                                            v-else-if="
+                                                sortBy === 'created_at' &&
+                                                sortDirection === 'desc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <transition-group
                             name="list"
                             tag="div"
@@ -339,10 +435,77 @@ const truncateText = (text, length = 100) => {
                             <div
                                 v-for="comment in filteredPendingComments"
                                 :key="comment.id"
-                                class="bg-deep-black p-4 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
+                                class="bg-deep-black p-4 sm:p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
                             >
+                                <!-- Vue mobile/tablette (structure en carte) -->
+                                <div class="lg:hidden space-y-3">
+                                    <div>
+                                        <div
+                                            class="flex justify-between items-start"
+                                        >
+                                            <h4
+                                                class="text-base font-play font-semibold text-led-green"
+                                            >
+                                                {{ comment.name }}
+                                            </h4>
+                                            <div class="text-white/60 text-xs">
+                                                {{
+                                                    formatDate(
+                                                        comment.created_at
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="text-white/60 text-xs mt-1 break-all"
+                                        >
+                                            {{ comment.email }}
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="border-t border-b border-gaming-red/20 py-3"
+                                    >
+                                        <div class="mb-3">
+                                            <Link
+                                                :href="
+                                                    route(
+                                                        'blog.show',
+                                                        comment.blog_post.slug
+                                                    )
+                                                "
+                                                class="text-sm text-gaming-red hover:text-white transition-colors duration-200"
+                                            >
+                                                {{ comment.blog_post.title }}
+                                            </Link>
+                                        </div>
+
+                                        <p class="text-white/90 text-sm">
+                                            {{ comment.content }}
+                                        </p>
+                                    </div>
+
+                                    <div class="flex justify-center gap-2 pt-2">
+                                        <button
+                                            @click="approveComment(comment)"
+                                            class="bg-led-green hover:bg-led-green/90 text-deep-black px-4 py-2 rounded transition-colors duration-200 flex-1"
+                                        >
+                                            Approuver
+                                        </button>
+                                        <button
+                                            @click="
+                                                confirmDelete(comment, true)
+                                            "
+                                            class="bg-gaming-red hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-200 flex-1"
+                                        >
+                                            Rejeter
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Vue desktop (structure en grille) -->
                                 <div
-                                    class="grid grid-cols-12 gap-4 items-start"
+                                    class="hidden lg:grid grid-cols-12 gap-4 items-start"
                                 >
                                     <div class="col-span-2">
                                         <h4
@@ -436,8 +599,9 @@ const truncateText = (text, length = 100) => {
                     </div>
 
                     <div v-else class="space-y-4">
+                        <!-- En-têtes du tableau - visibles uniquement sur desktop -->
                         <div
-                            class="bg-gaming-red/20 p-4 rounded-lg mb-4 grid grid-cols-12 gap-4 items-center font-semibold text-white"
+                            class="hidden lg:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-12 gap-4 items-center font-semibold text-white"
                         >
                             <div
                                 class="col-span-2 flex items-center cursor-pointer"
@@ -522,6 +686,97 @@ const truncateText = (text, length = 100) => {
                             <div class="col-span-1 text-center">Actions</div>
                         </div>
 
+                        <!-- Barre de tri mobile visible uniquement sur petit écran -->
+                        <div
+                            class="lg:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
+                        >
+                            <div class="flex justify-between items-center">
+                                <div class="text-sm font-medium">
+                                    Trier par:
+                                </div>
+                                <div class="flex gap-2 flex-wrap">
+                                    <button
+                                        @click="toggleSort('name')"
+                                        class="px-2 py-1 rounded text-sm flex items-center"
+                                        :class="{
+                                            'bg-led-green text-deep-black':
+                                                sortBy === 'name',
+                                            'bg-deep-black/30':
+                                                sortBy !== 'name',
+                                        }"
+                                    >
+                                        Auteur
+                                        <ArrowUpIcon
+                                            v-if="
+                                                sortBy === 'name' &&
+                                                sortDirection === 'asc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                        <ArrowDownIcon
+                                            v-else-if="
+                                                sortBy === 'name' &&
+                                                sortDirection === 'desc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                    </button>
+                                    <button
+                                        @click="toggleSort('post_title')"
+                                        class="px-2 py-1 rounded text-sm flex items-center"
+                                        :class="{
+                                            'bg-led-green text-deep-black':
+                                                sortBy === 'post_title',
+                                            'bg-deep-black/30':
+                                                sortBy !== 'post_title',
+                                        }"
+                                    >
+                                        Article
+                                        <ArrowUpIcon
+                                            v-if="
+                                                sortBy === 'post_title' &&
+                                                sortDirection === 'asc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                        <ArrowDownIcon
+                                            v-else-if="
+                                                sortBy === 'post_title' &&
+                                                sortDirection === 'desc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                    </button>
+                                    <button
+                                        @click="toggleSort('created_at')"
+                                        class="px-2 py-1 rounded text-sm flex items-center"
+                                        :class="{
+                                            'bg-led-green text-deep-black':
+                                                sortBy === 'created_at',
+                                            'bg-deep-black/30':
+                                                sortBy !== 'created_at',
+                                        }"
+                                    >
+                                        Date
+                                        <ArrowUpIcon
+                                            v-if="
+                                                sortBy === 'created_at' &&
+                                                sortDirection === 'asc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                        <ArrowDownIcon
+                                            v-else-if="
+                                                sortBy === 'created_at' &&
+                                                sortDirection === 'desc'
+                                            "
+                                            class="h-3 w-3 ml-1"
+                                        />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <transition-group
                             name="list"
                             tag="div"
@@ -530,10 +785,69 @@ const truncateText = (text, length = 100) => {
                             <div
                                 v-for="comment in filteredApprovedComments"
                                 :key="comment.id"
-                                class="bg-deep-black p-4 rounded-lg shadow border border-led-green/10 hover:border-led-green/40 transition-all duration-300"
+                                class="bg-deep-black p-4 sm:p-6 rounded-lg shadow border border-led-green/10 hover:border-led-green/40 transition-all duration-300"
                             >
+                                <!-- Vue mobile/tablette (structure en carte) -->
+                                <div class="lg:hidden space-y-3">
+                                    <div>
+                                        <div
+                                            class="flex justify-between items-start"
+                                        >
+                                            <h4
+                                                class="text-base font-play font-semibold text-led-green"
+                                            >
+                                                {{ comment.name }}
+                                            </h4>
+                                            <div class="text-white/60 text-xs">
+                                                {{
+                                                    formatDate(
+                                                        comment.created_at
+                                                    )
+                                                }}
+                                            </div>
+                                        </div>
+                                        <p
+                                            class="text-white/60 text-xs mt-1 break-all"
+                                        >
+                                            {{ comment.email }}
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="border-t border-b border-led-green/20 py-3"
+                                    >
+                                        <div class="mb-3">
+                                            <Link
+                                                :href="
+                                                    route(
+                                                        'blog.show',
+                                                        comment.blog_post.slug
+                                                    )
+                                                "
+                                                class="text-sm text-gaming-red hover:text-white transition-colors duration-200"
+                                            >
+                                                {{ comment.blog_post.title }}
+                                            </Link>
+                                        </div>
+
+                                        <p class="text-white/90 text-sm">
+                                            {{ comment.content }}
+                                        </p>
+                                    </div>
+
+                                    <div class="flex justify-center gap-2 pt-2">
+                                        <button
+                                            @click="confirmDelete(comment)"
+                                            class="bg-gaming-red hover:bg-red-600 text-white px-4 py-2 rounded transition-colors duration-200 w-full sm:w-auto"
+                                        >
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Vue desktop (structure en grille) -->
                                 <div
-                                    class="grid grid-cols-12 gap-4 items-start"
+                                    class="hidden lg:grid grid-cols-12 gap-4 items-start"
                                 >
                                     <div class="col-span-2">
                                         <h4
@@ -639,19 +953,19 @@ const truncateText = (text, length = 100) => {
                             leave-to="opacity-0 scale-95"
                         >
                             <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-6 text-left align-middle shadow-xl transition-all"
+                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-4 sm:p-6 text-left align-middle shadow-xl transition-all"
                             >
                                 <div
                                     class="flex items-center justify-center mb-5 text-gaming-red"
                                 >
                                     <ExclamationTriangleIcon
-                                        class="h-12 w-12"
+                                        class="h-10 w-10 sm:h-12 sm:w-12"
                                     />
                                 </div>
 
                                 <div class="text-center">
                                     <h3
-                                        class="text-xl font-medium text-white mb-4"
+                                        class="text-lg sm:text-xl font-medium text-white mb-4"
                                     >
                                         Confirmer
                                         {{
@@ -660,7 +974,9 @@ const truncateText = (text, length = 100) => {
                                                 : "la suppression"
                                         }}
                                     </h3>
-                                    <p class="text-white/70 mb-6">
+                                    <p
+                                        class="text-white/70 mb-6 text-sm sm:text-base"
+                                    >
                                         Êtes-vous sûr de vouloir
                                         {{
                                             isRejection
@@ -669,7 +985,7 @@ const truncateText = (text, length = 100) => {
                                         }}
                                         ce commentaire de : <br />
                                         <span
-                                            class="font-semibold text-led-green"
+                                            class="font-semibold text-led-green break-words"
                                             >{{ commentToDelete?.name }}</span
                                         >
                                     </p>
@@ -686,13 +1002,13 @@ const truncateText = (text, length = 100) => {
                                 <div class="flex justify-center gap-4 mt-6">
                                     <button
                                         @click="showDeleteModal = false"
-                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-4 py-2 text-white hover:bg-gaming-red/10 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/10 transition-colors"
                                     >
                                         Annuler
                                     </button>
                                     <button
                                         @click="deleteComment"
-                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-4 py-2 text-white hover:bg-gaming-red/90 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/90 transition-colors"
                                     >
                                         {{
                                             isRejection

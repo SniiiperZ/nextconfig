@@ -300,11 +300,13 @@ const isMainImage = (index) => {
 <template>
     <AdminLayout title="Gestion du Portfolio">
         <template #header>
-            <div class="flex justify-between items-center">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
                 <h2 class="font-semibold text-xl text-white leading-tight">
                     Gestion du Portfolio
                 </h2>
-                <div class="relative">
+                <div class="relative w-full sm:w-auto">
                     <div
                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                     >
@@ -324,11 +326,11 @@ const isMainImage = (index) => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Formulaire -->
                 <div
                     id="portfolio-form"
-                    class="bg-deep-black p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
+                    class="bg-deep-black p-4 sm:p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
                 >
                     <h3
                         class="text-xl font-play font-semibold text-led-green mb-4"
@@ -513,7 +515,7 @@ const isMainImage = (index) => {
                                 </div>
 
                                 <div
-                                    class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6"
+                                    class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6"
                                 >
                                     <div>
                                         <label
@@ -591,7 +593,7 @@ const isMainImage = (index) => {
                             </div>
                         </div>
 
-                        <div class="flex gap-4 pt-2">
+                        <div class="flex flex-wrap gap-4 pt-2">
                             <button
                                 type="submit"
                                 class="bg-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/90 transition duration-150 flex items-center"
@@ -642,8 +644,9 @@ const isMainImage = (index) => {
                 </div>
 
                 <div v-else class="space-y-4">
+                    <!-- En-têtes du tableau - visibles uniquement sur desktop -->
                     <div
-                        class="bg-gaming-red/20 p-4 rounded-lg mb-4 grid grid-cols-12 gap-4 items-center font-semibold text-white"
+                        class="hidden lg:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-12 gap-4 items-center font-semibold text-white"
                     >
                         <div
                             class="col-span-3 flex items-center cursor-pointer"
@@ -709,13 +712,206 @@ const isMainImage = (index) => {
                         <div class="col-span-2 text-center">Actions</div>
                     </div>
 
+                    <!-- Barre de tri mobile visible uniquement sur petit écran -->
+                    <div
+                        class="lg:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
+                    >
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm font-medium">Trier par:</div>
+                            <div class="flex gap-2">
+                                <button
+                                    @click="toggleSort('title')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'title',
+                                        'bg-deep-black/30': sortBy !== 'title',
+                                    }"
+                                >
+                                    Titre
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'title' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'title' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('order')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'order',
+                                        'bg-deep-black/30': sortBy !== 'order',
+                                    }"
+                                >
+                                    Ordre
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'order' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'order' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('is_visible')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'is_visible',
+                                        'bg-deep-black/30':
+                                            sortBy !== 'is_visible',
+                                    }"
+                                >
+                                    Statut
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'is_visible' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'is_visible' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <transition-group name="list" tag="div" class="space-y-4">
                         <div
                             v-for="project in filteredProjects"
                             :key="project.id"
-                            class="bg-deep-black p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
+                            class="bg-deep-black p-4 sm:p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
                         >
-                            <div class="grid grid-cols-12 gap-4 items-start">
+                            <!-- Vue mobile/tablette (structure en carte) -->
+                            <div class="lg:hidden">
+                                <h3
+                                    class="text-xl font-play font-semibold text-led-green mb-2"
+                                >
+                                    {{ project.title }}
+                                </h3>
+                                <p class="text-white/80 mb-3">
+                                    {{ project.description }}
+                                </p>
+
+                                <!-- Images en version mobile -->
+                                <div
+                                    class="flex space-x-2 overflow-x-auto pb-2 mb-3"
+                                >
+                                    <div
+                                        v-for="(
+                                            image, idx
+                                        ) in project.images.slice(0, 4)"
+                                        :key="image.id"
+                                        class="w-20 h-20 flex-shrink-0 overflow-hidden rounded"
+                                        :class="
+                                            idx === 0
+                                                ? 'border-2 border-led-green'
+                                                : ''
+                                        "
+                                    >
+                                        <img
+                                            :src="`/storage/${image.image_path}`"
+                                            :alt="project.title"
+                                            class="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    <div
+                                        v-if="project.images.length > 4"
+                                        class="w-20 h-20 bg-deep-black border border-gaming-red/50 flex-shrink-0 flex items-center justify-center rounded text-white"
+                                    >
+                                        +{{ project.images.length - 4 }}
+                                    </div>
+                                    <div
+                                        v-if="!project.images.length"
+                                        class="w-20 h-20 bg-deep-black border border-gaming-red/50 flex-shrink-0 flex items-center justify-center rounded"
+                                    >
+                                        <span class="text-white/50 text-xs"
+                                            >Aucune image</span
+                                        >
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="flex flex-wrap gap-4 mt-4 justify-between items-center"
+                                >
+                                    <div class="flex flex-wrap gap-3">
+                                        <div>
+                                            <span
+                                                class="text-white text-sm mr-2"
+                                                >Ordre:</span
+                                            >
+                                            <span
+                                                class="bg-deep-black border border-gaming-red/50 px-3 py-1 rounded-full text-white"
+                                            >
+                                                {{ project.order }}
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span
+                                                v-if="project.is_visible"
+                                                class="bg-led-green/20 text-led-green px-3 py-1 rounded-full"
+                                            >
+                                                Visible
+                                            </span>
+                                            <span
+                                                v-else
+                                                class="bg-gaming-red/20 text-gaming-red px-3 py-1 rounded-full"
+                                            >
+                                                Masqué
+                                            </span>
+                                            <span
+                                                v-if="project.is_featured"
+                                                class="bg-gaming-red/20 text-gaming-red px-3 py-1 rounded-full"
+                                            >
+                                                Phare
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-2 mt-2 sm:mt-0">
+                                        <button
+                                            @click="editProject(project)"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                        >
+                                            Éditer
+                                        </button>
+                                        <button
+                                            @click="confirmDelete(project)"
+                                            class="bg-gaming-red hover:bg-red-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                        >
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vue desktop (structure en grille) -->
+                            <div
+                                class="hidden lg:grid grid-cols-12 gap-4 items-start"
+                            >
                                 <div class="col-span-3">
                                     <h3
                                         class="text-xl font-play font-semibold text-led-green mb-2"
@@ -853,27 +1049,29 @@ const isMainImage = (index) => {
                             leave-to="opacity-0 scale-95"
                         >
                             <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-6 text-left align-middle shadow-xl transition-all"
+                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-4 sm:p-6 text-left align-middle shadow-xl transition-all"
                             >
                                 <div
                                     class="flex items-center justify-center mb-5 text-gaming-red"
                                 >
                                     <ExclamationTriangleIcon
-                                        class="h-12 w-12"
+                                        class="h-10 w-10 sm:h-12 sm:w-12"
                                     />
                                 </div>
 
                                 <div class="text-center">
                                     <h3
-                                        class="text-xl font-medium text-white mb-4"
+                                        class="text-lg sm:text-xl font-medium text-white mb-4"
                                     >
                                         Confirmer la suppression
                                     </h3>
-                                    <p class="text-white/70 mb-6">
+                                    <p
+                                        class="text-white/70 mb-6 text-sm sm:text-base"
+                                    >
                                         Êtes-vous sûr de vouloir supprimer le
                                         projet : <br />
                                         <span
-                                            class="font-semibold text-led-green"
+                                            class="font-semibold text-led-green break-words"
                                             >{{ projectToDelete?.title }}</span
                                         >
                                     </p>
@@ -882,13 +1080,13 @@ const isMainImage = (index) => {
                                 <div class="flex justify-center gap-4 mt-6">
                                     <button
                                         @click="showDeleteModal = false"
-                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-4 py-2 text-white hover:bg-gaming-red/10 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/10 transition-colors"
                                     >
                                         Annuler
                                     </button>
                                     <button
                                         @click="deleteProject"
-                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-4 py-2 text-white hover:bg-gaming-red/90 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/90 transition-colors"
                                     >
                                         Supprimer
                                     </button>

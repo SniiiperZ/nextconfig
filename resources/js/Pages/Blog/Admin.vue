@@ -316,11 +316,13 @@ const formatDate = (dateString) => {
 <template>
     <AdminLayout title="Gestion du Blog">
         <template #header>
-            <div class="flex justify-between items-center">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
                 <h2 class="font-semibold text-xl text-white leading-tight">
                     Gestion du Blog
                 </h2>
-                <div class="relative">
+                <div class="relative w-full sm:w-auto">
                     <div
                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                     >
@@ -340,11 +342,11 @@ const formatDate = (dateString) => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Formulaire de l'article -->
                 <div
                     id="blog-form"
-                    class="bg-deep-black p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
+                    class="bg-deep-black p-4 sm:p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
                 >
                     <h3
                         class="text-xl font-play font-semibold text-led-green mb-4"
@@ -709,7 +711,7 @@ const formatDate = (dateString) => {
                         </div>
 
                         <!-- Boutons du formulaire -->
-                        <div class="flex gap-4 pt-4">
+                        <div class="flex flex-wrap gap-4 pt-4">
                             <button
                                 type="submit"
                                 class="bg-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/90 transition duration-150 flex items-center"
@@ -760,8 +762,9 @@ const formatDate = (dateString) => {
                 </div>
 
                 <div v-else class="space-y-4">
+                    <!-- En-têtes du tableau - visibles uniquement sur desktop -->
                     <div
-                        class="bg-gaming-red/20 p-4 rounded-lg mb-4 grid grid-cols-12 gap-4 items-center font-semibold text-white"
+                        class="hidden lg:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-12 gap-4 items-center font-semibold text-white"
                     >
                         <div
                             class="col-span-4 flex items-center cursor-pointer"
@@ -846,13 +849,261 @@ const formatDate = (dateString) => {
                         <div class="col-span-2 text-center">Actions</div>
                     </div>
 
+                    <!-- Barre de tri mobile visible uniquement sur petit écran -->
+                    <div
+                        class="lg:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
+                    >
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm font-medium">Trier par:</div>
+                            <div class="flex gap-2 flex-wrap">
+                                <button
+                                    @click="toggleSort('title')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'title',
+                                        'bg-deep-black/30': sortBy !== 'title',
+                                    }"
+                                >
+                                    Titre
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'title' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'title' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('created_at')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'created_at',
+                                        'bg-deep-black/30':
+                                            sortBy !== 'created_at',
+                                    }"
+                                >
+                                    Date
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'created_at' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'created_at' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('is_published')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'is_published',
+                                        'bg-deep-black/30':
+                                            sortBy !== 'is_published',
+                                    }"
+                                >
+                                    Statut
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'is_published' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'is_published' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('order')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'order',
+                                        'bg-deep-black/30': sortBy !== 'order',
+                                    }"
+                                >
+                                    Ordre
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'order' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'order' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <transition-group name="list" tag="div" class="space-y-4">
                         <div
                             v-for="post in filteredPosts"
                             :key="post.id"
-                            class="bg-deep-black p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
+                            class="bg-deep-black p-4 sm:p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
                         >
-                            <div class="grid grid-cols-12 gap-4 items-start">
+                            <!-- Vue mobile/tablette (structure en carte) -->
+                            <div class="lg:hidden">
+                                <div class="flex items-start space-x-3 mb-3">
+                                    <!-- Image en miniature -->
+                                    <div class="w-20 h-20 flex-shrink-0">
+                                        <img
+                                            v-if="post.featured_image"
+                                            :src="`/storage/${post.featured_image}`"
+                                            :alt="post.title"
+                                            class="w-full h-full object-cover rounded border border-gaming-red/50"
+                                        />
+                                        <div
+                                            v-else
+                                            class="w-full h-full bg-deep-black/50 flex items-center justify-center rounded border border-gaming-red/50"
+                                        >
+                                            <span class="text-gray-500 text-xs"
+                                                >Pas d'image</span
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-grow">
+                                        <h3
+                                            class="text-lg font-play font-semibold text-led-green"
+                                        >
+                                            {{ post.title }}
+                                        </h3>
+                                        <p
+                                            class="text-white/80 text-sm line-clamp-2 mt-1"
+                                        >
+                                            {{
+                                                post.excerpt ||
+                                                post.content
+                                                    .replace(/<[^>]*>?/gm, "")
+                                                    .substring(0, 80) + "..."
+                                            }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-wrap gap-y-2">
+                                    <!-- Date -->
+                                    <div class="w-full">
+                                        <span class="text-white/70 text-sm">
+                                            Date:
+                                            {{
+                                                formatDate(
+                                                    post.published_at ||
+                                                        post.created_at
+                                                )
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Tags -->
+                                    <div v-if="post.tags.length" class="w-full">
+                                        <div class="flex flex-wrap gap-1 mt-1">
+                                            <span
+                                                v-for="tag in post.tags.slice(
+                                                    0,
+                                                    3
+                                                )"
+                                                :key="tag.id"
+                                                class="text-xs bg-deep-black text-white px-2 py-0.5 rounded border border-gaming-red/50"
+                                            >
+                                                {{ tag.name }}
+                                            </span>
+                                            <span
+                                                v-if="post.tags.length > 3"
+                                                class="text-xs bg-deep-black text-white px-2 py-0.5 rounded border border-gaming-red/50"
+                                            >
+                                                +{{ post.tags.length - 3 }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="flex flex-wrap justify-between w-full mt-2 items-center gap-y-2"
+                                    >
+                                        <div class="flex gap-2">
+                                            <!-- Statut -->
+                                            <span
+                                                v-if="!post.is_published"
+                                                class="bg-gaming-red/20 text-gaming-red px-3 py-1 rounded-full"
+                                            >
+                                                Brouillon
+                                            </span>
+                                            <span
+                                                v-else-if="
+                                                    post.published_at &&
+                                                    new Date(
+                                                        post.published_at
+                                                    ) > new Date()
+                                                "
+                                                class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full"
+                                            >
+                                                Programmé
+                                            </span>
+                                            <span
+                                                v-else
+                                                class="bg-led-green/20 text-led-green px-3 py-1 rounded-full"
+                                            >
+                                                Publié
+                                            </span>
+
+                                            <!-- Ordre -->
+                                            <span
+                                                class="bg-deep-black border border-gaming-red/50 px-3 py-1 rounded-full text-white"
+                                            >
+                                                {{ post.order }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Actions -->
+                                        <div class="flex gap-2">
+                                            <button
+                                                @click="editPost(post)"
+                                                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                            >
+                                                Éditer
+                                            </button>
+                                            <button
+                                                @click="confirmDelete(post)"
+                                                class="bg-gaming-red hover:bg-red-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                            >
+                                                Supprimer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vue desktop (structure en grille) -->
+                            <div
+                                class="hidden lg:grid grid-cols-12 gap-4 items-start"
+                            >
                                 <div class="col-span-4">
                                     <div class="flex items-start space-x-3">
                                         <!-- Image en miniature -->
@@ -954,7 +1205,7 @@ const formatDate = (dateString) => {
                                     </span>
                                 </div>
 
-                                <div class="col-span-2">
+                                <div class="col-span-2 text-center">
                                     <span
                                         class="bg-deep-black border border-gaming-red/50 px-3 py-1 rounded-full text-white"
                                     >
@@ -1018,27 +1269,29 @@ const formatDate = (dateString) => {
                             leave-to="opacity-0 scale-95"
                         >
                             <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-6 text-left align-middle shadow-xl transition-all"
+                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-4 sm:p-6 text-left align-middle shadow-xl transition-all"
                             >
                                 <div
                                     class="flex items-center justify-center mb-5 text-gaming-red"
                                 >
                                     <ExclamationTriangleIcon
-                                        class="h-12 w-12"
+                                        class="h-10 w-10 sm:h-12 sm:w-12"
                                     />
                                 </div>
 
                                 <div class="text-center">
                                     <h3
-                                        class="text-xl font-medium text-white mb-4"
+                                        class="text-lg sm:text-xl font-medium text-white mb-4"
                                     >
                                         Confirmer la suppression
                                     </h3>
-                                    <p class="text-white/70 mb-6">
+                                    <p
+                                        class="text-white/70 mb-6 text-sm sm:text-base"
+                                    >
                                         Êtes-vous sûr de vouloir supprimer
                                         l'article : <br />
                                         <span
-                                            class="font-semibold text-led-green"
+                                            class="font-semibold text-led-green break-words"
                                             >{{ postToDelete?.title }}</span
                                         >
                                     </p>
@@ -1047,13 +1300,13 @@ const formatDate = (dateString) => {
                                 <div class="flex justify-center gap-4 mt-6">
                                     <button
                                         @click="showDeleteModal = false"
-                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-4 py-2 text-white hover:bg-gaming-red/10 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/10 transition-colors"
                                     >
                                         Annuler
                                     </button>
                                     <button
                                         @click="deletePost"
-                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-4 py-2 text-white hover:bg-gaming-red/90 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/90 transition-colors"
                                     >
                                         Supprimer
                                     </button>
@@ -1160,6 +1413,17 @@ menu {
 
 .ck.ck-button.ck-on {
     background-color: #e0e0e0 !important;
+}
+
+/* Styles pour améliorer l'expérience sur mobile */
+@media (max-width: 640px) {
+    .ck-editor__editable {
+        min-height: 200px;
+    }
+
+    .ck.ck-toolbar {
+        flex-wrap: wrap;
+    }
 }
 
 /* Animations pour la liste */

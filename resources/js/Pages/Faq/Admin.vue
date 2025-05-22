@@ -124,11 +124,13 @@ const deleteItem = () => {
 <template>
     <AdminLayout title="Gestion FAQ">
         <template #header>
-            <div class="flex justify-between items-center">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-4"
+            >
                 <h2 class="font-semibold text-xl text-white leading-tight">
                     Gestion de la FAQ
                 </h2>
-                <div class="relative">
+                <div class="relative w-full sm:w-auto">
                     <div
                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                     >
@@ -148,11 +150,11 @@ const deleteItem = () => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Formulaire -->
                 <div
                     id="faq-form"
-                    class="bg-deep-black p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
+                    class="bg-deep-black p-4 sm:p-6 rounded-lg shadow mb-8 border border-gaming-red/30 hover:border-gaming-red/70 transition-all duration-300"
                 >
                     <h3
                         class="text-xl font-play font-semibold text-led-green mb-4"
@@ -257,7 +259,7 @@ const deleteItem = () => {
                             </div>
                         </div>
 
-                        <div class="flex gap-4 pt-2">
+                        <div class="flex flex-wrap gap-4 pt-2">
                             <button
                                 type="submit"
                                 class="bg-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/90 transition duration-150 flex items-center"
@@ -308,8 +310,9 @@ const deleteItem = () => {
                 </div>
 
                 <div v-else class="space-y-4">
+                    <!-- En-têtes du tableau - visible uniquement sur tablette/desktop -->
                     <div
-                        class="bg-gaming-red/20 p-4 rounded-lg mb-4 grid grid-cols-6 gap-4 items-center font-semibold text-white"
+                        class="hidden md:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-6 gap-4 items-center font-semibold text-white"
                     >
                         <div
                             class="col-span-3 flex items-center cursor-pointer"
@@ -374,13 +377,169 @@ const deleteItem = () => {
                         <div class="text-center">Actions</div>
                     </div>
 
+                    <!-- Barre de tri mobile visible uniquement sur petit écran -->
+                    <div
+                        class="md:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
+                    >
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm font-medium">Trier par:</div>
+                            <div class="flex gap-2">
+                                <button
+                                    @click="toggleSort('question')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'question',
+                                        'bg-deep-black/30':
+                                            sortBy !== 'question',
+                                    }"
+                                >
+                                    Question
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'question' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'question' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('order')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'order',
+                                        'bg-deep-black/30': sortBy !== 'order',
+                                    }"
+                                >
+                                    Ordre
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'order' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'order' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                                <button
+                                    @click="toggleSort('is_visible')"
+                                    class="px-2 py-1 rounded text-sm flex items-center"
+                                    :class="{
+                                        'bg-led-green text-deep-black':
+                                            sortBy === 'is_visible',
+                                        'bg-deep-black/30':
+                                            sortBy !== 'is_visible',
+                                    }"
+                                >
+                                    Visibilité
+                                    <ArrowUpIcon
+                                        v-if="
+                                            sortBy === 'is_visible' &&
+                                            sortDirection === 'asc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                    <ArrowDownIcon
+                                        v-else-if="
+                                            sortBy === 'is_visible' &&
+                                            sortDirection === 'desc'
+                                        "
+                                        class="h-3 w-3 ml-1"
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <transition-group name="list" tag="div" class="space-y-4">
                         <div
                             v-for="faq in filteredFaqs"
                             :key="faq.id"
-                            class="bg-deep-black p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
+                            class="bg-deep-black p-4 sm:p-6 rounded-lg shadow border border-gaming-red/10 hover:border-gaming-red/40 transition-all duration-300"
                         >
-                            <div class="grid grid-cols-6 gap-4 items-start">
+                            <!-- Vue mobile (structure en carte) -->
+                            <div class="md:hidden">
+                                <h3
+                                    class="text-xl font-play font-semibold text-led-green mb-2"
+                                >
+                                    {{ faq.question }}
+                                </h3>
+                                <p class="text-white/80 mb-4">
+                                    {{ faq.answer }}
+                                </p>
+
+                                <div
+                                    class="flex flex-wrap gap-4 mt-4 justify-between"
+                                >
+                                    <div
+                                        class="flex flex-wrap gap-2 items-center"
+                                    >
+                                        <div>
+                                            <span
+                                                class="text-white text-sm mr-2"
+                                                >Ordre:</span
+                                            >
+                                            <span
+                                                class="bg-deep-black border border-gaming-red/50 px-3 py-1 rounded-full"
+                                            >
+                                                {{ faq.order }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span
+                                                class="text-white text-sm mr-2"
+                                                >Statut:</span
+                                            >
+                                            <span
+                                                v-if="faq.is_visible"
+                                                class="bg-led-green/20 text-led-green px-3 py-1 rounded-full"
+                                            >
+                                                Visible
+                                            </span>
+                                            <span
+                                                v-else
+                                                class="bg-gaming-red/20 text-gaming-red px-3 py-1 rounded-full"
+                                            >
+                                                Masqué
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-2 mt-2 sm:mt-0">
+                                        <button
+                                            @click="editFaq(faq)"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                        >
+                                            Éditer
+                                        </button>
+                                        <button
+                                            @click="confirmDelete(faq)"
+                                            class="bg-gaming-red hover:bg-red-600 text-white px-3 py-1 rounded transition-colors duration-200"
+                                        >
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vue tablette/desktop (structure en grille) -->
+                            <div
+                                class="hidden md:grid grid-cols-6 gap-4 items-start"
+                            >
                                 <div class="col-span-3">
                                     <h3
                                         class="text-xl font-play font-semibold text-led-green mb-2"
@@ -466,27 +625,29 @@ const deleteItem = () => {
                             leave-to="opacity-0 scale-95"
                         >
                             <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-6 text-left align-middle shadow-xl transition-all"
+                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-4 sm:p-6 text-left align-middle shadow-xl transition-all"
                             >
                                 <div
                                     class="flex items-center justify-center mb-5 text-gaming-red"
                                 >
                                     <ExclamationTriangleIcon
-                                        class="h-12 w-12"
+                                        class="h-10 w-10 sm:h-12 sm:w-12"
                                     />
                                 </div>
 
                                 <div class="text-center">
                                     <h3
-                                        class="text-xl font-medium text-white mb-4"
+                                        class="text-lg sm:text-xl font-medium text-white mb-4"
                                     >
                                         Confirmer la suppression
                                     </h3>
-                                    <p class="text-white/70 mb-6">
+                                    <p
+                                        class="text-white/70 mb-6 text-sm sm:text-base"
+                                    >
                                         Êtes-vous sûr de vouloir supprimer la
                                         question : <br />
                                         <span
-                                            class="font-semibold text-led-green"
+                                            class="font-semibold text-led-green break-words"
                                             >{{ faqToDelete?.question }}</span
                                         >
                                     </p>
@@ -495,13 +656,13 @@ const deleteItem = () => {
                                 <div class="flex justify-center gap-4 mt-6">
                                     <button
                                         @click="showDeleteModal = false"
-                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-4 py-2 text-white hover:bg-gaming-red/10 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/10 transition-colors"
                                     >
                                         Annuler
                                     </button>
                                     <button
                                         @click="deleteItem"
-                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-4 py-2 text-white hover:bg-gaming-red/90 transition-colors"
+                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/90 transition-colors"
                                     >
                                         Supprimer
                                     </button>
