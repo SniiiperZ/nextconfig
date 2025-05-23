@@ -2,18 +2,11 @@
 import { ref, computed } from "vue";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { useForm, router } from "@inertiajs/vue3";
-import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog,
-    DialogPanel,
-} from "@headlessui/vue";
-import {
-    ExclamationTriangleIcon,
-    MagnifyingGlassIcon,
-    ArrowUpIcon,
-    ArrowDownIcon,
-} from "@heroicons/vue/24/outline";
+import AdminSearchHeader from "@/Components/Admin/AdminSearchHeader.vue";
+import AdminSortHeader from "@/Components/Admin/AdminSortHeader.vue";
+import ConfirmDeleteModal from "@/Components/Admin/ConfirmDeleteModal.vue";
+import StatusToast from "@/Components/Admin/StatusToast.vue";
+import AdminFormButtons from "@/Components/Admin/AdminFormButtons.vue";
 
 const props = defineProps({
     faqs: Array,
@@ -32,6 +25,16 @@ const faqToDelete = ref(null);
 const searchQuery = ref("");
 const sortBy = ref("order");
 const sortDirection = ref("asc");
+const updateStatus = ref(null);
+const updateMessage = ref("");
+
+// Définir les colonnes pour le tri
+const sortColumns = [
+    { key: "question", label: "Question", colSpan: 3 },
+    { key: "order", label: "Ordre", colSpan: 1 },
+    { key: "is_visible", label: "Visibilité", colSpan: 1 },
+    { key: "actions", label: "Actions", colSpan: 1 },
+];
 
 // Filtrage et tri des FAQs
 const filteredFaqs = computed(() => {
@@ -75,12 +78,26 @@ const submit = () => {
             onSuccess: () => {
                 editing.value = null;
                 form.reset();
+                updateStatus.value = "success";
+                updateMessage.value = "FAQ mise à jour avec succès !";
+                setTimeout(() => {
+                    updateStatus.value = null;
+                    updateMessage.value = "";
+                }, 3000);
             },
         });
     } else {
         form.post(route("admin.faq.store"), {
             preserveScroll: true,
-            onSuccess: () => form.reset(),
+            onSuccess: () => {
+                form.reset();
+                updateStatus.value = "success";
+                updateMessage.value = "FAQ ajoutée avec succès !";
+                setTimeout(() => {
+                    updateStatus.value = null;
+                    updateMessage.value = "";
+                }, 3000);
+            },
         });
     }
 };
@@ -124,29 +141,10 @@ const deleteItem = () => {
 <template>
     <AdminLayout title="Gestion FAQ">
         <template #header>
-            <div
-                class="flex flex-col sm:flex-row justify-between items-center gap-4"
-            >
-                <h2 class="font-semibold text-xl text-white leading-tight">
-                    Gestion de la FAQ
-                </h2>
-                <div class="relative w-full sm:w-auto">
-                    <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                    >
-                        <MagnifyingGlassIcon
-                            class="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                        />
-                    </div>
-                    <input
-                        v-model="searchQuery"
-                        type="text"
-                        placeholder="Rechercher..."
-                        class="block w-full pl-10 pr-3 py-2 border border-gaming-red rounded-md bg-deep-black/50 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
-                    />
-                </div>
-            </div>
+            <AdminSearchHeader
+                title="Gestion de la FAQ"
+                v-model:searchQuery="searchQuery"
+            />
         </template>
 
         <div class="py-12">
@@ -259,45 +257,11 @@ const deleteItem = () => {
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap gap-4 pt-2">
-                            <button
-                                type="submit"
-                                class="bg-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/90 transition duration-150 flex items-center"
-                                :disabled="form.processing"
-                            >
-                                <span v-if="form.processing" class="mr-2">
-                                    <svg
-                                        class="animate-spin h-5 w-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle
-                                            class="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            stroke-width="4"
-                                        ></circle>
-                                        <path
-                                            class="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                        ></path>
-                                    </svg>
-                                </span>
-                                {{ editing ? "Mettre à jour" : "Ajouter" }}
-                            </button>
-                            <button
-                                v-if="editing"
-                                @click="cancelEdit"
-                                type="button"
-                                class="bg-deep-black border border-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/10 transition duration-150"
-                            >
-                                Annuler
-                            </button>
-                        </div>
+                        <AdminFormButtons
+                            :processing="form.processing"
+                            :is-editing="!!editing"
+                            @cancel="cancelEdit"
+                        />
                     </form>
                 </div>
 
@@ -310,160 +274,12 @@ const deleteItem = () => {
                 </div>
 
                 <div v-else class="space-y-4">
-                    <!-- En-têtes du tableau - visible uniquement sur tablette/desktop -->
-                    <div
-                        class="hidden md:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-6 gap-4 items-center font-semibold text-white"
-                    >
-                        <div
-                            class="col-span-3 flex items-center cursor-pointer"
-                            @click="toggleSort('question')"
-                        >
-                            Question
-                            <ArrowUpIcon
-                                v-if="
-                                    sortBy === 'question' &&
-                                    sortDirection === 'asc'
-                                "
-                                class="h-4 w-4 ml-1"
-                            />
-                            <ArrowDownIcon
-                                v-else-if="
-                                    sortBy === 'question' &&
-                                    sortDirection === 'desc'
-                                "
-                                class="h-4 w-4 ml-1"
-                            />
-                        </div>
-                        <div
-                            class="cursor-pointer"
-                            @click="toggleSort('order')"
-                        >
-                            Ordre
-                            <ArrowUpIcon
-                                v-if="
-                                    sortBy === 'order' &&
-                                    sortDirection === 'asc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                            <ArrowDownIcon
-                                v-else-if="
-                                    sortBy === 'order' &&
-                                    sortDirection === 'desc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                        </div>
-                        <div
-                            class="cursor-pointer"
-                            @click="toggleSort('is_visible')"
-                        >
-                            Visibilité
-                            <ArrowUpIcon
-                                v-if="
-                                    sortBy === 'is_visible' &&
-                                    sortDirection === 'asc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                            <ArrowDownIcon
-                                v-else-if="
-                                    sortBy === 'is_visible' &&
-                                    sortDirection === 'desc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                        </div>
-                        <div class="text-center">Actions</div>
-                    </div>
-
-                    <!-- Barre de tri mobile visible uniquement sur petit écran -->
-                    <div
-                        class="md:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
-                    >
-                        <div class="flex justify-between items-center">
-                            <div class="text-sm font-medium">Trier par:</div>
-                            <div class="flex gap-2">
-                                <button
-                                    @click="toggleSort('question')"
-                                    class="px-2 py-1 rounded text-sm flex items-center"
-                                    :class="{
-                                        'bg-led-green text-deep-black':
-                                            sortBy === 'question',
-                                        'bg-deep-black/30':
-                                            sortBy !== 'question',
-                                    }"
-                                >
-                                    Question
-                                    <ArrowUpIcon
-                                        v-if="
-                                            sortBy === 'question' &&
-                                            sortDirection === 'asc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                    <ArrowDownIcon
-                                        v-else-if="
-                                            sortBy === 'question' &&
-                                            sortDirection === 'desc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                </button>
-                                <button
-                                    @click="toggleSort('order')"
-                                    class="px-2 py-1 rounded text-sm flex items-center"
-                                    :class="{
-                                        'bg-led-green text-deep-black':
-                                            sortBy === 'order',
-                                        'bg-deep-black/30': sortBy !== 'order',
-                                    }"
-                                >
-                                    Ordre
-                                    <ArrowUpIcon
-                                        v-if="
-                                            sortBy === 'order' &&
-                                            sortDirection === 'asc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                    <ArrowDownIcon
-                                        v-else-if="
-                                            sortBy === 'order' &&
-                                            sortDirection === 'desc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                </button>
-                                <button
-                                    @click="toggleSort('is_visible')"
-                                    class="px-2 py-1 rounded text-sm flex items-center"
-                                    :class="{
-                                        'bg-led-green text-deep-black':
-                                            sortBy === 'is_visible',
-                                        'bg-deep-black/30':
-                                            sortBy !== 'is_visible',
-                                    }"
-                                >
-                                    Visibilité
-                                    <ArrowUpIcon
-                                        v-if="
-                                            sortBy === 'is_visible' &&
-                                            sortDirection === 'asc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                    <ArrowDownIcon
-                                        v-else-if="
-                                            sortBy === 'is_visible' &&
-                                            sortDirection === 'desc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <AdminSortHeader
+                        :sort-by="sortBy"
+                        :sort-direction="sortDirection"
+                        :columns="sortColumns"
+                        @sort="toggleSort"
+                    />
 
                     <transition-group name="list" tag="div" class="space-y-4">
                         <div
@@ -592,87 +408,15 @@ const deleteItem = () => {
             </div>
         </div>
 
-        <!-- Modal de confirmation de suppression -->
-        <TransitionRoot appear :show="showDeleteModal" as="template">
-            <Dialog
-                as="div"
-                @close="showDeleteModal = false"
-                class="relative z-10"
-            >
-                <TransitionChild
-                    as="template"
-                    enter="duration-300 ease-out"
-                    enter-from="opacity-0"
-                    enter-to="opacity-100"
-                    leave="duration-200 ease-in"
-                    leave-from="opacity-100"
-                    leave-to="opacity-0"
-                >
-                    <div class="fixed inset-0 bg-black/75 transition-opacity" />
-                </TransitionChild>
+        <ConfirmDeleteModal
+            :show="showDeleteModal"
+            :item-name="faqToDelete?.question"
+            item-label="la question"
+            @close="showDeleteModal = false"
+            @confirm="deleteItem"
+        />
 
-                <div class="fixed inset-0 overflow-y-auto">
-                    <div
-                        class="flex min-h-full items-center justify-center p-4 text-center"
-                    >
-                        <TransitionChild
-                            as="template"
-                            enter="duration-300 ease-out"
-                            enter-from="opacity-0 scale-95"
-                            enter-to="opacity-100 scale-100"
-                            leave="duration-200 ease-in"
-                            leave-from="opacity-100 scale-100"
-                            leave-to="opacity-0 scale-95"
-                        >
-                            <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-4 sm:p-6 text-left align-middle shadow-xl transition-all"
-                            >
-                                <div
-                                    class="flex items-center justify-center mb-5 text-gaming-red"
-                                >
-                                    <ExclamationTriangleIcon
-                                        class="h-10 w-10 sm:h-12 sm:w-12"
-                                    />
-                                </div>
-
-                                <div class="text-center">
-                                    <h3
-                                        class="text-lg sm:text-xl font-medium text-white mb-4"
-                                    >
-                                        Confirmer la suppression
-                                    </h3>
-                                    <p
-                                        class="text-white/70 mb-6 text-sm sm:text-base"
-                                    >
-                                        Êtes-vous sûr de vouloir supprimer la
-                                        question : <br />
-                                        <span
-                                            class="font-semibold text-led-green break-words"
-                                            >{{ faqToDelete?.question }}</span
-                                        >
-                                    </p>
-                                </div>
-
-                                <div class="flex justify-center gap-4 mt-6">
-                                    <button
-                                        @click="showDeleteModal = false"
-                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/10 transition-colors"
-                                    >
-                                        Annuler
-                                    </button>
-                                    <button
-                                        @click="deleteItem"
-                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/90 transition-colors"
-                                    >
-                                        Supprimer
-                                    </button>
-                                </div>
-                            </DialogPanel>
-                        </TransitionChild>
-                    </div>
-                </div>
-            </Dialog>
-        </TransitionRoot>
+        <StatusToast :status="updateStatus" :message="updateMessage" />
     </AdminLayout>
 </template>
 

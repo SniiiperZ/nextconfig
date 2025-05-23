@@ -206,7 +206,7 @@ watch(selectedYear, (newValue) => {
     revenueForm.year = newValue;
 });
 
-// Options des graphiques
+// Options des graphiques avec adaptation responsive
 const pieChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -217,6 +217,10 @@ const pieChartOptions = {
                 color: "rgba(255, 255, 255, 0.7)",
                 padding: 20,
                 boxWidth: 15,
+                // Adapter la taille de la police sur mobile
+                font: {
+                    size: window.innerWidth < 768 ? 10 : 12,
+                },
             },
         },
     },
@@ -233,6 +237,8 @@ const barChartOptions = {
             },
             ticks: {
                 color: "rgba(255, 255, 255, 0.7)",
+                // Adapter le nombre de ticks sur mobile
+                maxTicksLimit: window.innerWidth < 768 ? 4 : 8,
             },
         },
         x: {
@@ -241,6 +247,10 @@ const barChartOptions = {
             },
             ticks: {
                 color: "rgba(255, 255, 255, 0.7)",
+                // Adapter la taille de la police sur mobile
+                font: {
+                    size: window.innerWidth < 768 ? 9 : 12,
+                },
             },
         },
     },
@@ -248,6 +258,9 @@ const barChartOptions = {
         legend: {
             labels: {
                 color: "rgba(255, 255, 255, 0.7)",
+                font: {
+                    size: window.innerWidth < 768 ? 10 : 12,
+                },
             },
         },
         tooltip: {
@@ -318,12 +331,29 @@ const truncateText = (text, length = 60) => {
 const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => i < rating);
 };
+
+// Détecter le mode mobile pour ajuster les contrôles
+const isMobile = ref(window.innerWidth < 768);
+
+onMounted(() => {
+    const handleResize = () => {
+        isMobile.value = window.innerWidth < 768;
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+        window.removeEventListener("resize", handleResize);
+    };
+});
 </script>
 
 <template>
     <AdminLayout title="Dashboard">
         <template #header>
-            <div class="flex justify-between items-center">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-center gap-3"
+            >
                 <h2
                     class="font-play font-semibold text-xl text-white leading-tight"
                 >
@@ -341,13 +371,13 @@ const renderStars = (rating) => {
                 >
                     <div
                         v-if="showFlashMessage"
-                        class="bg-led-green/20 border border-led-green text-led-green px-4 py-2 rounded-md flex items-center"
+                        class="bg-led-green/20 border border-led-green text-led-green px-4 py-2 rounded-md flex items-center max-w-full sm:max-w-md text-sm sm:text-base"
                     >
-                        <CheckCircleIcon class="w-5 h-5 mr-2" />
-                        <span>{{ flashMessage }}</span>
+                        <CheckCircleIcon class="w-5 h-5 mr-2 flex-shrink-0" />
+                        <span class="line-clamp-2">{{ flashMessage }}</span>
                         <button
                             @click="hideFlashMessage"
-                            class="ml-3 text-led-green/80 hover:text-led-green"
+                            class="ml-3 text-led-green/80 hover:text-led-green flex-shrink-0"
                         >
                             <XMarkIcon class="w-4 h-4" />
                         </button>
@@ -356,17 +386,17 @@ const renderStars = (rating) => {
             </div>
         </template>
 
-        <div class="py-8">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-6 md:py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Statistiques principales -->
                 <div
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8"
                 >
                     <!-- Projets réalisés -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
-                        <div class="p-5">
+                        <div class="p-4 md:p-5">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <p
@@ -375,18 +405,20 @@ const renderStars = (rating) => {
                                         Projets réalisés
                                     </p>
                                     <h3
-                                        class="text-3xl font-play font-bold text-white mt-1"
+                                        class="text-2xl md:text-3xl font-play font-bold text-white mt-1"
                                     >
                                         {{ totalProjectsCount }}
                                     </h3>
                                 </div>
-                                <div class="bg-gaming-red/20 rounded-full p-4">
+                                <div
+                                    class="bg-gaming-red/20 rounded-full p-3 md:p-4"
+                                >
                                     <ComputerDesktopIcon
-                                        class="h-8 w-8 text-gaming-red"
+                                        class="h-6 w-6 md:h-8 md:w-8 text-gaming-red"
                                     />
                                 </div>
                             </div>
-                            <div class="mt-4 text-sm">
+                            <div class="mt-3 md:mt-4 text-sm">
                                 <Link
                                     :href="route('admin.portfolio')"
                                     class="text-white/70 hover:text-led-green flex items-center"
@@ -402,7 +434,7 @@ const renderStars = (rating) => {
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
-                        <div class="p-5">
+                        <div class="p-4 md:p-5">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <p
@@ -411,22 +443,26 @@ const renderStars = (rating) => {
                                         Avis clients
                                     </p>
                                     <h3
-                                        class="text-3xl font-play font-bold text-white mt-1"
+                                        class="text-2xl md:text-3xl font-play font-bold text-white mt-1 flex items-center flex-wrap"
                                     >
                                         {{ totalReviewsCount }}
+                                        <span
+                                            v-if="pendingReviewsCount > 0"
+                                            class="ml-2 text-xs md:text-sm text-gaming-red"
+                                            >({{ pendingReviewsCount }} en
+                                            attente)</span
+                                        >
                                     </h3>
-                                    <span
-                                        v-if="pendingReviewsCount > 0"
-                                        class="ml-2 text-sm text-gaming-red"
-                                        >({{ pendingReviewsCount }} en
-                                        attente)</span
-                                    >
                                 </div>
-                                <div class="bg-gaming-red/20 rounded-full p-4">
-                                    <StarIcon class="h-8 w-8 text-gaming-red" />
+                                <div
+                                    class="bg-gaming-red/20 rounded-full p-3 md:p-4"
+                                >
+                                    <StarIcon
+                                        class="h-6 w-6 md:h-8 md:w-8 text-gaming-red"
+                                    />
                                 </div>
                             </div>
-                            <div class="mt-4 text-sm">
+                            <div class="mt-3 md:mt-4 text-sm">
                                 <Link
                                     :href="route('admin.reviews')"
                                     class="text-white/70 hover:text-led-green flex items-center"
@@ -442,7 +478,7 @@ const renderStars = (rating) => {
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
-                        <div class="p-5">
+                        <div class="p-4 md:p-5">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <p
@@ -451,18 +487,20 @@ const renderStars = (rating) => {
                                         Articles de blog
                                     </p>
                                     <h3
-                                        class="text-3xl font-play font-bold text-white mt-1"
+                                        class="text-2xl md:text-3xl font-play font-bold text-white mt-1"
                                     >
                                         {{ totalBlogPostsCount }}
                                     </h3>
                                 </div>
-                                <div class="bg-gaming-red/20 rounded-full p-4">
+                                <div
+                                    class="bg-gaming-red/20 rounded-full p-3 md:p-4"
+                                >
                                     <DocumentTextIcon
-                                        class="h-8 w-8 text-gaming-red"
+                                        class="h-6 w-6 md:h-8 md:w-8 text-gaming-red"
                                     />
                                 </div>
                             </div>
-                            <div class="mt-4 text-sm">
+                            <div class="mt-3 md:mt-4 text-sm">
                                 <Link
                                     :href="route('admin.blog')"
                                     class="text-white/70 hover:text-led-green flex items-center"
@@ -478,7 +516,7 @@ const renderStars = (rating) => {
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
-                        <div class="p-5">
+                        <div class="p-4 md:p-5">
                             <div class="flex justify-between items-center">
                                 <div>
                                     <p
@@ -487,24 +525,26 @@ const renderStars = (rating) => {
                                         Commentaires
                                     </p>
                                     <h3
-                                        class="text-3xl font-play font-bold text-white mt-1"
+                                        class="text-2xl md:text-3xl font-play font-bold text-white mt-1 flex items-center flex-wrap"
                                     >
                                         {{ totalCommentsCount }}
+                                        <span
+                                            v-if="pendingCommentsCount > 0"
+                                            class="ml-2 text-xs md:text-sm text-gaming-red"
+                                            >({{ pendingCommentsCount }} en
+                                            attente)</span
+                                        >
                                     </h3>
-                                    <span
-                                        v-if="pendingCommentsCount > 0"
-                                        class="ml-2 text-sm text-gaming-red"
-                                        >({{ pendingCommentsCount }} en
-                                        attente)</span
-                                    >
                                 </div>
-                                <div class="bg-gaming-red/20 rounded-full p-4">
+                                <div
+                                    class="bg-gaming-red/20 rounded-full p-3 md:p-4"
+                                >
                                     <ChatBubbleLeftRightIcon
-                                        class="h-8 w-8 text-gaming-red"
+                                        class="h-6 w-6 md:h-8 md:w-8 text-gaming-red"
                                     />
                                 </div>
                             </div>
-                            <div class="mt-4 text-sm">
+                            <div class="mt-3 md:mt-4 text-sm">
                                 <Link
                                     :href="route('admin.comments')"
                                     class="text-white/70 hover:text-led-green flex items-center"
@@ -518,23 +558,27 @@ const renderStars = (rating) => {
                 </div>
 
                 <!-- Statistiques et données du site -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div
+                    class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8"
+                >
                     <!-- Informations du site -->
                     <div
-                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-6"
+                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
                         <h3
-                            class="text-lg font-play font-semibold text-white mb-4"
+                            class="text-base md:text-lg font-play font-semibold text-white mb-4"
                         >
                             Informations NextConfig
                         </h3>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
+                        >
                             <!-- Stats de la période -->
                             <div
-                                class="bg-deep-black/50 border border-gaming-red/20 rounded-lg p-4"
+                                class="bg-deep-black/50 border border-gaming-red/20 rounded-lg p-3 md:p-4"
                             >
-                                <div class="flex items-center mb-3">
+                                <div class="flex items-center mb-2 md:mb-3">
                                     <CalendarIcon
                                         class="h-5 w-5 text-gaming-red mr-2"
                                     />
@@ -543,7 +587,9 @@ const renderStars = (rating) => {
                                     </h4>
                                 </div>
 
-                                <div class="space-y-3">
+                                <div
+                                    class="space-y-2 md:space-y-3 text-sm md:text-base"
+                                >
                                     <div class="flex justify-between">
                                         <span class="text-white/70">Mois</span>
                                         <span class="text-white font-medium">{{
@@ -576,9 +622,9 @@ const renderStars = (rating) => {
 
                             <!-- Actions rapides -->
                             <div
-                                class="bg-deep-black/50 border border-gaming-red/20 rounded-lg p-4"
+                                class="bg-deep-black/50 border border-gaming-red/20 rounded-lg p-3 md:p-4"
                             >
-                                <div class="flex items-center mb-3">
+                                <div class="flex items-center mb-2 md:mb-3">
                                     <ViewfinderCircleIcon
                                         class="h-5 w-5 text-gaming-red mr-2"
                                     />
@@ -587,7 +633,7 @@ const renderStars = (rating) => {
                                     </h4>
                                 </div>
 
-                                <div class="space-y-2">
+                                <div class="space-y-2 text-sm">
                                     <Link
                                         :href="route('admin.portfolio')"
                                         class="w-full flex items-center justify-between bg-deep-black/70 hover:bg-gaming-red/20 border border-gaming-red/30 rounded p-2 transition-all duration-200"
@@ -630,7 +676,7 @@ const renderStars = (rating) => {
 
                     <!-- Revenus mensuels (éditable) avec sélecteur d'année -->
                     <div
-                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-6 relative"
+                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6 relative"
                     >
                         <!-- Overlay de chargement -->
                         <div
@@ -638,14 +684,18 @@ const renderStars = (rating) => {
                             class="absolute inset-0 bg-deep-black/80 flex items-center justify-center rounded-lg z-20"
                         >
                             <div
-                                class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-led-green"
+                                class="animate-spin rounded-full h-10 w-10 md:h-12 md:w-12 border-t-2 border-b-2 border-led-green"
                             ></div>
                         </div>
 
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="flex items-center space-x-4">
+                        <div
+                            class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3 md:mb-4"
+                        >
+                            <div
+                                class="flex flex-wrap items-center gap-2 md:gap-4"
+                            >
                                 <h3
-                                    class="text-lg font-play font-semibold text-white"
+                                    class="text-base md:text-lg font-play font-semibold text-white"
                                 >
                                     Revenus mensuels {{ selectedYear }}
                                 </h3>
@@ -656,22 +706,22 @@ const renderStars = (rating) => {
                                         @click="
                                             yearSelectorOpen = !yearSelectorOpen
                                         "
-                                        class="flex items-center bg-deep-black/70 border border-gaming-red/30 rounded-md px-3 py-1.5 text-white font-medium hover:bg-gaming-red/20 transition-colors"
+                                        class="flex items-center bg-deep-black/70 border border-gaming-red/30 rounded-md px-2 py-1 md:px-3 md:py-1.5 text-sm text-white font-medium hover:bg-gaming-red/20 transition-colors"
                                     >
                                         <span>{{ selectedYear }}</span>
                                         <ChevronDownIcon
                                             v-if="!yearSelectorOpen"
-                                            class="ml-2 h-4 w-4"
+                                            class="ml-1 h-3 w-3 md:h-4 md:w-4"
                                         />
                                         <ChevronUpIcon
                                             v-else
-                                            class="ml-2 h-4 w-4"
+                                            class="ml-1 h-3 w-3 md:h-4 md:w-4"
                                         />
                                     </button>
 
                                     <div
                                         v-if="yearSelectorOpen"
-                                        class="absolute top-full left-0 mt-1 w-40 bg-deep-black border border-gaming-red/30 rounded-md shadow-lg py-1 z-10"
+                                        class="absolute top-full left-0 mt-1 w-32 md:w-40 bg-deep-black border border-gaming-red/30 rounded-md shadow-lg py-1 z-10"
                                     >
                                         <button
                                             v-for="year in availableYears"
@@ -680,7 +730,7 @@ const renderStars = (rating) => {
                                                 changeYear(year);
                                                 yearSelectorOpen = false;
                                             "
-                                            class="w-full text-left px-4 py-2 text-white hover:bg-gaming-red/20 transition-colors"
+                                            class="w-full text-left px-3 py-1.5 text-sm text-white hover:bg-gaming-red/20 transition-colors"
                                             :class="{
                                                 'bg-gaming-red/10':
                                                     year === selectedYear,
@@ -694,7 +744,7 @@ const renderStars = (rating) => {
 
                             <div class="flex items-center">
                                 <span
-                                    class="text-lg text-led-green font-bold mr-4"
+                                    class="text-base md:text-lg text-led-green font-bold mr-2 md:mr-4"
                                 >
                                     Total:
                                     {{ totalRevenue.toLocaleString("fr-FR") }}
@@ -705,11 +755,11 @@ const renderStars = (rating) => {
                                     @click="startEditingRevenue"
                                     class="bg-led-green text-white p-1.5 rounded-full hover:bg-led-green/80 transition-all"
                                 >
-                                    <PencilIcon class="h-4 w-4" />
+                                    <PencilIcon class="h-3 w-3 md:h-4 md:w-4" />
                                 </button>
                             </div>
                         </div>
-                        <div class="h-60 relative">
+                        <div class="h-40 md:h-60 relative">
                             <Bar
                                 :data="monthlyRevenueData"
                                 :options="barChartOptions"
@@ -718,21 +768,21 @@ const renderStars = (rating) => {
                             <!-- Formulaire d'édition des revenus -->
                             <div
                                 v-if="editingRevenue"
-                                class="absolute inset-0 bg-deep-black/90 flex items-center justify-center rounded-lg"
+                                class="absolute inset-0 bg-deep-black/90 flex items-center justify-center rounded-lg p-4"
                             >
                                 <div
-                                    class="bg-deep-black border border-gaming-red p-6 rounded-lg shadow-lg w-full max-w-md"
+                                    class="bg-deep-black border border-gaming-red p-4 md:p-6 rounded-lg shadow-lg w-full max-w-xs md:max-w-md"
                                 >
                                     <h4
-                                        class="text-white font-play font-semibold text-lg mb-4"
+                                        class="text-white font-play font-semibold text-base md:text-lg mb-3 md:mb-4"
                                     >
                                         Éditer les revenus
                                     </h4>
 
                                     <form @submit.prevent="submitRevenueForm">
-                                        <div class="mb-4">
+                                        <div class="mb-3 md:mb-4">
                                             <label
-                                                class="block text-white/80 text-sm font-medium mb-2"
+                                                class="block text-white/80 text-xs md:text-sm font-medium mb-1 md:mb-2"
                                             >
                                                 Mois
                                             </label>
@@ -741,7 +791,7 @@ const renderStars = (rating) => {
                                                 @change="
                                                     updateSelectedMonthRevenue
                                                 "
-                                                class="w-full bg-deep-black border border-gaming-red/50 rounded-md text-white p-2 focus:border-gaming-red focus:ring-1 focus:ring-gaming-red"
+                                                class="w-full bg-deep-black border border-gaming-red/50 rounded-md text-white p-2 text-sm focus:border-gaming-red focus:ring-1 focus:ring-gaming-red"
                                             >
                                                 <option
                                                     v-for="(
@@ -755,9 +805,9 @@ const renderStars = (rating) => {
                                             </select>
                                         </div>
 
-                                        <div class="mb-6">
+                                        <div class="mb-5">
                                             <label
-                                                class="block text-white/80 text-sm font-medium mb-2"
+                                                class="block text-white/80 text-xs md:text-sm font-medium mb-1 md:mb-2"
                                             >
                                                 Montant (€)
                                             </label>
@@ -767,7 +817,7 @@ const renderStars = (rating) => {
                                                     type="number"
                                                     min="0"
                                                     step="0.01"
-                                                    class="w-full bg-deep-black border border-gaming-red/50 rounded-md text-white p-2 focus:border-gaming-red focus:ring-1 focus:ring-gaming-red"
+                                                    class="w-full bg-deep-black border border-gaming-red/50 rounded-md text-white p-2 text-sm focus:border-gaming-red focus:ring-1 focus:ring-gaming-red"
                                                     placeholder="0.00"
                                                 />
                                                 <span
@@ -789,13 +839,13 @@ const renderStars = (rating) => {
                                             <button
                                                 type="button"
                                                 @click="cancelEditRevenue"
-                                                class="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-all"
+                                                class="px-3 py-1.5 text-xs md:text-sm bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-all"
                                             >
                                                 Annuler
                                             </button>
                                             <button
                                                 type="submit"
-                                                class="px-4 py-2 bg-led-green text-white rounded-md hover:bg-led-green/80 transition-all"
+                                                class="px-3 py-1.5 text-xs md:text-sm bg-led-green text-white rounded-md hover:bg-led-green/80 transition-all"
                                             >
                                                 Enregistrer
                                             </button>
@@ -808,16 +858,18 @@ const renderStars = (rating) => {
                 </div>
 
                 <!-- Distribution des avis -->
-                <div class="mb-8">
+                <div class="mb-6 md:mb-8">
                     <div
-                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-6"
+                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
                         <h3
-                            class="text-lg font-play font-semibold text-white mb-4"
+                            class="text-base md:text-lg font-play font-semibold text-white mb-3 md:mb-4"
                         >
                             Distribution des avis par note
                         </h3>
-                        <div class="h-64 flex items-center justify-center">
+                        <div
+                            class="h-48 md:h-64 flex items-center justify-center"
+                        >
                             <Doughnut
                                 :data="reviewsChartData"
                                 :options="pieChartOptions"
@@ -827,20 +879,24 @@ const renderStars = (rating) => {
                 </div>
 
                 <!-- Activité récente -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+                >
                     <!-- Derniers avis clients -->
                     <div
-                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-6"
+                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
-                        <div class="flex justify-between items-center mb-4">
+                        <div
+                            class="flex justify-between items-center mb-3 md:mb-4"
+                        >
                             <h3
-                                class="text-lg font-play font-semibold text-white"
+                                class="text-base md:text-lg font-play font-semibold text-white"
                             >
                                 Derniers avis clients
                             </h3>
                             <Link
                                 :href="route('admin.reviews')"
-                                class="text-sm text-led-green hover:text-led-green/80"
+                                class="text-xs md:text-sm text-led-green hover:text-led-green/80"
                             >
                                 Voir tout
                             </Link>
@@ -848,7 +904,7 @@ const renderStars = (rating) => {
 
                         <div
                             v-if="recent_reviews && recent_reviews.length"
-                            class="space-y-4"
+                            class="space-y-3 md:space-y-4"
                         >
                             <div
                                 v-for="review in recent_reviews"
@@ -857,19 +913,21 @@ const renderStars = (rating) => {
                             >
                                 <div class="flex items-start gap-2">
                                     <div
-                                        class="bg-gaming-red/20 rounded-full p-2 mt-1"
+                                        class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                     >
                                         <StarIcon
-                                            class="h-5 w-5 text-gaming-red"
+                                            class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                         />
                                     </div>
-                                    <div>
-                                        <div class="flex items-center">
+                                    <div class="min-w-0">
+                                        <div
+                                            class="flex flex-wrap items-center gap-1 md:gap-2"
+                                        >
                                             <span
-                                                class="font-medium text-white"
+                                                class="font-medium text-white text-sm md:text-base"
                                                 >{{ review.name }}</span
                                             >
-                                            <span class="flex ml-2">
+                                            <span class="flex">
                                                 <span
                                                     v-for="(
                                                         isFilled, index
@@ -879,7 +937,7 @@ const renderStars = (rating) => {
                                                     :key="index"
                                                 >
                                                     <StarIcon
-                                                        class="h-4 w-4"
+                                                        class="h-3 w-3 md:h-4 md:w-4"
                                                         :class="
                                                             isFilled
                                                                 ? 'text-gaming-red'
@@ -889,8 +947,15 @@ const renderStars = (rating) => {
                                                 </span>
                                             </span>
                                         </div>
-                                        <p class="text-sm text-white/70 mt-1">
-                                            {{ truncateText(review.comment) }}
+                                        <p
+                                            class="text-xs md:text-sm text-white/70 mt-1 break-words"
+                                        >
+                                            {{
+                                                truncateText(
+                                                    review.comment,
+                                                    isMobile ? 40 : 60
+                                                )
+                                            }}
                                         </p>
                                         <div class="flex justify-between mt-2">
                                             <span
@@ -929,17 +994,19 @@ const renderStars = (rating) => {
 
                     <!-- Derniers projets -->
                     <div
-                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-6"
+                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
-                        <div class="flex justify-between items-center mb-4">
+                        <div
+                            class="flex justify-between items-center mb-3 md:mb-4"
+                        >
                             <h3
-                                class="text-lg font-play font-semibold text-white"
+                                class="text-base md:text-lg font-play font-semibold text-white"
                             >
                                 Derniers projets
                             </h3>
                             <Link
                                 :href="route('admin.portfolio')"
-                                class="text-sm text-led-green hover:text-led-green/80"
+                                class="text-xs md:text-sm text-led-green hover:text-led-green/80"
                             >
                                 Voir tout
                             </Link>
@@ -947,7 +1014,7 @@ const renderStars = (rating) => {
 
                         <div
                             v-if="recent_projects && recent_projects.length"
-                            class="space-y-4"
+                            class="space-y-3 md:space-y-4"
                         >
                             <div
                                 v-for="project in recent_projects"
@@ -956,30 +1023,34 @@ const renderStars = (rating) => {
                             >
                                 <div class="flex items-start gap-2">
                                     <div
-                                        class="bg-gaming-red/20 rounded-full p-2 mt-1"
+                                        class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                     >
                                         <WrenchScrewdriverIcon
-                                            class="h-5 w-5 text-gaming-red"
+                                            class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                         />
                                     </div>
-                                    <div>
-                                        <div class="flex items-center">
+                                    <div class="min-w-0">
+                                        <div
+                                            class="flex flex-wrap items-center gap-1 md:gap-2"
+                                        >
                                             <span
-                                                class="font-medium text-white"
+                                                class="font-medium text-white text-sm md:text-base"
                                                 >{{ project.title }}</span
                                             >
                                             <span
                                                 v-if="project.is_featured"
-                                                class="ml-2 text-xs text-led-green bg-led-green/10 px-2 py-0.5 rounded"
+                                                class="text-xs text-led-green bg-led-green/10 px-1.5 py-0.5 rounded"
                                             >
                                                 Mis en avant
                                             </span>
                                         </div>
-                                        <p class="text-sm text-white/70 mt-1">
+                                        <p
+                                            class="text-xs md:text-sm text-white/70 mt-1 break-words"
+                                        >
                                             {{
                                                 truncateText(
                                                     project.description,
-                                                    80
+                                                    isMobile ? 40 : 80
                                                 )
                                             }}
                                         </p>
@@ -1020,23 +1091,25 @@ const renderStars = (rating) => {
 
                     <!-- Dernières activités blog/commentaires -->
                     <div
-                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-6"
+                        class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
-                        <div class="flex justify-between items-center mb-4">
+                        <div
+                            class="flex justify-between items-center mb-3 md:mb-4"
+                        >
                             <h3
-                                class="text-lg font-play font-semibold text-white"
+                                class="text-base md:text-lg font-play font-semibold text-white"
                             >
                                 Activité récente
                             </h3>
                             <Link
                                 :href="route('admin.blog')"
-                                class="text-sm text-led-green hover:text-led-green/80"
+                                class="text-xs md:text-sm text-led-green hover:text-led-green/80"
                             >
                                 Voir le blog
                             </Link>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-3 md:space-y-4">
                             <!-- Articles récents -->
                             <div
                                 v-if="
@@ -1051,27 +1124,27 @@ const renderStars = (rating) => {
                                 >
                                     <div class="flex items-start gap-2">
                                         <div
-                                            class="bg-gaming-red/20 rounded-full p-2 mt-1"
+                                            class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                         >
                                             <DocumentTextIcon
-                                                class="h-5 w-5 text-gaming-red"
+                                                class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                             />
                                         </div>
-                                        <div>
+                                        <div class="min-w-0">
                                             <div class="flex items-center">
                                                 <span
-                                                    class="font-medium text-white"
+                                                    class="font-medium text-white text-sm md:text-base"
                                                     >{{ post.title }}</span
                                                 >
                                             </div>
                                             <p
-                                                class="text-sm text-white/70 mt-1"
+                                                class="text-xs md:text-sm text-white/70 mt-1 break-words"
                                             >
                                                 {{
                                                     truncateText(
                                                         post.excerpt ||
                                                             post.content,
-                                                        80
+                                                        isMobile ? 40 : 80
                                                     )
                                                 }}
                                             </p>
@@ -1121,32 +1194,38 @@ const renderStars = (rating) => {
                                 >
                                     <div class="flex items-start gap-2">
                                         <div
-                                            class="bg-gaming-red/20 rounded-full p-2 mt-1"
+                                            class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                         >
                                             <ChatBubbleLeftRightIcon
-                                                class="h-5 w-5 text-gaming-red"
+                                                class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                             />
                                         </div>
-                                        <div>
-                                            <div class="flex items-center">
+                                        <div class="min-w-0">
+                                            <div
+                                                class="flex flex-wrap items-center gap-1"
+                                            >
                                                 <span
-                                                    class="font-medium text-white"
+                                                    class="font-medium text-white text-sm md:text-base"
                                                     >{{ comment.name }}</span
                                                 >
                                                 <span
-                                                    class="ml-2 text-xs text-white/50"
+                                                    class="text-xs text-white/50"
                                                     >sur "{{
-                                                        comment.blog_post.title
+                                                        truncateText(
+                                                            comment.blog_post
+                                                                .title,
+                                                            20
+                                                        )
                                                     }}"</span
                                                 >
                                             </div>
                                             <p
-                                                class="text-sm text-white/70 mt-1"
+                                                class="text-xs md:text-sm text-white/70 mt-1 break-words"
                                             >
                                                 {{
                                                     truncateText(
                                                         comment.content,
-                                                        80
+                                                        isMobile ? 40 : 80
                                                     )
                                                 }}
                                             </p>
@@ -1227,5 +1306,21 @@ const renderStars = (rating) => {
 
 .font-play {
     font-family: "Play", sans-serif;
+}
+
+/* Ajustement de la hauteur des graphiques en responsive */
+@media (max-width: 768px) {
+    .chartjs-render-monitor {
+        height: auto !important;
+    }
+}
+
+/* Empêcher les débordements de texte */
+.break-words {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
 }
 </style>

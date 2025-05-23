@@ -8,12 +8,12 @@ import {
     Dialog,
     DialogPanel,
 } from "@headlessui/vue";
-import {
-    ExclamationTriangleIcon,
-    MagnifyingGlassIcon,
-    ArrowUpIcon,
-    ArrowDownIcon,
-} from "@heroicons/vue/24/outline";
+import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
+import AdminSearchHeader from "@/Components/Admin/AdminSearchHeader.vue";
+import AdminSortHeader from "@/Components/Admin/AdminSortHeader.vue";
+import ConfirmDeleteModal from "@/Components/Admin/ConfirmDeleteModal.vue";
+import StatusToast from "@/Components/Admin/StatusToast.vue";
+import AdminFormButtons from "@/Components/Admin/AdminFormButtons.vue";
 
 const props = defineProps({
     posts: Array,
@@ -32,6 +32,15 @@ const sortBy = ref("created_at");
 const sortDirection = ref("desc");
 const updateMessage = ref("");
 const updateStatus = ref(null); // null, 'success' ou 'error'
+
+// Définir les colonnes pour le tri
+const sortColumns = [
+    { key: "title", label: "Titre", colSpan: 4 },
+    { key: "created_at", label: "Date", colSpan: 2 },
+    { key: "is_published", label: "Statut", colSpan: 2 },
+    { key: "order", label: "Ordre", colSpan: 2 },
+    { key: "actions", label: "Actions", colSpan: 2 },
+];
 
 // Filtrage et tri des articles
 const filteredPosts = computed(() => {
@@ -316,29 +325,10 @@ const formatDate = (dateString) => {
 <template>
     <AdminLayout title="Gestion du Blog">
         <template #header>
-            <div
-                class="flex flex-col sm:flex-row justify-between items-center gap-4"
-            >
-                <h2 class="font-semibold text-xl text-white leading-tight">
-                    Gestion du Blog
-                </h2>
-                <div class="relative w-full sm:w-auto">
-                    <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                    >
-                        <MagnifyingGlassIcon
-                            class="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                        />
-                    </div>
-                    <input
-                        v-model="searchQuery"
-                        type="text"
-                        placeholder="Rechercher..."
-                        class="block w-full pl-10 pr-3 py-2 border border-gaming-red rounded-md bg-deep-black/50 text-white focus:outline-none focus:ring-2 focus:ring-led-green"
-                    />
-                </div>
-            </div>
+            <AdminSearchHeader
+                title="Gestion du Blog"
+                v-model:searchQuery="searchQuery"
+            />
         </template>
 
         <div class="py-12">
@@ -711,45 +701,11 @@ const formatDate = (dateString) => {
                         </div>
 
                         <!-- Boutons du formulaire -->
-                        <div class="flex flex-wrap gap-4 pt-4">
-                            <button
-                                type="submit"
-                                class="bg-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/90 transition duration-150 flex items-center"
-                                :disabled="form.processing"
-                            >
-                                <span v-if="form.processing" class="mr-2">
-                                    <svg
-                                        class="animate-spin h-5 w-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle
-                                            class="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            stroke-width="4"
-                                        ></circle>
-                                        <path
-                                            class="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                        ></path>
-                                    </svg>
-                                </span>
-                                {{ editing ? "Mettre à jour" : "Ajouter" }}
-                            </button>
-                            <button
-                                v-if="editing"
-                                @click="cancelEdit"
-                                type="button"
-                                class="bg-deep-black border border-gaming-red text-white px-6 py-3 rounded-md hover:bg-gaming-red/10 transition duration-150"
-                            >
-                                Annuler
-                            </button>
-                        </div>
+                        <AdminFormButtons
+                            :processing="form.processing"
+                            :is-editing="!!editing"
+                            @cancel="cancelEdit"
+                        />
                     </form>
                 </div>
 
@@ -762,205 +718,12 @@ const formatDate = (dateString) => {
                 </div>
 
                 <div v-else class="space-y-4">
-                    <!-- En-têtes du tableau - visibles uniquement sur desktop -->
-                    <div
-                        class="hidden lg:grid bg-gaming-red/20 p-4 rounded-lg mb-4 grid-cols-12 gap-4 items-center font-semibold text-white"
-                    >
-                        <div
-                            class="col-span-4 flex items-center cursor-pointer"
-                            @click="toggleSort('title')"
-                        >
-                            Titre
-                            <ArrowUpIcon
-                                v-if="
-                                    sortBy === 'title' &&
-                                    sortDirection === 'asc'
-                                "
-                                class="h-4 w-4 ml-1"
-                            />
-                            <ArrowDownIcon
-                                v-else-if="
-                                    sortBy === 'title' &&
-                                    sortDirection === 'desc'
-                                "
-                                class="h-4 w-4 ml-1"
-                            />
-                        </div>
-                        <div
-                            class="col-span-2 cursor-pointer"
-                            @click="toggleSort('created_at')"
-                        >
-                            Date
-                            <ArrowUpIcon
-                                v-if="
-                                    sortBy === 'created_at' &&
-                                    sortDirection === 'asc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                            <ArrowDownIcon
-                                v-else-if="
-                                    sortBy === 'created_at' &&
-                                    sortDirection === 'desc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                        </div>
-                        <div
-                            class="col-span-2 text-center cursor-pointer"
-                            @click="toggleSort('is_published')"
-                        >
-                            Statut
-                            <ArrowUpIcon
-                                v-if="
-                                    sortBy === 'is_published' &&
-                                    sortDirection === 'asc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                            <ArrowDownIcon
-                                v-else-if="
-                                    sortBy === 'is_published' &&
-                                    sortDirection === 'desc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                        </div>
-                        <div
-                            class="col-span-2 cursor-pointer"
-                            @click="toggleSort('order')"
-                        >
-                            Ordre
-                            <ArrowUpIcon
-                                v-if="
-                                    sortBy === 'order' &&
-                                    sortDirection === 'asc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                            <ArrowDownIcon
-                                v-else-if="
-                                    sortBy === 'order' &&
-                                    sortDirection === 'desc'
-                                "
-                                class="h-4 w-4 ml-1 inline"
-                            />
-                        </div>
-                        <div class="col-span-2 text-center">Actions</div>
-                    </div>
-
-                    <!-- Barre de tri mobile visible uniquement sur petit écran -->
-                    <div
-                        class="lg:hidden bg-gaming-red/20 p-3 rounded-lg mb-4 text-white"
-                    >
-                        <div class="flex justify-between items-center">
-                            <div class="text-sm font-medium">Trier par:</div>
-                            <div class="flex gap-2 flex-wrap">
-                                <button
-                                    @click="toggleSort('title')"
-                                    class="px-2 py-1 rounded text-sm flex items-center"
-                                    :class="{
-                                        'bg-led-green text-deep-black':
-                                            sortBy === 'title',
-                                        'bg-deep-black/30': sortBy !== 'title',
-                                    }"
-                                >
-                                    Titre
-                                    <ArrowUpIcon
-                                        v-if="
-                                            sortBy === 'title' &&
-                                            sortDirection === 'asc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                    <ArrowDownIcon
-                                        v-else-if="
-                                            sortBy === 'title' &&
-                                            sortDirection === 'desc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                </button>
-                                <button
-                                    @click="toggleSort('created_at')"
-                                    class="px-2 py-1 rounded text-sm flex items-center"
-                                    :class="{
-                                        'bg-led-green text-deep-black':
-                                            sortBy === 'created_at',
-                                        'bg-deep-black/30':
-                                            sortBy !== 'created_at',
-                                    }"
-                                >
-                                    Date
-                                    <ArrowUpIcon
-                                        v-if="
-                                            sortBy === 'created_at' &&
-                                            sortDirection === 'asc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                    <ArrowDownIcon
-                                        v-else-if="
-                                            sortBy === 'created_at' &&
-                                            sortDirection === 'desc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                </button>
-                                <button
-                                    @click="toggleSort('is_published')"
-                                    class="px-2 py-1 rounded text-sm flex items-center"
-                                    :class="{
-                                        'bg-led-green text-deep-black':
-                                            sortBy === 'is_published',
-                                        'bg-deep-black/30':
-                                            sortBy !== 'is_published',
-                                    }"
-                                >
-                                    Statut
-                                    <ArrowUpIcon
-                                        v-if="
-                                            sortBy === 'is_published' &&
-                                            sortDirection === 'asc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                    <ArrowDownIcon
-                                        v-else-if="
-                                            sortBy === 'is_published' &&
-                                            sortDirection === 'desc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                </button>
-                                <button
-                                    @click="toggleSort('order')"
-                                    class="px-2 py-1 rounded text-sm flex items-center"
-                                    :class="{
-                                        'bg-led-green text-deep-black':
-                                            sortBy === 'order',
-                                        'bg-deep-black/30': sortBy !== 'order',
-                                    }"
-                                >
-                                    Ordre
-                                    <ArrowUpIcon
-                                        v-if="
-                                            sortBy === 'order' &&
-                                            sortDirection === 'asc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                    <ArrowDownIcon
-                                        v-else-if="
-                                            sortBy === 'order' &&
-                                            sortDirection === 'desc'
-                                        "
-                                        class="h-3 w-3 ml-1"
-                                    />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <AdminSortHeader
+                        :sort-by="sortBy"
+                        :sort-direction="sortDirection"
+                        :columns="sortColumns"
+                        @sort="toggleSort"
+                    />
 
                     <transition-group name="list" tag="div" class="space-y-4">
                         <div
@@ -1237,148 +1000,16 @@ const formatDate = (dateString) => {
         </div>
 
         <!-- Modal de confirmation de suppression -->
-        <TransitionRoot appear :show="showDeleteModal" as="template">
-            <Dialog
-                as="div"
-                @close="showDeleteModal = false"
-                class="relative z-10"
-            >
-                <TransitionChild
-                    as="template"
-                    enter="duration-300 ease-out"
-                    enter-from="opacity-0"
-                    enter-to="opacity-100"
-                    leave="duration-200 ease-in"
-                    leave-from="opacity-100"
-                    leave-to="opacity-0"
-                >
-                    <div class="fixed inset-0 bg-black/75 transition-opacity" />
-                </TransitionChild>
-
-                <div class="fixed inset-0 overflow-y-auto">
-                    <div
-                        class="flex min-h-full items-center justify-center p-4 text-center"
-                    >
-                        <TransitionChild
-                            as="template"
-                            enter="duration-300 ease-out"
-                            enter-from="opacity-0 scale-95"
-                            enter-to="opacity-100 scale-100"
-                            leave="duration-200 ease-in"
-                            leave-from="opacity-100 scale-100"
-                            leave-to="opacity-0 scale-95"
-                        >
-                            <DialogPanel
-                                class="w-full max-w-md transform overflow-hidden rounded-2xl bg-deep-black border border-gaming-red p-4 sm:p-6 text-left align-middle shadow-xl transition-all"
-                            >
-                                <div
-                                    class="flex items-center justify-center mb-5 text-gaming-red"
-                                >
-                                    <ExclamationTriangleIcon
-                                        class="h-10 w-10 sm:h-12 sm:w-12"
-                                    />
-                                </div>
-
-                                <div class="text-center">
-                                    <h3
-                                        class="text-lg sm:text-xl font-medium text-white mb-4"
-                                    >
-                                        Confirmer la suppression
-                                    </h3>
-                                    <p
-                                        class="text-white/70 mb-6 text-sm sm:text-base"
-                                    >
-                                        Êtes-vous sûr de vouloir supprimer
-                                        l'article : <br />
-                                        <span
-                                            class="font-semibold text-led-green break-words"
-                                            >{{ postToDelete?.title }}</span
-                                        >
-                                    </p>
-                                </div>
-
-                                <div class="flex justify-center gap-4 mt-6">
-                                    <button
-                                        @click="showDeleteModal = false"
-                                        class="inline-flex justify-center rounded-md border border-gaming-red bg-deep-black px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/10 transition-colors"
-                                    >
-                                        Annuler
-                                    </button>
-                                    <button
-                                        @click="deletePost"
-                                        class="inline-flex justify-center rounded-md border border-transparent bg-gaming-red px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-white hover:bg-gaming-red/90 transition-colors"
-                                    >
-                                        Supprimer
-                                    </button>
-                                </div>
-                            </DialogPanel>
-                        </TransitionChild>
-                    </div>
-                </div>
-            </Dialog>
-        </TransitionRoot>
+        <ConfirmDeleteModal
+            :show="showDeleteModal"
+            :item-name="postToDelete?.title"
+            item-label="l'article"
+            @close="showDeleteModal = false"
+            @confirm="deletePost"
+        />
 
         <!-- Toast de notification -->
-        <div
-            v-if="updateStatus"
-            class="fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transition-all duration-300 z-50"
-            :class="{
-                'bg-led-green text-white': updateStatus === 'success',
-                'bg-gaming-red text-white': updateStatus === 'error',
-                'bg-blue-500 text-white': updateStatus === 'loading',
-            }"
-        >
-            <div class="flex items-center space-x-2">
-                <svg
-                    v-if="updateStatus === 'success'"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-                <svg
-                    v-if="updateStatus === 'error'"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-                <svg
-                    v-if="updateStatus === 'loading'"
-                    class="animate-spin h-5 w-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                >
-                    <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                    ></circle>
-                    <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                </svg>
-                <span>{{ updateMessage }}</span>
-            </div>
-        </div>
+        <StatusToast :status="updateStatus" :message="updateMessage" />
     </AdminLayout>
 </template>
 
