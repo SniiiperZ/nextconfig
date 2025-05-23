@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="8j-8F9XKKMt82nXGFvSbkh96-BzCdiWKi_yWae81N7U" />
 
     <!-- Favicons -->
     @include('partials.favicons')
