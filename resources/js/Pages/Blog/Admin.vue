@@ -93,19 +93,28 @@ let editor = null;
 onMounted(() => {
     if (typeof ClassicEditor !== "undefined") {
         ClassicEditor.create(document.querySelector("#editor"), {
-            toolbar: [
-                "heading",
-                "|",
-                "bold",
-                "italic",
-                "link",
-                "bulletedList",
-                "numberedList",
-                "blockQuote",
-                "insertTable",
-                "undo",
-                "redo",
-            ],
+            toolbar: {
+                items: [
+                    "heading",
+                    "|",
+                    "bold",
+                    "italic",
+                    "link",
+                    "|",
+                    "bulletedList",
+                    "numberedList",
+                    "|",
+                    "blockQuote",
+                    "insertTable",
+                    "|",
+                    "undo",
+                    "redo",
+                ],
+                // Configuration pour responsive
+                shouldNotGroupWhenFull: true,
+                // Permet de définir comment les éléments seront répartis
+                viewportTopOffset: 60,
+            },
         })
             .then((newEditor) => {
                 editor = newEditor;
@@ -1054,10 +1063,32 @@ menu {
 
     .ck.ck-toolbar {
         flex-wrap: wrap;
+        padding: 8px;
+        gap: 4px;
+    }
+
+    /* Forcer les groupes d'outils à occuper toute la largeur sur mobile */
+    .ck.ck-toolbar > .ck-toolbar__items {
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 6px;
+    }
+
+    /* Donner plus d'espace à chaque bouton sur mobile */
+    .ck.ck-toolbar .ck-button {
+        padding: 8px;
+        margin: 2px;
+    }
+
+    /* Organiser les séparateurs pour les sauts de ligne */
+    .ck.ck-toolbar .ck-toolbar__separator {
+        width: 100%;
+        height: 1px;
+        margin: 4px 0;
     }
 }
 
-/* Animations pour la liste */
+/* Animation plus fluide pour les transitions */
 .list-enter-active,
 .list-leave-active {
     transition: all 0.3s ease;
