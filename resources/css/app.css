@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    /* Couleurs principales alignées avec le thème Tailwind */
+    --color-gaming-red: #ff0033;
+    --color-deep-black: #1a1a1a;
+    --color-led-green: #00ff8c;
+
+    /* Variantes avec transparence */
+    --color-gaming-red-light: rgba(255, 0, 51, 0.3);
+    --color-gaming-red-medium: rgba(255, 0, 51, 0.5);
+    --color-gaming-red-strong: rgba(255, 0, 51, 0.7);
+    --color-led-green-glow: rgba(0, 255, 140, 0.3);
+
+    /* Ombres standards */
+    --shadow-standard: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 6px 10px rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    /* Transitions */
+    --transition-standard: all 0.3s ease;
+
+    /* Gradients */
+    --gradient-gaming-red: linear-gradient(45deg, #ec407a, #d81b60);
+}
+
 [x-cloak] {
     display: none;
 }

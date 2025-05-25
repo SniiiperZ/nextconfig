@@ -1,53 +1,62 @@
-\resources\js\Pages\Services.vue
 <script setup>
+// Import du layout principal pour les pages publiques
 import PublicLayout from "@/Layouts/PublicLayout.vue";
+// Import du composant Link d'Inertia pour la navigation
 import { Link } from "@inertiajs/vue3";
+// Imports des composants réutilisables pour la structure de la page
 import HeroSection from "@/Components/HeroSection.vue";
 import HeroTitle from "@/Components/HeroTitle.vue";
 import FeatureBlock from "@/Components/FeatureBlock.vue";
 import CheckListItem from "@/Components/CheckListItem.vue";
 import CTAButton from "@/Components/CTAButton.vue";
 
-// Icônes pour les boutons CTA
+// Définition des icônes SVG pour les différents boutons CTA
+// Icône pour les demandes de devis
 const devisIcon = `
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
 `;
 
+// Icône pour le contact/prise de rendez-vous
 const contactIcon = `
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
 `;
 
+// Icône pour le calculateur de budget
 const calculatorIcon = `
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
 `;
 </script>
 
 <template>
+    <!-- Layout principal avec SEO optimisé pour la page Services -->
     <PublicLayout
         title="Nos Services"
         description="Services professionnels de montage PC Gaming, maintenance et optimisation en Belgique. Configuration sur mesure, personnalisation RGB et overclocking pour des performances maximales."
         keywords="services assemblage PC, montage PC sur mesure, maintenance PC gaming, upgrade ordinateur gaming, overclocking, personnalisation RGB"
     >
-        <!-- Hero Section pour la page Services -->
+        <!-- En-tête de la page avec titre principal -->
         <HeroSection
             title="Nos Services"
             subtitle="Des solutions sur mesure pour tous vos besoins gaming"
         />
 
+        <!-- Section principale du contenu avec espacement responsif -->
         <div class="py-8 sm:py-10 md:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Services détaillés -->
+                <!-- Conteneur pour les cartes de services avec espacement vertical -->
                 <div class="space-y-12 sm:space-y-14 md:space-y-16">
-                    <!-- Montage PC -->
+                    <!-- SERVICE 1: Montage PC Gaming -->
                     <div class="service-card-large">
                         <HeroTitle title="Montage PC Gaming" />
 
+                        <!-- Bloc de fonctionnalités avec image à gauche -->
                         <FeatureBlock
                             title="Configuration sur mesure"
                             image="/images/montage.jpg"
                             imageAlt="Montage PC Gaming"
                             :imageRight="false"
                         >
+                            <!-- Liste des avantages du service avec puces -->
                             <ul class="text-white space-y-3 sm:space-y-4">
                                 <CheckListItem
                                     text="Sélection personnalisée des composants selon votre budget et vos besoins spécifiques (gaming, streaming, création)"
@@ -63,6 +72,7 @@ const calculatorIcon = `
                                 />
                             </ul>
 
+                            <!-- Bouton d'appel à l'action principal -->
                             <div class="mt-6 sm:mt-8">
                                 <CTAButton
                                     :href="route('devis')"
@@ -75,16 +85,18 @@ const calculatorIcon = `
                         </FeatureBlock>
                     </div>
 
-                    <!-- Maintenance -->
+                    <!-- SERVICE 2: Maintenance et Optimisation -->
                     <div class="service-card-large">
                         <HeroTitle title="Maintenance et Optimisation" />
 
+                        <!-- Bloc de fonctionnalités avec image à droite -->
                         <FeatureBlock
                             title="Performances optimales"
                             image="/images/maintenance.jpg"
                             imageAlt="Maintenance PC Gaming"
                             :imageRight="true"
                         >
+                            <!-- Liste des avantages du service avec puces -->
                             <ul class="text-white space-y-3 sm:space-y-4">
                                 <CheckListItem
                                     text="Nettoyage complet du système (dépoussiérage des ventilateurs, radiateurs, composants)"
@@ -100,6 +112,7 @@ const calculatorIcon = `
                                 />
                             </ul>
 
+                            <!-- Bouton d'appel à l'action secondaire -->
                             <div class="mt-6 sm:mt-8">
                                 <CTAButton
                                     :href="route('contact')"
@@ -112,16 +125,18 @@ const calculatorIcon = `
                         </FeatureBlock>
                     </div>
 
-                    <!-- Optimisation -->
+                    <!-- SERVICE 3: Upgrade et Personnalisation -->
                     <div class="service-card-large">
                         <HeroTitle title="Upgrade et Personnalisation" />
 
+                        <!-- Bloc de fonctionnalités avec image à gauche -->
                         <FeatureBlock
                             title="Améliorez votre expérience"
                             image="/images/background.jpg"
                             imageAlt="Upgrade PC Gaming"
                             :imageRight="false"
                         >
+                            <!-- Liste des avantages du service avec puces -->
                             <ul class="text-white space-y-3 sm:space-y-4">
                                 <CheckListItem
                                     text="Upgrade ciblé des composants pour améliorer les performances (GPU, CPU, RAM)"
@@ -137,6 +152,7 @@ const calculatorIcon = `
                                 />
                             </ul>
 
+                            <!-- Bouton d'appel à l'action tertiaire -->
                             <div class="mt-6 sm:mt-8">
                                 <CTAButton
                                     :href="route('budget.calculator')"
@@ -150,7 +166,7 @@ const calculatorIcon = `
                     </div>
                 </div>
 
-                <!-- Call to Action -->
+                <!-- Section de conclusion avec CTA finaux -->
                 <div class="mt-12 sm:mt-16 md:mt-20 text-center px-4 sm:px-0">
                     <h2
                         class="text-2xl sm:text-3xl font-play text-gaming-red mb-4 sm:mb-6"
@@ -164,6 +180,7 @@ const calculatorIcon = `
                         projet ou commencer à configurer votre PC gaming sur
                         mesure.
                     </p>
+                    <!-- Boutons d'action finaux côte à côte (responsive) -->
                     <div
                         class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
                     >
@@ -187,55 +204,3 @@ const calculatorIcon = `
         </div>
     </PublicLayout>
 </template>
-
-<style scoped>
-.custom-rgb-bg {
-    position: relative;
-}
-
-.custom-rgb-bg::before {
-    content: "";
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    background: linear-gradient(
-        45deg,
-        #ff0000,
-        #ff7300,
-        #fffb00,
-        #48ff00,
-        #00ffd5,
-        #002bff,
-        #7a00ff,
-        #ff00c8,
-        #ff0000
-    );
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(5px);
-    animation: rgb-animation 20s linear infinite;
-    border-radius: 10px;
-    opacity: 0.7;
-}
-
-@keyframes rgb-animation {
-    0% {
-        background-position: 0 0;
-    }
-    50% {
-        background-position: 400% 0;
-    }
-    100% {
-        background-position: 0 0;
-    }
-}
-
-/* Responsive adjustments for mobile devices */
-@media (max-width: 640px) {
-    .custom-rgb-bg::before {
-        filter: blur(3px);
-    }
-}
-</style>

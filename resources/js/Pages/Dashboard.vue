@@ -1,6 +1,27 @@
 <script setup>
+/**
+ * Dashboard Administratif NextConfig
+ *
+ * Cette page présente un tableau de bord complet avec statistiques, graphiques
+ * et informations récentes pour l'administrateur du site.
+ *
+ * Fonctionnalités principales:
+ * - Affichage des statistiques clés (projets, avis, articles, commentaires)
+ * - Visualisation des revenus avec graphiques interactifs
+ * - Distribution des avis clients par note
+ * - Liste des activités récentes (avis, projets, articles, commentaires)
+ * - Gestion des revenus mensuels
+ */
+
+// --------------------------
+// IMPORTS
+// --------------------------
+
+// Composants Vue et utilitaires
 import { ref, onMounted, computed, watch } from "vue";
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue"; // Layout principal d'administration
+
+// Composants pour les graphiques
 import { Pie, Doughnut, Bar } from "vue-chartjs";
 import {
     Chart as ChartJS,
@@ -12,29 +33,33 @@ import {
     Legend,
     ArcElement,
 } from "chart.js";
+
+// Utilitaires HTTP et Inertia
 import axios from "axios";
 import { Link, router, useForm, usePage } from "@inertiajs/vue3";
+
+// Icônes Heroicons pour l'interface
 import {
-    ComputerDesktopIcon,
-    ChatBubbleLeftRightIcon,
-    StarIcon,
-    DocumentTextIcon,
-    CurrencyEuroIcon,
-    ArrowUpRightIcon,
-    WrenchScrewdriverIcon,
-    XMarkIcon,
-    CheckCircleIcon,
-    PencilIcon,
-    ViewfinderCircleIcon,
-    CalendarIcon,
-    QuestionMarkCircleIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    ChevronDownIcon,
-    ChevronUpIcon,
+    ComputerDesktopIcon, // Icône pour les projets
+    ChatBubbleLeftRightIcon, // Icône pour les commentaires
+    StarIcon, // Icône pour les avis
+    DocumentTextIcon, // Icône pour les articles
+    CurrencyEuroIcon, // Icône pour les revenus
+    ArrowUpRightIcon, // Icône pour les liens
+    WrenchScrewdriverIcon, // Icône pour les projets
+    XMarkIcon, // Icône pour fermer/annuler
+    CheckCircleIcon, // Icône pour confirmer/approuver
+    PencilIcon, // Icône pour modifier
+    ViewfinderCircleIcon, // Icône pour les actions rapides
+    CalendarIcon, // Icône pour les dates
+    QuestionMarkCircleIcon, // Icône pour l'aide
+    ChevronLeftIcon, // Icône de navigation gauche
+    ChevronRightIcon, // Icône de navigation droite
+    ChevronDownIcon, // Icône déroulante bas
+    ChevronUpIcon, // Icône déroulante haut
 } from "@heroicons/vue/24/outline";
 
-// Enregistrer les composants ChartJS nécessaires
+// Enregistrement des composants ChartJS nécessaires
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -45,6 +70,18 @@ ChartJS.register(
     ArcElement
 );
 
+// --------------------------
+// PROPS ET ÉTAT INITIAL
+// --------------------------
+
+/**
+ * Props reçues du contrôleur Laravel
+ * - stats: Statistiques globales du site
+ * - recent_reviews: Derniers avis clients
+ * - recent_projects: Derniers projets réalisés
+ * - recent_comments: Derniers commentaires du blog
+ * - recent_blog_posts: Derniers articles du blog
+ */
 const props = defineProps({
     stats: Object,
     recent_reviews: Array,
@@ -53,24 +90,39 @@ const props = defineProps({
     recent_blog_posts: Array,
 });
 
-// Notification de succès avec durée personnalisée
+// --------------------------
+// GESTION DES NOTIFICATIONS
+// --------------------------
+
+/**
+ * Système de notification flash
+ * Récupère les messages de succès de la session Laravel via Inertia
+ * et les affiche temporairement
+ */
 const page = usePage();
 const flashMessage = ref(page.props.flash.success || null);
 const showFlashMessage = ref(!!page.props.flash.success);
 
-// Masquer le message après un délai (8 secondes)
+// Masquer automatiquement le message après 8 secondes
 if (flashMessage.value) {
     setTimeout(() => {
         showFlashMessage.value = false;
-    }, 8000); // 8 secondes
+    }, 8000);
 }
 
-// Masquer manuellement le message
+// Fonction pour masquer manuellement le message
 const hideFlashMessage = () => {
     showFlashMessage.value = false;
 };
 
-// Stats calculées
+// --------------------------
+// STATISTIQUES CALCULÉES
+// --------------------------
+
+/**
+ * Données calculées à partir des statistiques reçues
+ * Utilisation de computed pour bénéficier de la réactivité
+ */
 const totalProjectsCount = computed(() => props.stats.projects_count || 0);
 const totalReviewsCount = computed(() => props.stats.reviews_count || 0);
 const totalBlogPostsCount = computed(() => props.stats.blog_posts_count || 0);
@@ -83,14 +135,26 @@ const pendingReviewsCount = computed(
 );
 const totalRevenue = computed(() => props.stats.total_revenue || 0);
 
-// Sélecteur d'année amélioré
+// --------------------------
+// GESTION DU SÉLECTEUR D'ANNÉE
+// --------------------------
+
+// État du dropdown de sélection d'année
 const yearSelectorOpen = ref(false);
 
-// État de chargement pour le changement d'année
+// Indicateur de chargement lors du changement d'année
 const isYearChanging = ref(false);
 
-// Année sélectionnée pour les revenus - modification pour permettre toute année
+/**
+ * Gestion de l'année sélectionnée pour les revenus
+ * Permet de filtrer les données financières par année
+ */
 const selectedYear = ref(props.stats.selected_year || new Date().getFullYear());
+
+/**
+ * Liste des années disponibles pour la sélection
+ * Utilise les données du serveur ou génère une plage d'années logique
+ */
 const availableYears = computed(() => {
     // Si des années sont disponibles, les utiliser
     if (props.stats.available_years && props.stats.available_years.length) {
@@ -106,15 +170,10 @@ const availableYears = computed(() => {
     return years;
 });
 
-// Données sur la période actuelle - indépendantes de l'année sélectionnée
-const today = new Date();
-const currentMonthName = today.toLocaleString("fr-FR", { month: "long" });
-const currentYearNumber = today.getFullYear();
-const currentMonthRevenue = computed(
-    () => props.stats.current_month_revenue || 0
-);
-
-// Fonction pour changer d'année avec indicateur de chargement
+/**
+ * Fonction pour changer l'année avec indication visuelle de chargement
+ * @param {Number} year - L'année à sélectionner
+ */
 const changeYear = (year) => {
     // Éviter de recharger si on clique sur l'année déjà sélectionnée
     if (year === selectedYear.value) {
@@ -131,24 +190,50 @@ const changeYear = (year) => {
     }, 300);
 };
 
-// Données pour les graphiques
+// --------------------------
+// DONNÉES DE LA PÉRIODE ACTUELLE
+// --------------------------
+
+/**
+ * Informations sur la période actuelle
+ * Indépendantes de l'année sélectionnée pour le graphique
+ */
+const today = new Date();
+const currentMonthName = today.toLocaleString("fr-FR", { month: "long" });
+const currentYearNumber = today.getFullYear();
+const currentMonthRevenue = computed(
+    () => props.stats.current_month_revenue || 0
+);
+
+// --------------------------
+// DONNÉES POUR LES GRAPHIQUES
+// --------------------------
+
+/**
+ * Configuration du graphique de distribution des avis
+ * Affiche la répartition des notes (1 à 5 étoiles)
+ */
 const reviewsChartData = ref({
     labels: ["5★", "4★", "3★", "2★", "1★"],
     datasets: [
         {
             backgroundColor: [
-                "#10b981",
-                "#a3e635",
-                "#fbbf24",
-                "#f97316",
-                "#ef4444",
+                "#10b981", // Vert pour 5 étoiles
+                "#a3e635", // Vert-jaune pour 4 étoiles
+                "#fbbf24", // Jaune pour 3 étoiles
+                "#f97316", // Orange pour 2 étoiles
+                "#ef4444", // Rouge pour 1 étoile
             ],
-            data: props.stats.reviews_rating_distribution || [45, 30, 15, 7, 3],
+            data: props.stats.reviews_rating_distribution || [45, 30, 15, 7, 3], // Valeurs par défaut si non fournies
             borderWidth: 0,
         },
     ],
 });
 
+/**
+ * Configuration du graphique des revenus mensuels
+ * Affiche les revenus pour chaque mois de l'année sélectionnée
+ */
 const monthlyRevenueData = ref({
     labels: [
         "Jan",
@@ -178,8 +263,14 @@ const monthlyRevenueData = ref({
     ],
 });
 
-// Formulaire pour mettre à jour les revenus
+// --------------------------
+// GESTION DU FORMULAIRE DE REVENUS
+// --------------------------
+
+// État d'édition des revenus
 const editingRevenue = ref(false);
+
+// Noms des mois pour le sélecteur
 const monthNames = [
     "Janvier",
     "Février",
@@ -195,10 +286,14 @@ const monthNames = [
     "Décembre",
 ];
 
+/**
+ * Formulaire pour la mise à jour des revenus mensuels
+ * Utilise useForm d'Inertia pour gérer la soumission
+ */
 const revenueForm = useForm({
     month: new Date().getMonth() + 1, // Mois courant (1-12)
-    year: selectedYear.value, // Utiliser l'année sélectionnée
-    amount: 0,
+    year: selectedYear.value, // Année sélectionnée actuellement
+    amount: 0, // Montant à définir
 });
 
 // Mettre à jour le formulaire quand l'année sélectionnée change
@@ -206,7 +301,14 @@ watch(selectedYear, (newValue) => {
     revenueForm.year = newValue;
 });
 
-// Options des graphiques avec adaptation responsive
+// --------------------------
+// OPTIONS DES GRAPHIQUES
+// --------------------------
+
+/**
+ * Options pour le graphique circulaire (avis)
+ * Configuration responsive avec adaptation mobile/desktop
+ */
 const pieChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -226,6 +328,10 @@ const pieChartOptions = {
     },
 };
 
+/**
+ * Options pour le graphique en barres (revenus)
+ * Configuration responsive avec adaptation mobile/desktop
+ */
 const barChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -273,7 +379,14 @@ const barChartOptions = {
     },
 };
 
-// Gestion du formulaire de revenus
+// --------------------------
+// FONCTIONS DU FORMULAIRE DE REVENUS
+// --------------------------
+
+/**
+ * Initialise le formulaire d'édition des revenus
+ * Prérempli avec les données du mois et de l'année sélectionnés
+ */
 const startEditingRevenue = () => {
     editingRevenue.value = true;
     // Utiliser l'année sélectionnée pour le formulaire
@@ -287,6 +400,10 @@ const startEditingRevenue = () => {
     }
 };
 
+/**
+ * Soumet le formulaire de revenus au serveur
+ * Utilise la méthode post de useForm pour envoyer les données
+ */
 const submitRevenueForm = () => {
     revenueForm.post(route("admin.update-monthly-revenue"), {
         onSuccess: () => {
@@ -297,12 +414,18 @@ const submitRevenueForm = () => {
     });
 };
 
+/**
+ * Annule l'édition des revenus et réinitialise le formulaire
+ */
 const cancelEditRevenue = () => {
     editingRevenue.value = false;
     revenueForm.reset();
 };
 
-// Mise à jour du montant quand le mois change
+/**
+ * Met à jour le montant affiché dans le formulaire
+ * quand l'utilisateur change de mois
+ */
 const updateSelectedMonthRevenue = () => {
     if (props.stats.monthly_revenue) {
         revenueForm.amount =
@@ -310,7 +433,15 @@ const updateSelectedMonthRevenue = () => {
     }
 };
 
-// Formatage des dates
+// --------------------------
+// FONCTIONS UTILITAIRES
+// --------------------------
+
+/**
+ * Formate une date au format français
+ * @param {String} dateString - Date au format ISO
+ * @returns {String} - Date formatée (ex: "15 mars 2025")
+ */
 const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -321,20 +452,37 @@ const formatDate = (dateString) => {
     });
 };
 
-// Tronquer le texte
+/**
+ * Tronque un texte s'il dépasse la longueur spécifiée
+ * @param {String} text - Texte à tronquer
+ * @param {Number} length - Longueur maximale (défaut: 60)
+ * @returns {String} - Texte tronqué avec "..." si nécessaire
+ */
 const truncateText = (text, length = 60) => {
     if (!text) return "";
     return text.length > length ? text.substring(0, length) + "..." : text;
 };
 
-// Rendu des étoiles pour les avis
+/**
+ * Génère un tableau d'étoiles remplies/vides selon la note
+ * @param {Number} rating - Note (1-5)
+ * @returns {Array} - Tableau de booléens (true = étoile remplie)
+ */
 const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => i < rating);
 };
 
-// Détecter le mode mobile pour ajuster les contrôles
+// --------------------------
+// DÉTECTION MOBILE ET ADAPTATIONS RESPONSIVES
+// --------------------------
+
+/**
+ * Détecte si l'appareil est en mode mobile
+ * Permet d'adapter l'affichage en conséquence
+ */
 const isMobile = ref(window.innerWidth < 768);
 
+// Mise à jour de la détection mobile lors du redimensionnement
 onMounted(() => {
     const handleResize = () => {
         isMobile.value = window.innerWidth < 768;
@@ -350,17 +498,19 @@ onMounted(() => {
 
 <template>
     <AdminLayout title="Dashboard">
+        <!-- En-tête du Dashboard avec titre et message de notification -->
         <template #header>
             <div
                 class="flex flex-col sm:flex-row justify-between items-center gap-3"
             >
+                <!-- Titre principal du dashboard -->
                 <h2
                     class="font-play font-semibold text-xl text-white leading-tight"
                 >
                     Dashboard Admin - NextConfig
                 </h2>
 
-                <!-- Notification de succès améliorée -->
+                <!-- Notification de succès avec animation d'entrée/sortie -->
                 <transition
                     enter-active-class="transition ease-out duration-300"
                     enter-from-class="transform opacity-0 scale-95"
@@ -386,13 +536,14 @@ onMounted(() => {
             </div>
         </template>
 
+        <!-- Corps principal du Dashboard avec espacement responsif -->
         <div class="py-6 md:py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Statistiques principales -->
+                <!-- SECTION 1: STATISTIQUES PRINCIPALES -->
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8"
                 >
-                    <!-- Projets réalisés -->
+                    <!-- 1.1 Carte: Projets réalisés -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
@@ -430,7 +581,7 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <!-- Avis clients -->
+                    <!-- 1.2 Carte: Avis clients -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
@@ -446,6 +597,7 @@ onMounted(() => {
                                         class="text-2xl md:text-3xl font-play font-bold text-white mt-1 flex items-center flex-wrap"
                                     >
                                         {{ totalReviewsCount }}
+                                        <!-- Badge pour les avis en attente -->
                                         <span
                                             v-if="pendingReviewsCount > 0"
                                             class="ml-2 text-xs md:text-sm text-gaming-red"
@@ -474,7 +626,7 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <!-- Articles de blog -->
+                    <!-- 1.3 Carte: Articles de blog -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
@@ -512,7 +664,7 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <!-- Commentaires -->
+                    <!-- 1.4 Carte: Commentaires -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red transition-all duration-300 rounded-lg shadow-lg overflow-hidden"
                     >
@@ -528,6 +680,7 @@ onMounted(() => {
                                         class="text-2xl md:text-3xl font-play font-bold text-white mt-1 flex items-center flex-wrap"
                                     >
                                         {{ totalCommentsCount }}
+                                        <!-- Badge pour les commentaires en attente -->
                                         <span
                                             v-if="pendingCommentsCount > 0"
                                             class="ml-2 text-xs md:text-sm text-gaming-red"
@@ -557,11 +710,11 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <!-- Statistiques et données du site -->
+                <!-- SECTION 2: INFORMATIONS DÉTAILLÉES ET GRAPHIQUES -->
                 <div
                     class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8"
                 >
-                    <!-- Informations du site -->
+                    <!-- 2.1 Carte: Informations du site et actions rapides -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
@@ -574,7 +727,7 @@ onMounted(() => {
                         <div
                             class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6"
                         >
-                            <!-- Stats de la période -->
+                            <!-- 2.1.1 Stats de la période courante -->
                             <div
                                 class="bg-deep-black/50 border border-gaming-red/20 rounded-lg p-3 md:p-4"
                             >
@@ -620,7 +773,7 @@ onMounted(() => {
                                 </div>
                             </div>
 
-                            <!-- Actions rapides -->
+                            <!-- 2.1.2 Actions rapides -->
                             <div
                                 class="bg-deep-black/50 border border-gaming-red/20 rounded-lg p-3 md:p-4"
                             >
@@ -633,6 +786,7 @@ onMounted(() => {
                                     </h4>
                                 </div>
 
+                                <!-- Liste des actions rapides avec liens -->
                                 <div class="space-y-2 text-sm">
                                     <Link
                                         :href="route('admin.portfolio')"
@@ -674,11 +828,11 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <!-- Revenus mensuels (éditable) avec sélecteur d'année -->
+                    <!-- 2.2 Carte: Graphique des revenus mensuels avec sélecteur d'année -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6 relative"
                     >
-                        <!-- Overlay de chargement -->
+                        <!-- Overlay de chargement pour le changement d'année -->
                         <div
                             v-if="isYearChanging"
                             class="absolute inset-0 bg-deep-black/80 flex items-center justify-center rounded-lg z-20"
@@ -688,6 +842,7 @@ onMounted(() => {
                             ></div>
                         </div>
 
+                        <!-- En-tête avec titre, sélecteur d'année et total -->
                         <div
                             class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3 md:mb-4"
                         >
@@ -700,7 +855,7 @@ onMounted(() => {
                                     Revenus mensuels {{ selectedYear }}
                                 </h3>
 
-                                <!-- Sélecteur d'année avec dropdown plutôt que simple navigation -->
+                                <!-- Sélecteur d'année avec dropdown -->
                                 <div class="relative">
                                     <button
                                         @click="
@@ -719,6 +874,7 @@ onMounted(() => {
                                         />
                                     </button>
 
+                                    <!-- Liste déroulante des années disponibles -->
                                     <div
                                         v-if="yearSelectorOpen"
                                         class="absolute top-full left-0 mt-1 w-32 md:w-40 bg-deep-black border border-gaming-red/30 rounded-md shadow-lg py-1 z-10"
@@ -742,6 +898,7 @@ onMounted(() => {
                                 </div>
                             </div>
 
+                            <!-- Affichage du total et bouton d'édition -->
                             <div class="flex items-center">
                                 <span
                                     class="text-base md:text-lg text-led-green font-bold mr-2 md:mr-4"
@@ -754,18 +911,21 @@ onMounted(() => {
                                     v-if="!editingRevenue"
                                     @click="startEditingRevenue"
                                     class="bg-led-green text-white p-1.5 rounded-full hover:bg-led-green/80 transition-all"
+                                    aria-label="Modifier les revenus"
                                 >
                                     <PencilIcon class="h-3 w-3 md:h-4 md:w-4" />
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Graphique des revenus mensuels -->
                         <div class="h-40 md:h-60 relative">
                             <Bar
                                 :data="monthlyRevenueData"
                                 :options="barChartOptions"
                             />
 
-                            <!-- Formulaire d'édition des revenus -->
+                            <!-- Formulaire d'édition des revenus (affiché en overlay) -->
                             <div
                                 v-if="editingRevenue"
                                 class="absolute inset-0 bg-deep-black/90 flex items-center justify-center rounded-lg p-4"
@@ -780,6 +940,7 @@ onMounted(() => {
                                     </h4>
 
                                     <form @submit.prevent="submitRevenueForm">
+                                        <!-- Sélecteur de mois -->
                                         <div class="mb-3 md:mb-4">
                                             <label
                                                 class="block text-white/80 text-xs md:text-sm font-medium mb-1 md:mb-2"
@@ -805,6 +966,7 @@ onMounted(() => {
                                             </select>
                                         </div>
 
+                                        <!-- Champ montant -->
                                         <div class="mb-5">
                                             <label
                                                 class="block text-white/80 text-xs md:text-sm font-medium mb-1 md:mb-2"
@@ -825,6 +987,7 @@ onMounted(() => {
                                                     >€</span
                                                 >
                                             </div>
+                                            <!-- Champs cachés pour le mois et l'année -->
                                             <input
                                                 type="hidden"
                                                 v-model="revenueForm.month"
@@ -835,6 +998,7 @@ onMounted(() => {
                                             />
                                         </div>
 
+                                        <!-- Boutons d'action -->
                                         <div class="flex justify-end space-x-3">
                                             <button
                                                 type="button"
@@ -857,7 +1021,7 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <!-- Distribution des avis -->
+                <!-- SECTION 3: GRAPHIQUE DE DISTRIBUTION DES AVIS -->
                 <div class="mb-6 md:mb-8">
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
@@ -867,6 +1031,7 @@ onMounted(() => {
                         >
                             Distribution des avis par note
                         </h3>
+                        <!-- Graphique circulaire des avis -->
                         <div
                             class="h-48 md:h-64 flex items-center justify-center"
                         >
@@ -878,11 +1043,11 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <!-- Activité récente -->
+                <!-- SECTION 4: ACTIVITÉ RÉCENTE (AVIS, PROJETS, COMMENTAIRES) -->
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                 >
-                    <!-- Derniers avis clients -->
+                    <!-- 4.1 Derniers avis clients -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
@@ -902,6 +1067,7 @@ onMounted(() => {
                             </Link>
                         </div>
 
+                        <!-- Liste des avis récents -->
                         <div
                             v-if="recent_reviews && recent_reviews.length"
                             class="space-y-3 md:space-y-4"
@@ -912,6 +1078,7 @@ onMounted(() => {
                                 class="border-b border-gaming-red/20 pb-3 last:border-0"
                             >
                                 <div class="flex items-start gap-2">
+                                    <!-- Icône d'avis -->
                                     <div
                                         class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                     >
@@ -919,6 +1086,7 @@ onMounted(() => {
                                             class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                         />
                                     </div>
+                                    <!-- Détails de l'avis -->
                                     <div class="min-w-0">
                                         <div
                                             class="flex flex-wrap items-center gap-1 md:gap-2"
@@ -927,6 +1095,7 @@ onMounted(() => {
                                                 class="font-medium text-white text-sm md:text-base"
                                                 >{{ review.name }}</span
                                             >
+                                            <!-- Affichage des étoiles -->
                                             <span class="flex">
                                                 <span
                                                     v-for="(
@@ -947,6 +1116,7 @@ onMounted(() => {
                                                 </span>
                                             </span>
                                         </div>
+                                        <!-- Commentaire tronqué -->
                                         <p
                                             class="text-xs md:text-sm text-white/70 mt-1 break-words"
                                         >
@@ -957,6 +1127,7 @@ onMounted(() => {
                                                 )
                                             }}
                                         </p>
+                                        <!-- Date et statut d'approbation -->
                                         <div class="flex justify-between mt-2">
                                             <span
                                                 class="text-xs text-white/50"
@@ -987,12 +1158,13 @@ onMounted(() => {
                                 </div>
                             </div>
                         </div>
+                        <!-- Message affiché si aucun avis -->
                         <div v-else class="text-center text-white/50 py-4">
                             Aucun avis récent
                         </div>
                     </div>
 
-                    <!-- Derniers projets -->
+                    <!-- 4.2 Derniers projets -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
@@ -1012,6 +1184,7 @@ onMounted(() => {
                             </Link>
                         </div>
 
+                        <!-- Liste des projets récents -->
                         <div
                             v-if="recent_projects && recent_projects.length"
                             class="space-y-3 md:space-y-4"
@@ -1022,6 +1195,7 @@ onMounted(() => {
                                 class="border-b border-gaming-red/20 pb-3 last:border-0"
                             >
                                 <div class="flex items-start gap-2">
+                                    <!-- Icône de projet -->
                                     <div
                                         class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                     >
@@ -1029,6 +1203,7 @@ onMounted(() => {
                                             class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                         />
                                     </div>
+                                    <!-- Détails du projet -->
                                     <div class="min-w-0">
                                         <div
                                             class="flex flex-wrap items-center gap-1 md:gap-2"
@@ -1037,6 +1212,7 @@ onMounted(() => {
                                                 class="font-medium text-white text-sm md:text-base"
                                                 >{{ project.title }}</span
                                             >
+                                            <!-- Badge si le projet est mis en avant -->
                                             <span
                                                 v-if="project.is_featured"
                                                 class="text-xs text-led-green bg-led-green/10 px-1.5 py-0.5 rounded"
@@ -1044,6 +1220,7 @@ onMounted(() => {
                                                 Mis en avant
                                             </span>
                                         </div>
+                                        <!-- Description tronquée -->
                                         <p
                                             class="text-xs md:text-sm text-white/70 mt-1 break-words"
                                         >
@@ -1054,6 +1231,7 @@ onMounted(() => {
                                                 )
                                             }}
                                         </p>
+                                        <!-- Date et statut de visibilité -->
                                         <div class="flex justify-between mt-2">
                                             <span
                                                 class="text-xs text-white/50"
@@ -1084,12 +1262,13 @@ onMounted(() => {
                                 </div>
                             </div>
                         </div>
+                        <!-- Message affiché si aucun projet -->
                         <div v-else class="text-center text-white/50 py-4">
                             Aucun projet récent
                         </div>
                     </div>
 
-                    <!-- Dernières activités blog/commentaires -->
+                    <!-- 4.3 Dernières activités blog/commentaires -->
                     <div
                         class="bg-deep-black border border-gaming-red/30 hover:border-gaming-red/60 transition-all duration-300 rounded-lg shadow-lg p-4 md:p-6"
                     >
@@ -1110,7 +1289,7 @@ onMounted(() => {
                         </div>
 
                         <div class="space-y-3 md:space-y-4">
-                            <!-- Articles récents -->
+                            <!-- Articles de blog récents -->
                             <div
                                 v-if="
                                     recent_blog_posts &&
@@ -1123,6 +1302,7 @@ onMounted(() => {
                                     class="border-b border-gaming-red/20 pb-3 last:border-0"
                                 >
                                     <div class="flex items-start gap-2">
+                                        <!-- Icône d'article -->
                                         <div
                                             class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                         >
@@ -1130,6 +1310,7 @@ onMounted(() => {
                                                 class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                             />
                                         </div>
+                                        <!-- Détails de l'article -->
                                         <div class="min-w-0">
                                             <div class="flex items-center">
                                                 <span
@@ -1137,6 +1318,7 @@ onMounted(() => {
                                                     >{{ post.title }}</span
                                                 >
                                             </div>
+                                            <!-- Extrait tronqué -->
                                             <p
                                                 class="text-xs md:text-sm text-white/70 mt-1 break-words"
                                             >
@@ -1148,6 +1330,7 @@ onMounted(() => {
                                                     )
                                                 }}
                                             </p>
+                                            <!-- Date et statut de publication -->
                                             <div
                                                 class="flex justify-between mt-2"
                                             >
@@ -1193,6 +1376,7 @@ onMounted(() => {
                                     class="border-b border-gaming-red/20 pb-3 last:border-0"
                                 >
                                     <div class="flex items-start gap-2">
+                                        <!-- Icône de commentaire -->
                                         <div
                                             class="bg-gaming-red/20 rounded-full p-1.5 md:p-2 mt-1"
                                         >
@@ -1200,6 +1384,7 @@ onMounted(() => {
                                                 class="h-4 w-4 md:h-5 md:w-5 text-gaming-red"
                                             />
                                         </div>
+                                        <!-- Détails du commentaire -->
                                         <div class="min-w-0">
                                             <div
                                                 class="flex flex-wrap items-center gap-1"
@@ -1219,6 +1404,7 @@ onMounted(() => {
                                                     }}"</span
                                                 >
                                             </div>
+                                            <!-- Contenu tronqué -->
                                             <p
                                                 class="text-xs md:text-sm text-white/70 mt-1 break-words"
                                             >
@@ -1229,6 +1415,7 @@ onMounted(() => {
                                                     )
                                                 }}
                                             </p>
+                                            <!-- Date et statut d'approbation -->
                                             <div
                                                 class="flex justify-between mt-2"
                                             >
@@ -1264,6 +1451,7 @@ onMounted(() => {
                                 </div>
                             </div>
 
+                            <!-- Message affiché si aucune activité récente -->
                             <div
                                 v-if="
                                     (!recent_blog_posts ||
@@ -1284,43 +1472,53 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/**
+ * Styles du Dashboard
+ * Utilisant les variables CSS définies dans app.css
+ */
+
+/* Couleurs de fond */
 .bg-deep-black {
-    background-color: #121212;
-}
-
-.border-gaming-red {
-    border-color: #ef4444;
-}
-
-.text-gaming-red {
-    color: #ef4444;
-}
-
-.text-led-green {
-    color: #10b981;
+    background-color: var(--color-deep-black);
 }
 
 .bg-led-green {
-    background-color: #10b981;
+    background-color: var(--color-led-green);
 }
 
+/* Couleurs de bordure */
+.border-gaming-red {
+    border-color: var(--color-gaming-red);
+}
+
+/* Couleurs de texte */
+.text-gaming-red {
+    color: var(--color-gaming-red);
+}
+
+.text-led-green {
+    color: var(--color-led-green);
+}
+
+/* Typographie */
 .font-play {
     font-family: "Play", sans-serif;
 }
 
-/* Ajustement de la hauteur des graphiques en responsive */
-@media (max-width: 768px) {
-    .chartjs-render-monitor {
-        height: auto !important;
-    }
-}
-
-/* Empêcher les débordements de texte */
+/* Utilitaires de texte */
 .break-words {
     overflow-wrap: break-word;
     word-wrap: break-word;
     -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;
+}
+
+/* Media Queries pour l'adaptation responsive */
+@media (max-width: 768px) {
+    /* Ajustement de la hauteur des graphiques en responsive */
+    .chartjs-render-monitor {
+        height: auto !important;
+    }
 }
 </style>

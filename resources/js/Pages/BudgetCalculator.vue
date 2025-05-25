@@ -1,16 +1,17 @@
 <script setup>
-import { ref, computed, watch } from "vue";
-import PublicLayout from "@/Layouts/PublicLayout.vue";
-import RangeSlider from "@/Components/RangeSlider.vue";
-import HeroSection from "@/Components/HeroSection.vue";
-import HeroTitle from "@/Components/HeroTitle.vue";
-import CTAButton from "@/Components/CTAButton.vue";
-import BudgetOption from "@/Components/BudgetOption.vue";
-import PerformanceIndicator from "@/Components/PerformanceIndicator.vue";
-import BudgetAllocation from "@/Components/BudgetAllocation.vue";
-import ComponentRecommendation from "@/Components/ComponentRecommendation.vue";
+// Importation des fonctionnalités Vue pour la réactivité et le cycle de vie
+import { ref, computed, watch } from "vue"; // ref pour variables réactives, computed pour calculs dérivés, watch pour observer les changements
+import PublicLayout from "@/Layouts/PublicLayout.vue"; // Layout principal pour les pages publiques
+import RangeSlider from "@/Components/RangeSlider.vue"; // Slider pour sélectionner le budget
+import HeroSection from "@/Components/HeroSection.vue"; // Section d'en-tête avec image de fond
+import HeroTitle from "@/Components/HeroTitle.vue"; // Titre stylisé pour les sections
+import CTAButton from "@/Components/CTAButton.vue"; // Bouton d'appel à l'action
+import BudgetOption from "@/Components/BudgetOption.vue"; // Option de sélection pour les choix de budget
+import PerformanceIndicator from "@/Components/PerformanceIndicator.vue"; // Indicateur visuel des performances estimées
+import BudgetAllocation from "@/Components/BudgetAllocation.vue"; // Visualisation de la répartition du budget
+import ComponentRecommendation from "@/Components/ComponentRecommendation.vue"; // Recommandations de composants
 
-// Options pour les usages
+// Options pour le type d'utilisation - détermine les besoins matériels de l'utilisateur
 const usageOptions = [
     {
         id: "gaming",
@@ -44,7 +45,7 @@ const usageOptions = [
     },
 ];
 
-// Options pour les priorités
+// Options pour les priorités de configuration - influence la répartition du budget
 const priorityOptions = [
     {
         id: "performance",
@@ -64,75 +65,75 @@ const priorityOptions = [
     },
 ];
 
-// Variables réactives
-const budget = ref(1500);
-const selectedUsage = ref("gaming");
-const selectedPriority = ref("balanced");
+// Variables réactives pour les paramètres de configuration
+const budget = ref(1500); // Budget initial par défaut en euros
+const selectedUsage = ref("gaming"); // Type d'utilisation sélectionné par défaut
+const selectedPriority = ref("balanced"); // Priorité sélectionnée par défaut
 
-// Calcul de la répartition du budget par composant
+// Calcul de l'allocation du budget entre les différents composants en fonction des choix utilisateur
 const budgetAllocation = computed(() => {
-    // Répartition de base (en pourcentage du budget total)
+    // Allocation de base (répartition par défaut du budget)
     let allocation = {
-        cpu: 0.2, // Processeur
-        gpu: 0.35, // Carte graphique
-        ram: 0.1, // Mémoire RAM
-        storage: 0.1, // Stockage
-        motherboard: 0.1, // Carte mère
-        psu: 0.05, // Alimentation
-        cooling: 0.05, // Refroidissement
-        case: 0.05, // Boîtier
+        cpu: 0.2, // Processeur - 20% du budget par défaut
+        gpu: 0.35, // Carte graphique - 35% du budget par défaut
+        ram: 0.1, // Mémoire RAM - 10% du budget par défaut
+        storage: 0.1, // Stockage - 10% du budget par défaut
+        motherboard: 0.1, // Carte mère - 10% du budget par défaut
+        psu: 0.05, // Alimentation - 5% du budget par défaut
+        cooling: 0.05, // Refroidissement - 5% du budget par défaut
+        case: 0.05, // Boîtier - 5% du budget par défaut
     };
 
-    // Ajustement selon l'usage
+    // Ajustement de l'allocation selon le type d'utilisation sélectionné
     if (selectedUsage.value === "gaming") {
-        // Priorité à la carte graphique pour le gaming
+        // Pour le gaming: priorité à la carte graphique
         allocation.gpu = 0.4;
         allocation.cpu = 0.2;
     } else if (selectedUsage.value === "streaming") {
-        // Streaming: besoin d'un bon CPU et GPU
+        // Pour le streaming: équilibre entre CPU et GPU
         allocation.cpu = 0.25;
         allocation.gpu = 0.35;
     } else if (selectedUsage.value === "content_creation") {
-        // Création de contenu: priorité au CPU et RAM
+        // Pour la création de contenu: priorité au CPU et à la RAM
         allocation.cpu = 0.3;
         allocation.gpu = 0.25;
         allocation.ram = 0.15;
     } else if (selectedUsage.value === "office") {
-        // Bureautique: moins de GPU, plus de stockage et confort
+        // Pour la bureautique: moins de GPU, plus de stockage et d'esthétique
         allocation.gpu = 0.15;
         allocation.storage = 0.15;
         allocation.case = 0.1;
         allocation.cpu = 0.25;
     } else if (selectedUsage.value === "workstation") {
-        // Workstation: CPU, RAM et stockage prioritaires
+        // Pour une workstation: CPU puissant, beaucoup de RAM et de stockage
         allocation.cpu = 0.3;
         allocation.ram = 0.15;
         allocation.storage = 0.15;
         allocation.gpu = 0.2;
     }
 
-    // Ajustement selon la priorité
+    // Ajustements supplémentaires selon la priorité sélectionnée
     if (selectedPriority.value === "performance") {
-        // Maximiser CPU et GPU aux dépens du boîtier et du refroidissement
+        // Priorité performance: plus de CPU et GPU, moins d'esthétique
         allocation.cpu += 0.02;
         allocation.gpu += 0.03;
         allocation.case -= 0.02;
         allocation.cooling -= 0.01;
     } else if (selectedPriority.value === "quiet") {
-        // Plus de budget pour le refroidissement et le boîtier
+        // Priorité silence: meilleur refroidissement et boîtier, GPU moins puissant
         allocation.cooling += 0.03;
         allocation.case += 0.02;
         allocation.gpu -= 0.03;
-        allocation.psu += 0.01; // Alimentation de meilleure qualité
+        allocation.psu += 0.01;
     } else if (selectedPriority.value === "rgb") {
-        // Plus de budget pour le RGB (boîtier et refroidissement)
+        // Priorité RGB: plus de budget pour le boîtier et refroidissement
         allocation.case += 0.03;
         allocation.cooling += 0.02;
         allocation.gpu -= 0.03;
-        allocation.motherboard += 0.01; // Carte mère avec RGB
+        allocation.motherboard += 0.01;
     }
 
-    // Calculer les montants en euros et arrondir
+    // Conversion des pourcentages en montants réels
     const result = {};
     for (const [component, percentage] of Object.entries(allocation)) {
         result[component] = Math.round(budget.value * percentage);
@@ -141,11 +142,11 @@ const budgetAllocation = computed(() => {
     return result;
 });
 
-// Recommandations de composants selon le budget
+// Génération des recommandations de composants en fonction du budget alloué
 const recommendations = computed(() => {
     const allocation = budgetAllocation.value;
 
-    // Fonction pour déterminer la gamme selon le budget
+    // Fonction utilitaire pour déterminer la gamme d'un composant selon son budget
     const getRange = (budget) => {
         if (budget < 100) return "entrée de gamme";
         if (budget < 200) return "milieu de gamme";
@@ -153,7 +154,7 @@ const recommendations = computed(() => {
         return "premium";
     };
 
-    // Recommandations spécifiques basées sur l'allocation budgétaire
+    // Retourne des recommandations spécifiques pour chaque composant
     return {
         cpu: getCpuRecommendation(allocation.cpu, selectedUsage.value),
         gpu: getGpuRecommendation(allocation.gpu, selectedUsage.value),
@@ -169,33 +170,40 @@ const recommendations = computed(() => {
     };
 });
 
-// Fonction pour calculer le total (permet de vérifier que tout est bien alloué)
+// Calcul du budget total à partir de l'allocation
 function budgetTotal() {
     return Object.values(budgetAllocation.value).reduce((a, b) => a + b, 0);
 }
 
-// Fonctions pour obtenir des recommandations spécifiques par composant
+// Recommandation de CPU en fonction du budget et de l'utilisation
 function getCpuRecommendation(budget, usage) {
     if (budget < 120) {
+        // Budget très limité: recommandation de base ou d'entrée de gamme
         return usage === "office"
             ? "Intel Core i3 / AMD Ryzen 3"
             : "AMD Ryzen 5 / Intel Core i5 (entrée de gamme)";
     } else if (budget < 200) {
+        // Budget moyen: milieu de gamme
         return "AMD Ryzen 5 / Intel Core i5 (milieu de gamme)";
     } else if (budget < 300) {
+        // Budget élevé: haut de gamme
         return "AMD Ryzen 7 / Intel Core i7";
     } else {
+        // Budget premium: très haut de gamme
         return "AMD Ryzen 9 / Intel Core i9";
     }
 }
 
+// Recommandation de GPU en fonction du budget et de l'utilisation
 function getGpuRecommendation(budget, usage) {
     if (usage === "office") {
+        // Pour bureautique: GPU intégré ou entrée de gamme suffisant
         return budget < 100
             ? "Graphiques intégrés"
             : "NVIDIA GTX 1650 / AMD RX 6500";
     }
 
+    // Pour autres utilisations: recommandations selon budget
     if (budget < 150) {
         return "NVIDIA GTX 1650 / AMD RX 6500";
     } else if (budget < 300) {
@@ -207,56 +215,66 @@ function getGpuRecommendation(budget, usage) {
     }
 }
 
+// Recommandation de RAM en fonction du budget et de l'utilisation
 function getRamRecommendation(budget, usage) {
     if (budget < 80) {
+        // Budget limité: DDR4 standard
         return "16 GB DDR4";
     } else if (budget < 150) {
+        // Budget moyen: DDR4 haute fréquence ou DDR5 d'entrée
         return "16-32 GB DDR4/DDR5";
     } else {
+        // Budget élevé: DDR5 avec plus de capacité pour workstation
         return usage === "workstation" || usage === "content_creation"
             ? "64 GB DDR5"
             : "32 GB DDR5";
     }
 }
 
+// Recommandation de stockage en fonction du budget
 function getStorageRecommendation(budget) {
     if (budget < 80) {
+        // Budget limité: SSD de base
         return "500GB SSD NVMe";
     } else if (budget < 150) {
+        // Budget moyen: SSD plus grand
         return "1TB SSD NVMe";
     } else {
+        // Budget élevé: SSD rapide + HDD supplémentaire
         return "1TB SSD NVMe + 2TB HDD";
     }
 }
 
+// Recommandation d'alimentation en fonction du budget et du budget total
 function getPsuRecommendation(budget, totalBudget) {
+    // Puissance recommandée selon le budget total
     const wattage =
         totalBudget < 1000 ? "500W" : totalBudget < 2000 ? "650W" : "850W";
+    // Certification selon le budget alloué à l'alimentation
     const certification =
         budget < 60 ? "80+ Bronze" : budget < 100 ? "80+ Gold" : "80+ Platinum";
     return `${wattage} ${certification}`;
 }
 
-// Indicateur de performance global
+// Calcul du score de performance estimé (de 1 à 10) selon le budget et les choix
 const performanceScore = computed(() => {
-    // Base le score sur le budget, mais avec un plafond à 10
-    let baseScore = budget.value / 500;
+    let baseScore = budget.value / 500; // Score de base proportionnel au budget
 
-    // Ajustements selon l'usage et la priorité
+    // Ajustements selon l'utilisation et la priorité
     if (
         selectedUsage.value === "gaming" &&
         selectedPriority.value === "performance"
     ) {
-        baseScore += 0.5;
+        baseScore += 0.5; // Bonus pour configuration gaming orientée performance
     } else if (selectedUsage.value === "office") {
-        baseScore += 1; // Office a besoin de moins de ressources
+        baseScore += 1; // Bonus pour bureautique (besoins moins exigeants)
     }
 
-    // S'assurer que le score est entre 1 et 10
+    // Limiter le score entre 1 et 10
     return Math.max(1, Math.min(10, Math.round(baseScore)));
 });
 
-// Texte d'évaluation basé sur le score
+// Texte explicatif correspondant au score de performance
 const performanceText = computed(() => {
     const score = performanceScore.value;
     if (score <= 3)
@@ -269,9 +287,9 @@ const performanceText = computed(() => {
     return "Performances exceptionnelles sans compromis.";
 });
 
-// Réinitialiser la priorité en fonction de l'usage choisi
+// Mise à jour automatique de la priorité lors du changement d'utilisation
 watch(selectedUsage, (newValue) => {
-    // Définir une priorité par défaut selon l'usage
+    // Sélection de la priorité la plus adaptée à chaque type d'utilisation
     if (newValue === "gaming") selectedPriority.value = "performance";
     else if (newValue === "streaming") selectedPriority.value = "balanced";
     else if (newValue === "content_creation")
@@ -280,7 +298,7 @@ watch(selectedUsage, (newValue) => {
     else selectedPriority.value = "balanced";
 });
 
-// Icônes pour chaque usage
+// Définition des icônes SVG pour les différents types d'utilisation
 const usageIcons = {
     gaming: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>`,
     streaming: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>`,
@@ -289,7 +307,7 @@ const usageIcons = {
     workstation: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>`,
 };
 
-// Icônes pour chaque priorité
+// Définition des icônes SVG pour les différentes priorités
 const priorityIcons = {
     performance: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`,
     balanced: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" /></svg>`,
@@ -297,7 +315,7 @@ const priorityIcons = {
     rgb: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>`,
 };
 
-// Liste des composants avec icônes
+// Définition des icônes SVG pour les différents composants
 const componentIcons = {
     cpu: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>`,
     gpu: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>`,
@@ -311,12 +329,13 @@ const componentIcons = {
 </script>
 
 <template>
+    <!-- Layout principal avec métadonnées SEO optimisées pour la page de calculateur de budget -->
     <PublicLayout
         title="Calculateur de Budget"
         description="Estimez le budget optimal pour votre PC gaming et découvrez les composants recommandés selon vos besoins. Outil gratuit d'aide à la configuration PC."
         keywords="calculateur budget PC gaming, estimation coût PC sur mesure, prix composants informatiques, outil configuration PC, simulateur budget ordinateur"
     >
-        <!-- Hero Section avec le composant HeroSection -->
+        <!-- En-tête de la page avec image de fond et titre -->
         <HeroSection
             title="Calculateur de Budget"
             subtitle="Estimez ce que vous pouvez obtenir avec votre budget selon vos besoins"
@@ -324,9 +343,10 @@ const componentIcons = {
             height="min-h-50vh"
         />
 
+        <!-- Section principale du contenu avec espacement responsif -->
         <div class="py-6 sm:py-8 md:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Introduction -->
+                <!-- Introduction explicative de l'outil -->
                 <div class="mb-6 sm:mb-10">
                     <HeroTitle
                         title="Configurez votre budget idéal"
@@ -342,14 +362,15 @@ const componentIcons = {
                     </p>
                 </div>
 
-                <!-- Contenu principal en deux colonnes -->
+                <!-- Conteneur principal avec les deux colonnes principales -->
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8 sm:mb-12 md:mb-16"
                 >
-                    <!-- Panneau de configuration -->
+                    <!-- COLONNE 1: Formulaire des paramètres du budget -->
                     <div
                         class="bg-deep-black p-4 sm:p-6 border border-gaming-red rounded-lg shadow-glow-sm hover-card animate-fade-in"
                     >
+                        <!-- Titre de la section -->
                         <h2
                             class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6 flex items-center"
                         >
@@ -376,7 +397,7 @@ const componentIcons = {
                             Personnalisez votre budget
                         </h2>
 
-                        <!-- Slider de budget avec effet glow -->
+                        <!-- Sélecteur de budget avec effet de survol -->
                         <div
                             class="mb-6 sm:mb-8 transform transition-all duration-300 hover:scale-102"
                         >
@@ -389,7 +410,7 @@ const componentIcons = {
                             />
                         </div>
 
-                        <!-- Sélection d'usage avec composant BudgetOption -->
+                        <!-- Sélection du type d'utilisation -->
                         <div class="mb-6 sm:mb-8">
                             <h3
                                 class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
@@ -411,6 +432,7 @@ const componentIcons = {
                                 Utilisation principale
                             </h3>
 
+                            <!-- Grille d'options d'utilisation - responsive -->
                             <div
                                 class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3"
                             >
@@ -426,7 +448,7 @@ const componentIcons = {
                             </div>
                         </div>
 
-                        <!-- Priorités avec composant BudgetOption -->
+                        <!-- Sélection de la priorité -->
                         <div class="mb-6 sm:mb-8">
                             <h3
                                 class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
@@ -448,6 +470,7 @@ const componentIcons = {
                                 Votre priorité
                             </h3>
 
+                            <!-- Grille d'options de priorité - 2 colonnes -->
                             <div class="grid grid-cols-2 gap-2 sm:gap-3">
                                 <BudgetOption
                                     v-for="priority in priorityOptions"
@@ -461,7 +484,7 @@ const componentIcons = {
                             </div>
                         </div>
 
-                        <!-- Bouton vers le devis complet avec CTAButton -->
+                        <!-- Bouton d'appel à l'action pour le devis complet -->
                         <div class="mt-6 sm:mt-10">
                             <CTAButton
                                 :href="route('devis')"
@@ -487,11 +510,12 @@ const componentIcons = {
                         </div>
                     </div>
 
-                    <!-- Panneau des résultats -->
+                    <!-- COLONNE 2: Affichage des résultats et recommandations -->
                     <div
                         class="bg-deep-black p-4 sm:p-6 border border-gaming-red rounded-lg shadow-glow-sm hover-card animate-fade-in"
                         style="animation-delay: 0.2s"
                     >
+                        <!-- Titre de la section -->
                         <h2
                             class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6 flex items-center"
                         >
@@ -512,7 +536,7 @@ const componentIcons = {
                             Résultats estimés
                         </h2>
 
-                        <!-- Score de performance avec composant PerformanceIndicator -->
+                        <!-- Indicateur visuel de performance avec score et texte explicatif -->
                         <div class="mb-6 sm:mb-8">
                             <PerformanceIndicator
                                 :score="performanceScore"
@@ -520,7 +544,7 @@ const componentIcons = {
                             />
                         </div>
 
-                        <!-- Répartition du budget avec composant BudgetAllocation -->
+                        <!-- Visualisation de la répartition du budget -->
                         <div class="mb-6 sm:mb-8">
                             <h3
                                 class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
@@ -542,6 +566,7 @@ const componentIcons = {
                                 Répartition du budget
                             </h3>
 
+                            <!-- Composant qui affiche les montants alloués à chaque composant -->
                             <BudgetAllocation
                                 :allocations="budgetAllocation"
                                 :totalBudget="budget"
@@ -549,7 +574,7 @@ const componentIcons = {
                             />
                         </div>
 
-                        <!-- Recommandations de composants avec composant ComponentRecommendation -->
+                        <!-- Liste des composants recommandés -->
                         <div>
                             <h3
                                 class="text-base sm:text-lg text-white mb-2 sm:mb-3 flex items-center"
@@ -571,13 +596,14 @@ const componentIcons = {
                                 Composants recommandés
                             </h3>
 
+                            <!-- Composant qui affiche les recommandations détaillées -->
                             <ComponentRecommendation
                                 :recommendations="recommendations"
                                 :componentIcons="componentIcons"
                             />
                         </div>
 
-                        <!-- Note d'avertissement avec style amélioré -->
+                        <!-- Avertissement et disclaimer sur les résultats -->
                         <div
                             class="mt-5 sm:mt-6 p-2 sm:p-3 bg-gaming-red/10 rounded-lg border border-gaming-red/20 text-xs sm:text-sm text-white/80"
                         >
@@ -608,12 +634,13 @@ const componentIcons = {
                     </div>
                 </div>
 
-                <!-- Appel à l'action - Contact personnel -->
+                <!-- Section promotionnelle pour le devis personnalisé -->
                 <div
                     class="bg-deep-black border border-gaming-red rounded-lg p-4 sm:p-6 md:p-8 shadow-glow service-card animate-fade-in"
                     style="animation-delay: 0.4s"
                 >
                     <div class="flex flex-col md:flex-row items-center">
+                        <!-- Partie texte et description (à gauche) -->
                         <div class="mb-4 sm:mb-6 md:mb-0 md:mr-6 md:w-3/4">
                             <h3
                                 class="text-xl sm:text-2xl font-play text-led-green mb-2 sm:mb-3"
@@ -630,6 +657,7 @@ const componentIcons = {
                                 correspond exactement à votre utilisation et à
                                 votre budget.
                             </p>
+                            <!-- Boutons d'appel à l'action -->
                             <div
                                 class="flex flex-col sm:flex-row gap-2 sm:gap-4"
                             >
@@ -676,6 +704,7 @@ const componentIcons = {
                                 </CTAButton>
                             </div>
                         </div>
+                        <!-- Icône circulaire (à droite) -->
                         <div class="md:w-1/4 flex justify-center">
                             <div
                                 class="p-3 sm:p-4 bg-led-green/10 border border-led-green rounded-full shadow-glow-green flex items-center justify-center"
@@ -704,15 +733,31 @@ const componentIcons = {
 </template>
 
 <style scoped>
-/* Effet glow pour la carte service et la hover card */
+/* VARIABLES CSS POUR UNE MEILLEURE MAINTENABILITÉ */
+:root {
+    /* Couleurs */
+    --color-gaming-red-light: rgba(236, 64, 122, 0.3);
+    --color-gaming-red-medium: rgba(236, 64, 122, 0.5);
+    --color-gaming-red-strong: rgba(236, 64, 122, 0.7);
+    --color-led-green-glow: rgba(0, 255, 85, 0.3);
+
+    /* Ombres */
+    --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+    /* Transitions */
+    --transition-standard: all 0.3s ease;
+}
+
+/* Cartes et conteneurs - effets visuels */
 .service-card {
     position: relative;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.2);
     transform: translateY(0);
-    transition: all 0.3s ease;
+    transition: var(--transition-standard);
 }
 
+/* Effet de dégradé radial qui apparaît au survol */
 .service-card::before {
     content: "";
     position: absolute;
@@ -722,7 +767,7 @@ const componentIcons = {
     height: 100%;
     background: radial-gradient(
         circle at center,
-        rgba(236, 64, 122, 0.1),
+        var(--color-gaming-red-light),
         transparent
     );
     opacity: 0;
@@ -730,79 +775,86 @@ const componentIcons = {
     z-index: -1;
 }
 
+/* Animation au survol des cartes de service */
 .service-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(236, 64, 122, 0.3);
-    border-color: rgba(236, 64, 122, 0.8);
+    box-shadow: var(--shadow-card-hover), 0 0 15px var(--color-gaming-red-light);
+    border-color: var(--color-gaming-red-strong);
 }
 
+/* Activation de l'effet de fond au survol */
 .service-card:hover::before {
     opacity: 1;
 }
 
+/* Effet de survol pour les cartes interactives */
+.hover-card {
+    transition: var(--transition-standard);
+}
+
+/* Animation au survol des cartes génériques */
+.hover-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3),
+        0 0 15px var(--color-gaming-red-light);
+    transform: translateY(-5px);
+}
+
+/* Effets d'ombre pour différents éléments */
 .shadow-glow-sm {
-    box-shadow: 0 0 10px rgba(236, 64, 122, 0.2);
+    box-shadow: 0 0 10px var(--color-gaming-red-light);
     transition: box-shadow 0.3s ease;
 }
 
 .shadow-glow-green {
-    box-shadow: 0 0 10px rgba(0, 255, 85, 0.3);
+    box-shadow: 0 0 10px var(--color-led-green-glow);
     transition: box-shadow 0.3s ease;
 }
 
 .shadow-glow-red {
-    box-shadow: 0 0 10px rgba(236, 64, 122, 0.3);
+    box-shadow: 0 0 10px var(--color-gaming-red-light);
     transition: box-shadow 0.3s ease;
 }
 
-.hover-card {
-    transition: all 0.3s ease;
-}
-
-.hover-card:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(236, 64, 122, 0.3);
-    transform: translateY(-5px);
-}
-
-/* Animation pour les éléments qui apparaissent */
+/* Animation d'apparition progressive des éléments */
 .animate-fade-in {
     animation: fadeIn 0.6s ease-out forwards;
     opacity: 0;
 }
 
+/* Définition de l'animation de fondu entrant */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px); /* Commence légèrement plus bas */
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0); /* Position finale normale */
     }
 }
 
+/* Effet de légère mise à l'échelle au survol */
 .scale-102:hover {
     transform: scale(1.02);
 }
 
-/* Ajustements responsive pour mobile */
+/* Adaptations pour les écrans mobiles */
 @media (max-width: 640px) {
-    .service-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
-            0 0 10px rgba(236, 64, 122, 0.3);
-    }
-
+    /* Effet de survol réduit sur mobile pour une meilleure expérience tactile */
+    .service-card:hover,
     .hover-card:hover {
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
-            0 0 10px rgba(236, 64, 122, 0.3);
+            0 0 10px var(--color-gaming-red-light);
     }
 
+    /* Animation de fade-in avec déplacement réduit pour mobile */
     @keyframes fadeIn {
         from {
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(
+                10px
+            ); /* Déplacement initial réduit sur mobile */
         }
         to {
             opacity: 1;
@@ -810,6 +862,7 @@ const componentIcons = {
         }
     }
 
+    /* Mise à l'échelle réduite sur mobile */
     .scale-102:hover {
         transform: scale(1.01);
     }

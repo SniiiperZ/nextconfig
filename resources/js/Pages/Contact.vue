@@ -1,34 +1,40 @@
 <script setup>
-import { ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import { Link } from "@inertiajs/vue3";
-import PublicLayout from "@/Layouts/PublicLayout.vue";
-import FormInput from "@/Components/FormInput.vue";
-import Toast from "@/Components/Toast.vue";
-import HeroSection from "@/Components/HeroSection.vue";
-import HeroTitle from "@/Components/HeroTitle.vue";
-import CTAButton from "@/Components/CTAButton.vue";
+// Importation des fonctionnalités Vue et Inertia
+import { ref } from "vue"; // Pour créer des variables réactives
+import { useForm } from "@inertiajs/vue3"; // Hook pour gérer les formulaires avec Inertia
+import { Link } from "@inertiajs/vue3"; // Composant de navigation Inertia
 
+// Importation des layouts et composants réutilisables
+import PublicLayout from "@/Layouts/PublicLayout.vue"; // Layout principal pour les pages publiques
+import FormInput from "@/Components/FormInput.vue"; // Composant de champ de formulaire
+import Toast from "@/Components/Toast.vue"; // Notification toast pour les messages
+import HeroSection from "@/Components/HeroSection.vue"; // En-tête de page avec image de fond
+import HeroTitle from "@/Components/HeroTitle.vue"; // Titre stylisé pour les sections
+import CTAButton from "@/Components/CTAButton.vue"; // Bouton d'appel à l'action
+
+// Initialisation du formulaire avec Inertia et valeurs par défaut
 const form = useForm({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
+    name: "", // Nom du contact
+    email: "", // Email du contact
+    phone: "", // Téléphone du contact
+    subject: "", // Sujet du message
+    message: "", // Contenu du message
 });
 
-// Toast pour les notifications
+// Configuration de la notification toast (message de confirmation)
 const toast = ref({
-    show: false,
-    message: "",
-    type: "success",
+    show: false, // Visibilité du toast
+    message: "", // Message à afficher
+    type: "success", // Type de notification (success, error, warning, info)
 });
 
+// Fonction de soumission du formulaire
 const submit = () => {
     form.post(route("contact.send"), {
-        preserveScroll: true,
+        preserveScroll: true, // Maintient la position de défilement après soumission
         onSuccess: () => {
-            form.reset();
+            form.reset(); // Réinitialise le formulaire après succès
+            // Affiche un message de confirmation
             toast.value = {
                 show: true,
                 message:
@@ -36,6 +42,7 @@ const submit = () => {
                 type: "success",
             };
 
+            // Masque automatiquement le toast après 6 secondes
             setTimeout(() => {
                 toast.value.show = false;
             }, 6000);
@@ -43,11 +50,12 @@ const submit = () => {
     });
 };
 
+// Fonction pour fermer manuellement le toast
 const closeToast = () => {
     toast.value.show = false;
 };
 
-// Coordonnées avec icônes et liens
+// Informations de contact affichées dans les cartes
 const contactInfo = [
     {
         icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -76,59 +84,62 @@ const contactInfo = [
     },
 ];
 
-// Réseaux sociaux
+// Liens vers les réseaux sociaux avec leurs icônes respectives
 const socialLinks = [
     {
-        name: "#NextConfig",
+        name: "#NextConfig", // Identifiant Discord
         icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
                </svg>`,
-        link: "#",
+        link: "#", // Lien vers le Discord
     },
     {
-        name: "NextConfig",
+        name: "NextConfig", // Identifiant Twitch
         icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
               </svg>`,
-        link: "#",
+        link: "#", // Lien vers le Twitch
     },
     {
-        name: "Next_Config",
+        name: "Next_Config", // Identifiant Instagram
         icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                </svg>`,
-        link: "#",
+        link: "#", // Lien vers l'Instagram
     },
 ];
 
-// FAQ courtes
+// Questions fréquemment posées à afficher dans la section FAQ
 const faqItems = [
     {
-        question: "Combien de temps faut-il pour assembler un PC ?",
-        answer: "Le délai moyen d'assemblage est de 3 à 5 jours ouvrables après réception et validation de tous les composants.",
+        question: "Combien de temps faut-il pour assembler un PC ?", // Question
+        answer: "Le délai moyen d'assemblage est de 3 à 5 jours ouvrables après réception et validation de tous les composants.", // Réponse
     },
     {
-        question: "Proposez-vous un service après-vente ?",
-        answer: "Oui, tous nos PC bénéficient d'un service après-vente de qualité avec un support technique dédié pendant 2 ans.",
+        question: "Proposez-vous un service après-vente ?", // Question
+        answer: "Oui, tous nos PC bénéficient d'un service après-vente de qualité avec un support technique dédié pendant 2 ans.", // Réponse
     },
 ];
 </script>
 
 <template>
+    <!-- Layout principal avec métadonnées SEO optimisées pour la page de contact -->
     <PublicLayout
         title="Contact"
         description="Contactez notre équipe d'experts en PC gaming sur mesure. Posez vos questions, demandez un conseil personnalisé ou discutez de votre projet d'assemblage PC."
         keywords="contact NextConfig, assistance PC gaming, support technique ordinateur, conseil configuration PC, expert assemblage Belgique"
     >
-        <!-- Hero Section avec le composant HeroSection -->
+        <!-- En-tête de la page avec image de fond et titre -->
         <HeroSection
             title="Contactez-nous"
             subtitle="Une question ? Un projet ? Nous sommes là pour vous aider."
             backgroundImage="/images/background.jpg"
             height="min-h-50vh"
         >
+            <!-- Boutons d'appel à l'action dans la section héro -->
             <template #actions>
                 <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+                    <!-- Bouton d'appel téléphonique direct -->
                     <a
                         :href="`tel:+32123456789`"
                         class="contact-button bg-deep-black border border-led-green text-led-green text-sm sm:text-base"
@@ -151,6 +162,7 @@ const faqItems = [
                             <span>Appelez-nous</span>
                         </div>
                     </a>
+                    <!-- Bouton pour accéder directement au formulaire de contact -->
                     <CTAButton
                         href="#contact-form"
                         :primary="true"
@@ -162,16 +174,18 @@ const faqItems = [
             </template>
         </HeroSection>
 
+        <!-- Section principale du contenu avec espacement responsif -->
         <div class="py-8 sm:py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Section d'informations de contact améliorée -->
+                <!-- Grille de cartes d'information (contact, réseaux sociaux, FAQ) -->
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-16"
                 >
-                    <!-- Coordonnées avec animation au survol -->
+                    <!-- CARTE 1: Coordonnées de contact -->
                     <div
                         class="bg-deep-black p-6 sm:p-8 rounded-lg border border-gaming-red hover-card animate-fade-in"
                     >
+                        <!-- Icône d'en-tête de la carte -->
                         <div class="service-icon mb-4 sm:mb-6 text-led-green">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -188,12 +202,14 @@ const faqItems = [
                                 />
                             </svg>
                         </div>
+                        <!-- Titre de la carte -->
                         <h2
                             class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6 text-center"
                         >
                             Coordonnées
                         </h2>
 
+                        <!-- Liste des différentes coordonnées -->
                         <div class="space-y-4 sm:space-y-6">
                             <div
                                 v-for="(info, index) in contactInfo"
@@ -206,10 +222,12 @@ const faqItems = [
                                     rel="noopener"
                                     class="flex items-center p-2 sm:p-3 border border-gaming-red/30 rounded-lg hover:border-gaming-red transition-all duration-300"
                                 >
+                                    <!-- Icône spécifique à chaque type de contact -->
                                     <div
                                         class="text-led-green group-hover:text-gaming-red transition-colors duration-300"
                                         v-html="info.icon"
                                     ></div>
+                                    <!-- Informations de contact -->
                                     <div class="ml-3 sm:ml-4">
                                         <p
                                             class="text-white/60 text-xs sm:text-sm"
@@ -227,11 +245,12 @@ const faqItems = [
                         </div>
                     </div>
 
-                    <!-- Liens sociaux avec animation au survol -->
+                    <!-- CARTE 2: Réseaux sociaux -->
                     <div
                         class="bg-deep-black p-6 sm:p-8 rounded-lg border border-gaming-red hover-card animate-fade-in"
                         style="animation-delay: 0.1s"
                     >
+                        <!-- Icône d'en-tête de la carte -->
                         <div class="service-icon mb-4 sm:mb-6 text-led-green">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -248,12 +267,14 @@ const faqItems = [
                                 />
                             </svg>
                         </div>
+                        <!-- Titre de la carte -->
                         <h2
                             class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6 text-center"
                         >
                             Réseaux sociaux
                         </h2>
 
+                        <!-- Liste des liens vers les réseaux sociaux -->
                         <div class="grid grid-cols-1 gap-3 sm:gap-4">
                             <a
                                 v-for="(social, index) in socialLinks"
@@ -263,13 +284,16 @@ const faqItems = [
                                 rel="noopener"
                                 class="social-link-item flex items-center p-2 sm:p-3 border border-gaming-red/30 rounded-lg hover:border-gaming-red hover:shadow-glow-sm transition-all duration-300 group"
                             >
+                                <!-- Icône du réseau social avec conteneur circulaire -->
                                 <div
                                     class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gaming-red/10 flex items-center justify-center mr-3 sm:mr-4 text-led-green group-hover:text-gaming-red group-hover:bg-gaming-red/20 transition-all duration-300"
                                     v-html="social.icon"
                                 ></div>
+                                <!-- Nom du réseau social -->
                                 <span class="text-white text-sm sm:text-base">{{
                                     social.name
                                 }}</span>
+                                <!-- Flèche qui apparaît au survol -->
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     class="h-4 w-4 sm:h-5 sm:w-5 ml-auto text-gaming-red opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300"
@@ -288,11 +312,12 @@ const faqItems = [
                         </div>
                     </div>
 
-                    <!-- FAQ courtes -->
+                    <!-- CARTE 3: FAQ (Questions fréquemment posées) -->
                     <div
                         class="bg-deep-black p-6 sm:p-8 rounded-lg border border-gaming-red hover-card animate-fade-in sm:col-span-2 lg:col-span-1"
                         style="animation-delay: 0.2s"
                     >
+                        <!-- Icône d'en-tête de la carte -->
                         <div class="service-icon mb-4 sm:mb-6 text-led-green">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -309,18 +334,21 @@ const faqItems = [
                                 />
                             </svg>
                         </div>
+                        <!-- Titre de la carte -->
                         <h2
                             class="text-xl sm:text-2xl font-play text-led-green mb-4 sm:mb-6 text-center"
                         >
                             FAQ
                         </h2>
 
+                        <!-- Liste des questions fréquemment posées -->
                         <div class="space-y-3 sm:space-y-4">
                             <div
                                 v-for="(faq, index) in faqItems"
                                 :key="index"
                                 class="bg-deep-black/50 p-3 sm:p-4 rounded-lg border border-gaming-red/30 hover:border-gaming-red/50 transition-all duration-300"
                             >
+                                <!-- Question avec icône -->
                                 <h3
                                     class="text-gaming-red text-sm sm:text-base font-medium mb-1 sm:mb-2 flex items-start"
                                 >
@@ -340,6 +368,7 @@ const faqItems = [
                                     </svg>
                                     {{ faq.question }}
                                 </h3>
+                                <!-- Réponse avec indentation -->
                                 <p
                                     class="text-white/80 ml-6 sm:ml-7 text-xs sm:text-sm"
                                 >
@@ -348,6 +377,7 @@ const faqItems = [
                             </div>
                         </div>
 
+                        <!-- Lien vers la page FAQ complète -->
                         <div class="mt-4 sm:mt-6 text-center">
                             <Link
                                 :href="route('faq')"
@@ -373,12 +403,13 @@ const faqItems = [
                     </div>
                 </div>
 
-                <!-- Bannière Devis animée -->
+                <!-- Section promotionnelle pour le devis et calculateur de budget -->
                 <div
                     class="bg-deep-black p-5 sm:p-8 rounded-lg border border-led-green mb-10 sm:mb-16 shadow-glow-green service-card animate-fade-in"
                     style="animation-delay: 0.3s"
                 >
                     <div class="flex flex-col lg:flex-row items-center">
+                        <!-- Partie texte et CTA (à gauche sur desktop) -->
                         <div class="mb-6 lg:mb-0 lg:mr-8 lg:w-3/4">
                             <h2
                                 class="text-xl sm:text-2xl font-play text-gaming-red mb-2 sm:mb-3 text-center lg:text-left"
@@ -393,10 +424,10 @@ const faqItems = [
                                 proposition personnalisée qui correspond
                                 exactement à votre utilisation.
                             </p>
+                            <!-- Boutons d'action -->
                             <div
                                 class="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 sm:gap-4"
                             >
-                                <!-- Utilisation de CTAButton pour le bouton de devis -->
                                 <CTAButton
                                     :href="route('devis')"
                                     :primary="true"
@@ -405,7 +436,6 @@ const faqItems = [
                                     Demander un devis
                                 </CTAButton>
 
-                                <!-- Utilisation de CTAButton pour le calculateur de budget -->
                                 <CTAButton
                                     :href="route('budget.calculator')"
                                     :primary="false"
@@ -415,6 +445,7 @@ const faqItems = [
                                 </CTAButton>
                             </div>
                         </div>
+                        <!-- Partie icône (à droite sur desktop) -->
                         <div class="lg:w-1/4 flex justify-center">
                             <div
                                 class="p-3 sm:p-4 bg-led-green/10 border border-led-green rounded-full shadow-glow-green flex items-center justify-center"
@@ -438,26 +469,29 @@ const faqItems = [
                     </div>
                 </div>
 
-                <!-- Formulaire de contact amélioré -->
+                <!-- Formulaire de contact principal -->
                 <div
                     id="contact-form"
                     class="bg-deep-black p-5 sm:p-8 rounded-lg border border-gaming-red shadow-glow-sm hover-card animate-fade-in scroll-mt-16"
                     style="animation-delay: 0.4s"
                 >
+                    <!-- Titre du formulaire -->
                     <HeroTitle
                         title="Envoyez-nous un message"
                         :centered="true"
                         marginBottom="mb-6 sm:mb-8"
                     />
 
+                    <!-- Formulaire avec prévention du comportement par défaut -->
                     <form
                         @submit.prevent="submit"
                         class="space-y-6 sm:space-y-8"
                     >
-                        <!-- Informations personnelles -->
+                        <!-- SECTION 1: Coordonnées du contact -->
                         <div
                             class="bg-gaming-red/5 p-4 sm:p-6 rounded-lg border border-gaming-red/30"
                         >
+                            <!-- En-tête de la section avec icône -->
                             <div class="flex items-center mb-4">
                                 <div
                                     class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
@@ -484,9 +518,11 @@ const faqItems = [
                                 </h2>
                             </div>
 
+                            <!-- Grille de champs pour les informations de contact -->
                             <div
                                 class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4"
                             >
+                                <!-- Champ nom complet -->
                                 <FormInput
                                     v-model="form.name"
                                     label="Nom complet"
@@ -494,6 +530,7 @@ const faqItems = [
                                     placeholder="Votre nom"
                                 />
 
+                                <!-- Champ email -->
                                 <FormInput
                                     v-model="form.email"
                                     type="email"
@@ -502,6 +539,7 @@ const faqItems = [
                                     placeholder="votre.email@exemple.com"
                                 />
 
+                                <!-- Champ téléphone -->
                                 <FormInput
                                     v-model="form.phone"
                                     label="Téléphone"
@@ -511,10 +549,11 @@ const faqItems = [
                             </div>
                         </div>
 
-                        <!-- Message avec effet spécial -->
+                        <!-- SECTION 2: Message -->
                         <div
                             class="bg-gaming-red/5 p-4 sm:p-6 rounded-lg border border-gaming-red/30"
                         >
+                            <!-- En-tête de la section avec icône -->
                             <div class="flex items-center mb-4">
                                 <div
                                     class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
@@ -541,6 +580,7 @@ const faqItems = [
                                 </h2>
                             </div>
 
+                            <!-- Champ pour le sujet du message -->
                             <FormInput
                                 v-model="form.subject"
                                 label="Sujet"
@@ -548,6 +588,7 @@ const faqItems = [
                                 placeholder="Objet de votre message"
                             />
 
+                            <!-- Zone de texte pour le contenu du message -->
                             <div class="mb-3 sm:mb-4">
                                 <label
                                     class="block text-white text-xs sm:text-sm font-medium mb-1 sm:mb-2"
@@ -560,6 +601,7 @@ const faqItems = [
                                     class="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-deep-black border border-gaming-red rounded-md text-white text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-led-green transition duration-200"
                                     placeholder="Décrivez votre demande ou votre projet..."
                                 ></textarea>
+                                <!-- Affichage des erreurs de validation -->
                                 <p
                                     v-if="form.errors.message"
                                     class="mt-1 text-xs sm:text-sm text-gaming-red"
@@ -569,7 +611,7 @@ const faqItems = [
                             </div>
                         </div>
 
-                        <!-- Politique de confidentialité -->
+                        <!-- Notice de confidentialité -->
                         <div class="text-white/60 text-xs sm:text-sm">
                             <div class="flex items-start">
                                 <svg
@@ -601,13 +643,14 @@ const faqItems = [
                             </div>
                         </div>
 
-                        <!-- Bouton de soumission amélioré -->
+                        <!-- Bouton de soumission du formulaire avec états de chargement -->
                         <div class="flex justify-center">
                             <button
                                 type="submit"
                                 :disabled="form.processing"
                                 class="main-cta-button inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 border border-transparent text-base sm:text-lg font-medium rounded-md text-white transition duration-300 disabled:opacity-50 font-play min-w-[200px] sm:min-w-[250px]"
                             >
+                                <!-- Icône d'envoi quand pas en cours de traitement -->
                                 <svg
                                     v-if="!form.processing"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -623,6 +666,7 @@ const faqItems = [
                                         d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                                     />
                                 </svg>
+                                <!-- Icône de chargement pendant le traitement -->
                                 <svg
                                     v-else
                                     class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-2"
@@ -644,6 +688,7 @@ const faqItems = [
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                     ></path>
                                 </svg>
+                                <!-- Texte du bouton qui change selon l'état de soumission -->
                                 {{
                                     form.processing
                                         ? "Envoi en cours..."
@@ -656,7 +701,7 @@ const faqItems = [
             </div>
         </div>
 
-        <!-- Notification toast flottante -->
+        <!-- Composant de notification Toast pour confirmer l'envoi du message -->
         <Toast
             :show="toast.show"
             :message="toast.message"
@@ -668,66 +713,90 @@ const faqItems = [
 </template>
 
 <style scoped>
-/* Boutons de contact dans le hero */
+/* REFACTORISATION: Définition des variables CSS pour une meilleure maintenabilité */
+:root {
+    /* Couleurs */
+    --color-gaming-red-light: rgba(236, 64, 122, 0.3);
+    --color-gaming-red-medium: rgba(236, 64, 122, 0.5);
+    --color-gaming-red-strong: rgba(236, 64, 122, 0.7);
+    --color-led-green-glow: rgba(0, 255, 85, 0.3);
+
+    /* Dégradés */
+    --gradient-gaming-red: linear-gradient(45deg, #ec407a, #d81b60);
+
+    /* Ombres */
+    --shadow-standard: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 6px 10px rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    /* Transitions */
+    --transition-standard: all 0.3s ease;
+}
+
+/* Animation d'apparition progressive des éléments */
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Définition de l'animation de fondu entrant */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Commence légèrement plus bas */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Position finale normale */
+    }
+}
+
+/* Style personnalisé pour les boutons de contact secondaires */
 .contact-button {
     display: inline-flex;
     align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem; /* Padding de base pour mobile */
     border-radius: 0.375rem;
     font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-standard); /* Utilisation de variable CSS */
+    box-shadow: var(--shadow-standard);
 }
 
-@media (min-width: 640px) {
-    .contact-button {
-        padding: 0.75rem 1.5rem;
-    }
-}
-
+/* Animation au survol du bouton de contact */
 .contact-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px); /* Effet de lévitation */
+    box-shadow: var(--shadow-hover);
 }
 
-/* Effet glow pour le bouton principal */
+/* Style pour le bouton d'appel à l'action principal */
 .main-cta-button {
     position: relative;
-    background: linear-gradient(45deg, #ec407a, #d81b60);
-    box-shadow: 0 0 15px rgba(236, 64, 122, 0.5);
+    background: var(--gradient-gaming-red);
+    box-shadow: 0 0 15px var(--color-gaming-red-medium);
     transform: translateY(0);
-    transition: all 0.3s ease;
+    transition: var(--transition-standard);
 }
 
+/* Animation de survol du bouton principal */
 .main-cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 25px rgba(236, 64, 122, 0.7);
+    transform: translateY(-3px); /* Effet de lévitation au survol */
+    box-shadow: 0 0 25px var(--color-gaming-red-strong);
 }
 
+/* Animation d'appui sur le bouton principal */
 .main-cta-button:active {
-    transform: translateY(0);
+    transform: translateY(0); /* Retour à la position initiale quand appuyé */
 }
 
-@media (max-width: 640px) {
-    .main-cta-button {
-        box-shadow: 0 0 10px rgba(236, 64, 122, 0.4);
-    }
-
-    .main-cta-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 0 15px rgba(236, 64, 122, 0.6);
-    }
-}
-
-/* Animation pour les cartes */
+/* Style pour les cartes de service avec effet de fond */
 .service-card {
     position: relative;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2); /* Fond semi-transparent */
     transform: translateY(0);
-    transition: all 0.3s ease;
+    transition: var(--transition-standard);
 }
 
+/* Effet de fond radial sur les cartes au survol */
 .service-card::before {
     content: "";
     position: absolute;
@@ -737,97 +806,113 @@ const faqItems = [
     height: 100%;
     background: radial-gradient(
         circle at center,
-        rgba(236, 64, 122, 0.1),
+        var(--color-gaming-red-light),
         transparent
-    );
+    ); /* Dégradé radial subtil */
     opacity: 0;
     transition: opacity 0.3s ease;
-    z-index: -1;
+    z-index: -1; /* Placé derrière le contenu */
 }
 
+/* Animation au survol des cartes de service */
 .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(236, 64, 122, 0.3);
-    border-color: rgba(236, 64, 122, 0.8);
+    transform: translateY(-5px); /* Effet de lévitation */
+    box-shadow: var(--shadow-card-hover), 0 0 15px var(--color-gaming-red-light);
+    border-color: rgba(255, 0, 51, 0.8); /* Bordure plus visible */
 }
 
+/* Activation de l'effet de fond au survol */
 .service-card:hover::before {
     opacity: 1;
 }
 
-@media (max-width: 640px) {
-    .service-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
-            0 0 10px rgba(236, 64, 122, 0.3);
-    }
-}
-
-/* Effets pour les icônes */
+/* Animation pour les icônes de service */
 .service-icon {
     transition: transform 0.3s ease;
 }
 
+/* Animation d'agrandissement des icônes au survol des cartes */
 .hover-card:hover .service-icon {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Agrandissement léger */
 }
 
-/* Effets spéciaux pour les cartes */
+/* Effet de lueur subtil pour les éléments rouges */
 .shadow-glow-sm {
-    box-shadow: 0 0 10px rgba(236, 64, 122, 0.2);
+    box-shadow: 0 0 10px var(--color-gaming-red-light);
     transition: box-shadow 0.3s ease;
 }
 
+/* Effet de lueur subtil pour les éléments verts */
 .shadow-glow-green {
-    box-shadow: 0 0 10px rgba(0, 255, 85, 0.3);
+    box-shadow: 0 0 10px var(--color-led-green-glow);
     transition: box-shadow 0.3s ease;
 }
 
-/* Cartes avec hover effect */
+/* Effet de survol pour les cartes interactives */
 .hover-card {
-    transition: all 0.3s ease;
+    transition: var(--transition-standard);
 }
 
+/* Animation complète au survol des cartes */
 .hover-card:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(236, 64, 122, 0.3);
-    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3),
+        0 0 15px var(--color-gaming-red-light);
+    transform: translateY(-5px); /* Effet de lévitation */
 }
 
-@media (max-width: 640px) {
-    .hover-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
-            0 0 10px rgba(236, 64, 122, 0.3);
-    }
-}
-
-/* Animation pour l'apparition des éléments */
-.animate-fade-in {
-    animation: fadeIn 0.6s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Animation pour les liens sociaux */
+/* Animation spécifique pour les liens de réseaux sociaux */
 .social-link-item {
-    transition: all 0.3s ease;
+    transition: var(--transition-standard);
 }
 
+/* Effet de lévitation léger pour les liens sociaux */
 .social-link-item:hover {
     transform: translateY(-2px);
 }
 
-/* Pour assurer un bon affichage lors de la navigation vers le formulaire */
+/* Marge de défilement pour les ancres (pour compenser la navbar fixe) */
 .scroll-mt-16 {
     scroll-margin-top: 4rem;
+}
+
+/* Media Queries - Adaptation responsive */
+@media (min-width: 640px) {
+    .contact-button {
+        padding: 0.75rem 1.5rem; /* Padding plus grand sur grands écrans */
+    }
+}
+
+@media (max-width: 640px) {
+    /* Effet de survol réduit sur mobile pour une meilleure expérience tactile */
+    .main-cta-button {
+        box-shadow: 0 0 10px var(--color-gaming-red-light);
+    }
+
+    .main-cta-button:hover {
+        transform: translateY(-2px); /* Effet réduit sur mobile */
+        box-shadow: 0 0 15px var(--color-gaming-red-medium);
+    }
+
+    /* Effet de survol des cartes réduit sur mobile */
+    .service-card:hover,
+    .hover-card:hover {
+        transform: translateY(-3px); /* Effet réduit sur mobile */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+            0 0 10px var(--color-gaming-red-light);
+    }
+
+    /* Animation de fade-in avec déplacement réduit pour mobile */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(
+                10px
+            ); /* Déplacement initial réduit sur mobile */
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }
 </style>

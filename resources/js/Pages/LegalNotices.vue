@@ -1,17 +1,21 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
-import PublicLayout from "@/Layouts/PublicLayout.vue";
-import HeroSection from "@/Components/HeroSection.vue";
-import HeroTitle from "@/Components/HeroTitle.vue";
+// Importation des composants Inertia.js pour la gestion des métadonnées
+import { Head } from "@inertiajs/vue3"; // Pour définir les métadonnées de la page (title, description, etc.)
+
+// Importation des layouts et composants réutilisables
+import PublicLayout from "@/Layouts/PublicLayout.vue"; // Layout principal pour les pages publiques
+import HeroSection from "@/Components/HeroSection.vue"; // Section d'en-tête avec image de fond
+import HeroTitle from "@/Components/HeroTitle.vue"; // Titre stylisé pour les sections
 </script>
 
 <template>
+    <!-- Layout principal avec métadonnées SEO optimisées pour la page de mentions légales -->
     <PublicLayout
         title="Mentions légales"
         description="Consultez les informations légales relatives à NextConfig, l'hébergement du site et vos droits en tant qu'utilisateur."
         keywords="mentions légales, hébergement, droits utilisateur, propriété intellectuelle, NextConfig"
     >
-        <!-- Hero Section avec le composant HeroSection -->
+        <!-- En-tête de la page avec titre, sous-titre et image de fond -->
         <HeroSection
             title="Mentions légales"
             subtitle="Informations juridiques concernant l'utilisation du site"
@@ -19,12 +23,15 @@ import HeroTitle from "@/Components/HeroTitle.vue";
             height="min-h-40vh sm:min-h-50vh"
         />
 
+        <!-- Section principale du contenu avec espacement responsif -->
         <div class="py-8 sm:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Carte principale contenant toutes les informations légales -->
                 <div
                     class="bg-deep-black border border-gaming-red overflow-hidden shadow-xl rounded-lg"
                 >
                     <div class="p-4 sm:p-6 md:p-8 text-white">
+                        <!-- Titre principal centré -->
                         <div class="mb-6 sm:mb-8 text-center">
                             <HeroTitle
                                 title="Informations légales"
@@ -33,12 +40,15 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                             />
                         </div>
 
+                        <!-- Contenu des mentions légales avec animation d'apparition -->
                         <div class="legal-content animate-fade-in">
+                            <!-- Section 1: Informations générales -->
                             <h2 class="title-section">
                                 1. Informations générales
                             </h2>
                             <div class="legal-block">
                                 <p>
+                                    <!-- Utilisation de blocs/inline conditionnels pour l'affichage responsive -->
                                     <span class="block sm:inline font-medium"
                                         >Nom du site :</span
                                     >
@@ -69,6 +79,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 2: Informations sur l'hébergeur -->
                             <h2 class="title-section">2. Hébergement</h2>
                             <div class="legal-block">
                                 <p>
@@ -112,6 +123,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 3: Informations sur le développement -->
                             <h2 class="title-section">3. Développement</h2>
                             <div class="legal-block">
                                 <p>
@@ -127,6 +139,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 4: Droits de propriété intellectuelle -->
                             <h2 class="title-section">
                                 4. Propriété intellectuelle
                             </h2>
@@ -143,6 +156,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 5: Responsabilités et limitations -->
                             <h2 class="title-section">5. Responsabilité</h2>
                             <div class="legal-block">
                                 <p>
@@ -157,6 +171,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 6: Politique des liens externes -->
                             <h2 class="title-section">6. Liens externes</h2>
                             <div class="legal-block">
                                 <p>
@@ -169,6 +184,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 7: Traitement des données personnelles (RGPD) -->
                             <h2 class="title-section">
                                 7. Données personnelles
                             </h2>
@@ -186,6 +202,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 8: Politique des cookies -->
                             <h2 class="title-section">8. Cookies</h2>
                             <div class="legal-block">
                                 <p>
@@ -198,6 +215,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- Section 9: Juridiction applicable -->
                             <h2 class="title-section">9. Droit applicable</h2>
                             <div class="legal-block">
                                 <p>
@@ -208,9 +226,10 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                             </div>
                         </div>
 
+                        <!-- Pied de page avec contacts et date de mise à jour -->
                         <div
                             class="mt-8 pt-6 border-t border-gaming-red/30 text-center text-xs sm:text-sm text-white/70 animate-fade-in"
-                            style="animation-delay: 0.3s"
+                            style="animation-delay: 0.3s" <!-- Animation différée pour un effet de cascade -->
                         >
                             <p>
                                 Pour toute question relative à ces mentions
@@ -232,110 +251,132 @@ import HeroTitle from "@/Components/HeroTitle.vue";
 </template>
 
 <style scoped>
+/* VARIABLES CSS - Pour centraliser les valeurs de couleurs et autres propriétés */
+:root {
+    /* Couleurs principales */
+    --color-led-green: rgb(0, 255, 85);
+    --color-led-green-light: rgba(0, 255, 85, 0.3);
+    --color-gaming-red: rgb(236, 64, 122);
+    --color-gaming-red-light: rgba(236, 64, 122, 0.3);
+    --color-gaming-red-medium: rgba(236, 64, 122, 0.5);
+    --color-deep-black: rgb(13, 17, 23);
+    
+    /* Transitions */
+    --transition-standard: all 0.3s ease;
+    
+    /* Ombres */
+    --shadow-standard: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Structure et base */
 .legal-content {
-    line-height: 1.6;
+    line-height: 1.6; /* Augmente l'espacement des lignes pour une meilleure lisibilité */
 }
 
+/* Titres et sections - Style pour les en-têtes de chaque section légale */
 .title-section {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #4ade80; /* Couleur led-green */
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    font-family: "Play", sans-serif;
-    display: flex;
+    font-size: 1.25rem; /* Taille de base pour mobile */
+    font-weight: 600; /* Gras mais pas trop lourd */
+    color: var(--color-led-green); /* Couleur d'accent verte */
+    margin-top: 1.5rem; /* Espacement supérieur */
+    margin-bottom: 0.75rem; /* Espacement inférieur */
+    font-family: "Play", sans-serif; /* Police de caractère spéciale pour les titres */
+    display: flex; /* Pour aligner l'élément décoratif et le texte */
     align-items: center;
-    border-bottom: 1px solid rgba(236, 64, 122, 0.2);
-    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-gaming-red-light); /* Ligne de séparation subtile */
+    padding-bottom: 0.5rem; /* Espace sous le titre avant la ligne */
 }
 
-@media (min-width: 640px) {
-    .title-section {
-        font-size: 1.5rem;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-}
-
+/* Barre verticale décorative à gauche des titres de section */
 .title-section::before {
-    content: "";
+    content: ""; /* Pseudo-élément sans contenu */
     display: inline-block;
-    width: 4px;
-    height: 1rem;
-    background-color: #4ade80;
-    margin-right: 0.75rem;
-    border-radius: 2px;
+    width: 4px; /* Largeur de la barre */
+    height: 1rem; /* Hauteur adaptée au texte */
+    background-color: var(--color-led-green); /* Couleur d'accent verte */
+    margin-right: 0.75rem; /* Espacement entre la barre et le texte */
+    border-radius: 2px; /* Coins légèrement arrondis */
 }
 
-@media (min-width: 640px) {
-    .title-section::before {
-        width: 6px;
-        height: 1.5rem;
-        margin-right: 1rem;
-    }
-}
-
+/* Blocs et conteneurs - Style pour chaque bloc d'information légale */
 .legal-block {
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(236, 64, 122, 0.1);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.2); /* Fond légèrement transparent */
+    border: 1px solid var(--color-gaming-red-light); /* Bordure subtile */
+    border-radius: 0.5rem; /* Coins arrondis */
+    padding: 1rem; /* Espacement interne */
+    margin-bottom: 1.5rem; /* Espacement entre les blocs */
 }
 
-@media (min-width: 640px) {
-    .legal-block {
-        padding: 1.25rem;
-        margin-bottom: 2rem;
-    }
-}
-
+/* Éléments textuels - Style pour les paragraphes de texte */
 .legal-content p {
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-    line-height: 1.6;
+    margin-bottom: 0.75rem; /* Espacement entre paragraphes */
+    font-size: 0.875rem; /* Taille de texte légèrement réduite pour une meilleure lisibilité */
+    line-height: 1.6; /* Hauteur de ligne augmentée */
 }
 
-@media (min-width: 640px) {
-    .legal-content p {
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-}
-
+/* Style pour les listes à puces (non utilisées actuellement mais prêtes si besoin) */
 .legal-content ul {
-    list-style-type: disc;
-    margin-left: 1.25rem;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-}
-
-@media (min-width: 640px) {
-    .legal-content ul {
-        margin-left: 1.5rem;
-        margin-bottom: 1.25rem;
-        font-size: 1rem;
-    }
+    list-style-type: disc; /* Style de puce standard */
+    margin-left: 1.25rem; /* Indentation des puces */
+    margin-bottom: 1rem; /* Espacement après la liste */
+    font-size: 0.875rem; /* Taille de texte cohérente avec les paragraphes */
 }
 
 .legal-content ul li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem; /* Espacement entre les éléments de liste */
 }
 
-/* Animation pour les éléments qui apparaissent */
+/* Animations - Effet d'apparition progressive des éléments */
 .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards; /* Animation de fondu avec délai progressif */
+    opacity: 0; /* Commence invisible */
 }
 
+/* Définition de l'animation de fondu entrant avec léger déplacement */
 @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(10px);
+        opacity: 0; /* Invisible au départ */
+        transform: translateY(10px); /* Légèrement décalé vers le bas */
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+        opacity: 1; /* Complètement visible à la fin */
+        transform: translateY(0); /* Position finale normale */
+    }
+}
+
+/* Media Queries - Adaptations pour les écrans plus grands */
+@media (min-width: 640px) {
+    /* Titres - Taille et espacement augmentés sur grands écrans */
+    .title-section {
+        font-size: 1.5rem; /* Plus grand sur desktop */
+        margin-top: 2rem; /* Plus d'espace au-dessus */
+        margin-bottom: 1rem; /* Plus d'espace en-dessous */
+    }
+
+    /* Barre décorative plus grande sur desktop */
+    .title-section::before {
+        width: 6px; /* Plus large */
+        height: 1.5rem; /* Plus haute */
+        margin-right: 1rem; /* Plus d'espace avec le texte */
+    }
+
+    /* Blocs et conteneurs - Plus d'espace sur grands écrans */
+    .legal-block {
+        padding: 1.25rem; /* Plus de padding interne */
+        margin-bottom: 2rem; /* Plus d'espace entre les blocs */
+    }
+
+    /* Éléments textuels - Taille et espacement augmentés */
+    .legal-content p {
+        font-size: 1rem; /* Taille standard sur desktop */
+        line-height: 1.7; /* Hauteur de ligne légèrement augmentée */
+    }
+
+    .legal-content ul {
+        margin-left: 1.5rem; /* Indentation plus importante */
+        margin-bottom: 1.25rem; /* Plus d'espace après la liste */
+        font-size: 1rem; /* Taille standard sur desktop */
     }
 }
 </style>

@@ -1,15 +1,19 @@
 <script setup>
-import { ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import { Link } from "@inertiajs/vue3";
-import PublicLayout from "@/Layouts/PublicLayout.vue";
-import FormInput from "@/Components/FormInput.vue";
-import SelectOption from "@/Components/SelectOption.vue";
-import RangeSlider from "@/Components/RangeSlider.vue";
-import Toast from "@/Components/Toast.vue";
-import HeroSection from "@/Components/HeroSection.vue";
-import HeroTitle from "@/Components/HeroTitle.vue";
+// Importation des fonctionnalités Vue et Inertia
+import { ref } from "vue"; // Pour créer des variables réactives
+import { useForm } from "@inertiajs/vue3"; // Hook pour gérer les formulaires avec Inertia
+import { Link } from "@inertiajs/vue3"; // Composant de navigation Inertia
 
+// Importation des layouts et composants réutilisables
+import PublicLayout from "@/Layouts/PublicLayout.vue"; // Layout principal pour les pages publiques
+import FormInput from "@/Components/FormInput.vue"; // Composant de champ de formulaire
+import SelectOption from "@/Components/SelectOption.vue"; // Composant de sélection (dropdown)
+import RangeSlider from "@/Components/RangeSlider.vue"; // Composant de slider pour le budget
+import Toast from "@/Components/Toast.vue"; // Notification toast pour les messages
+import HeroSection from "@/Components/HeroSection.vue"; // En-tête de page avec image de fond
+import HeroTitle from "@/Components/HeroTitle.vue"; // Titre stylisé pour les sections
+
+// Options pour le type d'utilisation - détermine les besoins spécifiques du client
 const usageTypeOptions = [
     { value: "gaming", label: "Gaming" },
     { value: "streaming", label: "Streaming" },
@@ -18,6 +22,7 @@ const usageTypeOptions = [
     { value: "other", label: "Autre" },
 ];
 
+// Options pour les marques préférées - permet au client de spécifier ses préférences
 const brandOptions = [
     { value: "amd", label: "AMD" },
     { value: "intel", label: "Intel" },
@@ -30,6 +35,7 @@ const brandOptions = [
     { value: "nzxt", label: "NZXT" },
 ];
 
+// Options pour le délai de réalisation - aide à planifier le projet
 const timeframeOptions = [
     { value: "asap", label: "Dès que possible" },
     { value: "1month", label: "D'ici 1 mois" },
@@ -37,6 +43,7 @@ const timeframeOptions = [
     { value: "6months", label: "D'ici 6 mois" },
 ];
 
+// Textes d'aide contextuelle qui changent selon le type d'utilisation sélectionné
 const usageDetailsPlaceholders = {
     gaming: "Quels jeux jouez-vous principalement ? Quelle résolution et fréquence d'affichage souhaitez-vous ?",
     streaming:
@@ -47,39 +54,46 @@ const usageDetailsPlaceholders = {
     other: "Décrivez votre utilisation spécifique pour que nous puissions vous proposer la configuration idéale.",
 };
 
+// Initialisation du formulaire avec Inertia et valeurs par défaut
 const form = useForm({
     name: "",
     email: "",
     phone: "",
-    usage_type: "gaming",
+    usage_type: "gaming", // Type d'utilisation par défaut
     usage_details: "",
-    budget: 1500,
+    budget: 1500, // Budget par défaut en euros
     preferred_brands: [],
-    rgb_lighting: false,
-    timeframe: "1month",
+    rgb_lighting: false, // Option d'éclairage RGB désactivée par défaut
+    timeframe: "1month", // Délai par défaut
     additional_notes: "",
 });
 
+// Variable pour gérer l'état de succès après soumission
 const success = ref(false);
+// Variable réactive pour le placeholder qui change selon le type d'utilisation
 const usagePlaceholder = ref(usageDetailsPlaceholders.gaming);
 
+// Configuration de la notification toast (message de confirmation)
 const toast = ref({
     show: false,
     message: "",
     type: "success",
 });
 
-// Mettre à jour le placeholder en fonction du type d'usage sélectionné
+// Fonction pour mettre à jour le placeholder des détails d'utilisation
+// lorsque le type d'utilisation change
 const updateUsagePlaceholder = (newType) => {
     usagePlaceholder.value =
         usageDetailsPlaceholders[newType] || usageDetailsPlaceholders.other;
 };
 
+// Fonction de soumission du formulaire
 const submit = () => {
     form.post(route("devis.submit"), {
-        preserveScroll: true,
+        preserveScroll: true, // Maintient la position de défilement après soumission
         onSuccess: () => {
-            form.reset();
+            form.reset(); // Réinitialise le formulaire après succès
+            // Affiche un message de confirmation
             toast.value = {
                 show: true,
                 message:
@@ -87,6 +101,7 @@ const submit = () => {
                 type: "success",
             };
 
+            // Masque automatiquement le toast après 6 secondes
             setTimeout(() => {
                 toast.value.show = false;
             }, 6000);
@@ -94,18 +109,20 @@ const submit = () => {
     });
 };
 
+// Fonction pour fermer manuellement le toast
 const closeToast = () => {
     toast.value.show = false;
 };
 </script>
 
 <template>
+    <!-- Layout principal avec métadonnées SEO optimisées pour la page de devis -->
     <PublicLayout
         title="Demande de Devis"
         description="Obtenez un devis personnalisé pour votre PC gaming sur mesure. Configuration adaptée à vos besoins et à votre budget par un expert en assemblage PC en Belgique."
         keywords="devis PC gaming, configuration PC sur mesure, assemblage ordinateur personnalisé, demande de devis informatique, prix PC gaming Belgique"
     >
-        <!-- Hero Section avec image de fond -->
+        <!-- En-tête de la page avec image de fond et titre -->
         <HeroSection
             title="Demande de Devis"
             subtitle="Décrivez votre projet et obtenez une offre personnalisée"
@@ -113,15 +130,17 @@ const closeToast = () => {
             height="min-h-50vh"
         />
 
+        <!-- Section principale du contenu avec espacement responsif -->
         <div class="py-6 sm:py-8 md:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Introduction au formulaire -->
+                <!-- Titre principal de la section formulaire -->
                 <HeroTitle
                     title="Votre futur PC gaming"
                     :centered="true"
                     marginBottom="mb-6 sm:mb-8 md:mb-10"
                 />
 
+                <!-- Texte d'introduction expliquant la fonction du formulaire -->
                 <p
                     class="text-white text-center max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 text-sm sm:text-base"
                 >
@@ -131,7 +150,7 @@ const closeToast = () => {
                     et à votre budget.
                 </p>
 
-                <!-- Formulaire de devis amélioré -->
+                <!-- Conteneur principal du formulaire avec effets visuels -->
                 <div
                     class="bg-deep-black p-4 sm:p-6 md:p-8 rounded-lg border border-gaming-red shadow-glow-sm hover-card animate-fade-in"
                 >
@@ -139,11 +158,12 @@ const closeToast = () => {
                         @submit.prevent="submit"
                         class="space-y-6 sm:space-y-8"
                     >
-                        <!-- Information personnelle -->
+                        <!-- SECTION 1: Coordonnées du client -->
                         <div
                             class="bg-gaming-red/5 p-3 sm:p-5 md:p-6 rounded-lg border border-gaming-red/30 mb-4 sm:mb-6 animate-fade-in"
                             style="animation-delay: 0.1s"
                         >
+                            <!-- En-tête de la section avec icône -->
                             <div class="flex items-center mb-3 sm:mb-4">
                                 <div
                                     class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
@@ -170,6 +190,7 @@ const closeToast = () => {
                                 </h2>
                             </div>
 
+                            <!-- Grille de champs pour les informations de contact -->
                             <div
                                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
                             >
@@ -197,11 +218,12 @@ const closeToast = () => {
                             </div>
                         </div>
 
-                        <!-- Type d'utilisation -->
+                        <!-- SECTION 2: Utilisation prévue du PC -->
                         <div
                             class="bg-gaming-red/5 p-3 sm:p-5 md:p-6 rounded-lg border border-gaming-red/30 mb-4 sm:mb-6 animate-fade-in"
                             style="animation-delay: 0.2s"
                         >
+                            <!-- En-tête de la section avec icône -->
                             <div class="flex items-center mb-3 sm:mb-4">
                                 <div
                                     class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
@@ -228,6 +250,7 @@ const closeToast = () => {
                                 </h2>
                             </div>
 
+                            <!-- Sélection du type d'utilisation principale -->
                             <SelectOption
                                 v-model="form.usage_type"
                                 label="Utilisation principale"
@@ -236,6 +259,7 @@ const closeToast = () => {
                                 @update:model-value="updateUsagePlaceholder"
                             />
 
+                            <!-- Détails de l'utilisation avec placeholder dynamique -->
                             <div class="mb-3 sm:mb-4">
                                 <label
                                     class="block text-white text-xs sm:text-sm font-medium mb-1 sm:mb-2"
@@ -257,11 +281,12 @@ const closeToast = () => {
                             </div>
                         </div>
 
-                        <!-- Préférences -->
+                        <!-- SECTION 3: Préférences et budget -->
                         <div
                             class="bg-gaming-red/5 p-3 sm:p-5 md:p-6 rounded-lg border border-gaming-red/30 mb-4 sm:mb-6 animate-fade-in"
                             style="animation-delay: 0.3s"
                         >
+                            <!-- En-tête de la section avec icône -->
                             <div class="flex items-center mb-3 sm:mb-4">
                                 <div
                                     class="bg-led-green w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-glow-sm"
@@ -288,6 +313,7 @@ const closeToast = () => {
                                 </h2>
                             </div>
 
+                            <!-- Sélecteur de budget avec slider -->
                             <RangeSlider
                                 v-model="form.budget"
                                 :min="500"
@@ -297,6 +323,7 @@ const closeToast = () => {
                                 :error="form.errors.budget"
                             />
 
+                            <!-- Sélection multiple des marques préférées -->
                             <SelectOption
                                 v-model="form.preferred_brands"
                                 label="Marques préférées (optionnel)"
@@ -305,6 +332,7 @@ const closeToast = () => {
                                 :error="form.errors.preferred_brands"
                             />
 
+                            <!-- Option pour l'éclairage RGB -->
                             <div class="mb-4 sm:mb-6">
                                 <label
                                     class="flex items-center space-x-2 sm:space-x-3 cursor-pointer p-2 sm:p-3 border border-gaming-red/30 rounded-md hover:border-led-green/50 transition-colors duration-300"
@@ -337,6 +365,7 @@ const closeToast = () => {
                                 </label>
                             </div>
 
+                            <!-- Sélection du délai souhaité -->
                             <SelectOption
                                 v-model="form.timeframe"
                                 label="Délai souhaité"
@@ -345,7 +374,7 @@ const closeToast = () => {
                             />
                         </div>
 
-                        <!-- Notes supplémentaires -->
+                        <!-- SECTION 4: Notes supplémentaires (optionnel) -->
                         <div
                             class="animate-fade-in"
                             style="animation-delay: 0.4s"
@@ -363,7 +392,7 @@ const closeToast = () => {
                             ></textarea>
                         </div>
 
-                        <!-- Bouton de soumission -->
+                        <!-- Bouton de soumission du formulaire avec états de chargement -->
                         <div
                             class="pt-3 sm:pt-4 flex justify-center animate-fade-in"
                             style="animation-delay: 0.5s"
@@ -373,6 +402,7 @@ const closeToast = () => {
                                 :disabled="form.processing"
                                 class="main-cta-button inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 border border-transparent text-base sm:text-lg font-medium rounded-md text-white bg-gaming-red hover:bg-opacity-90 transition duration-300 disabled:opacity-50 font-play min-w-[200px] sm:min-w-[250px]"
                             >
+                                <!-- Icône flèche quand pas en cours de traitement -->
                                 <svg
                                     v-if="!form.processing"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -388,6 +418,7 @@ const closeToast = () => {
                                         d="M9 5l7 7-7 7"
                                     />
                                 </svg>
+                                <!-- Icône de chargement pendant le traitement -->
                                 <svg
                                     v-else
                                     class="animate-spin h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2"
@@ -419,7 +450,7 @@ const closeToast = () => {
                     </form>
                 </div>
 
-                <!-- Section calculateur de budget -->
+                <!-- Section promotionnelle pour le calculateur de budget -->
                 <div
                     class="mt-8 sm:mt-12 md:mt-16 p-4 sm:p-6 md:p-8 border border-gaming-red rounded-lg bg-deep-black/50 shadow-glow-sm hover-card text-center animate-fade-in"
                     style="animation-delay: 0.6s"
@@ -460,7 +491,7 @@ const closeToast = () => {
             </div>
         </div>
 
-        <!-- Notification toast flottante -->
+        <!-- Composant de notification Toast pour confirmer l'envoi du formulaire -->
         <Toast
             :show="toast.show"
             :message="toast.message"
@@ -472,69 +503,81 @@ const closeToast = () => {
 </template>
 
 <style scoped>
-/* Effet glow pour le bouton principal */
+/* Style personnalisé pour le bouton d'appel à l'action principal */
 .main-cta-button {
     position: relative;
-    background: linear-gradient(45deg, #ec407a, #d81b60);
-    box-shadow: 0 0 15px rgba(236, 64, 122, 0.5);
+    background: linear-gradient(
+        45deg,
+        #ec407a,
+        #d81b60
+    ); /* Dégradé rouge gaming */
+    box-shadow: 0 0 15px rgba(236, 64, 122, 0.5); /* Effet de lueur */
     transform: translateY(0);
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Transition douce pour les effets hover */
 }
 
+/* Animation de survol du bouton principal */
 .main-cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 25px rgba(236, 64, 122, 0.7);
+    transform: translateY(-3px); /* Effet de lévitation au survol */
+    box-shadow: 0 0 25px rgba(236, 64, 122, 0.7); /* Lueur intensifiée */
 }
 
+/* Animation d'appui sur le bouton principal */
 .main-cta-button:active {
-    transform: translateY(0);
+    transform: translateY(0); /* Retour à la position initiale quand appuyé */
 }
 
-/* Effet de brillance pour les cartes */
+/* Effet de lueur subtil pour certains éléments */
 .shadow-glow-sm {
     box-shadow: 0 0 10px rgba(236, 64, 122, 0.3);
     transition: box-shadow 0.3s ease;
 }
 
+/* Style pour les cartes avec effet de survol */
 .hover-card {
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Transition fluide pour tous les changements */
 }
 
+/* Animation au survol des cartes */
 .hover-card:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(236, 64, 122, 0.3);
-    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(236, 64, 122, 0.3); /* Double effet d'ombre */
+    transform: translateY(-5px); /* Effet de soulèvement */
 }
 
-/* Animation pour les éléments qui apparaissent */
+/* Animation d'apparition progressive des éléments */
 .animate-fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
-    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards; /* Animation de fondu entrant */
+    opacity: 0; /* Commence invisible */
 }
 
+/* Définition de l'animation de fade-in */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px); /* Commence légèrement plus bas */
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0); /* Termine à sa position normale */
     }
 }
 
-/* Responsive styles */
+/* Adaptations pour les écrans mobiles */
 @media (max-width: 640px) {
+    /* Effet de survol réduit sur mobile pour une meilleure expérience tactile */
     .main-cta-button:hover {
         transform: translateY(-2px);
         box-shadow: 0 0 15px rgba(236, 64, 122, 0.5);
     }
 
+    /* Effet de survol des cartes réduit sur mobile */
     .hover-card:hover {
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
             0 0 10px rgba(236, 64, 122, 0.3);
     }
 
+    /* Animation de fade-in avec déplacement réduit pour mobile */
     @keyframes fadeIn {
         from {
             opacity: 0;

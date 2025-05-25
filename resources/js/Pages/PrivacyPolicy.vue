@@ -1,30 +1,39 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
-import PublicLayout from "@/Layouts/PublicLayout.vue";
-import HeroSection from "@/Components/HeroSection.vue";
-import HeroTitle from "@/Components/HeroTitle.vue";
+// Importation des composants Inertia.js pour la gestion des métadonnées
+import { Head } from "@inertiajs/vue3"; // Pour définir les métadonnées de la page (title, description, etc.)
+
+// Importation des layouts et composants réutilisables
+import PublicLayout from "@/Layouts/PublicLayout.vue"; // Layout principal pour les pages publiques
+import HeroSection from "@/Components/HeroSection.vue"; // En-tête de page avec image de fond
+import HeroTitle from "@/Components/HeroTitle.vue"; // Titre stylisé pour les sections
 </script>
 
 <template>
+    <!-- Layout principal avec métadonnées SEO optimisées pour la page de politique de confidentialité -->
     <PublicLayout
         title="Politique de confidentialité"
         description="Découvrez comment nous protégeons vos données personnelles et respectons votre vie privée conformément au RGPD."
         keywords="politique confidentialité, RGPD, protection données, vie privée, NextConfig"
     >
-        <!-- Hero Section avec le composant HeroSection -->
+        <!-- Hero Section avec image de fond, titre et sous-titre explicatifs -->
         <HeroSection
             title="Politique de confidentialité"
-            subtitle="Nous accordons une grande importance à la protection de vos données"
+            subtitle="Nous
+        accordons une grande importance à la protection de vos données"
             backgroundImage="/images/background.jpg"
-            height="min-h-40vh sm:min-h-50vh"
+            height="min-h-40vh
+        sm:min-h-50vh"
         />
 
+        <!-- Section principale du contenu avec espacement responsif -->
         <div class="py-8 sm:py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Carte principale contenant toutes les informations légales -->
                 <div
                     class="bg-deep-black border border-gaming-red overflow-hidden shadow-xl rounded-lg"
                 >
                     <div class="p-4 sm:p-6 md:p-8 text-white">
+                        <!-- En-tête de la page avec titre centré et mention RGPD -->
                         <div class="mb-6 sm:mb-8 text-center">
                             <HeroTitle
                                 title="Protection de vos données"
@@ -39,7 +48,9 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                             </p>
                         </div>
 
+                        <!-- Contenu des mentions légales avec animation d'apparition -->
                         <div class="legal-content animate-fade-in">
+                            <!-- SECTION 1: Introduction -->
                             <h2 class="title-section">1. Introduction</h2>
                             <div class="legal-block">
                                 <p>
@@ -54,6 +65,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- SECTION 2: Identité du responsable de traitement -->
                             <h2 class="title-section">
                                 2. Responsable du traitement
                             </h2>
@@ -64,6 +76,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                     <span class="block sm:inline font-medium"
                                         >SCHREURS Dylan</span
                                     ><br class="block sm:hidden" />
+                                    <!-- Saut de ligne sur mobile uniquement -->
                                     <span class="block sm:inline font-medium"
                                         >Adresse :</span
                                     >
@@ -71,6 +84,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                     Bruxelles – Belgique<br
                                         class="hidden sm:block"
                                     />
+                                    <!-- Saut de ligne sur desktop uniquement -->
                                     <span class="block sm:inline font-medium"
                                         >Email :</span
                                     >
@@ -82,6 +96,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- SECTION 3: Données collectées et leur source -->
                             <h2 class="title-section">3. Données collectées</h2>
                             <div class="legal-block">
                                 <p>
@@ -90,9 +105,11 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                     à la gestion des demandes clients. Ces
                                     données incluent :
                                 </p>
+                                <!-- Liste à puces stylisée avec points personnalisés -->
                                 <ul class="list-items">
                                     <li>
                                         <span class="bullet-point"></span>
+                                        <!-- Point décoratif personnalisé -->
                                         Formulaire de contact : nom, prénom,
                                         adresse email, message.
                                     </li>
@@ -109,6 +126,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </ul>
                             </div>
 
+                            <!-- SECTION 4: Objectifs du traitement des données -->
                             <h2 class="title-section">
                                 4. Finalités du traitement
                             </h2>
@@ -141,6 +159,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </ul>
                             </div>
 
+                            <!-- SECTION 5: Base juridique du traitement -->
                             <h2 class="title-section">
                                 5. Base légale du traitement
                             </h2>
@@ -169,6 +188,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </ul>
                             </div>
 
+                            <!-- SECTION 6: Partage des données -->
                             <h2 class="title-section">
                                 6. Destinataires des données
                             </h2>
@@ -183,6 +203,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- SECTION 7: Durée de conservation des données -->
                             <h2 class="title-section">
                                 7. Durée de conservation
                             </h2>
@@ -204,6 +225,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </ul>
                             </div>
 
+                            <!-- SECTION 8: Droits des utilisateurs (RGPD) -->
                             <h2 class="title-section">8. Vos droits</h2>
                             <div class="legal-block">
                                 <p>
@@ -211,9 +233,11 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                     Protection des Données (RGPD), vous disposez
                                     des droits suivants :
                                 </p>
+                                <!-- Grille responsive pour afficher les droits RGPD avec icônes -->
                                 <div
                                     class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-3"
                                 >
+                                    <!-- Droit d'accès -->
                                     <div class="right-box">
                                         <div class="right-title">
                                             <svg
@@ -238,6 +262,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                             Accédez à vos données personnelles
                                         </p>
                                     </div>
+                                    <!-- Droit de rectification -->
                                     <div class="right-box">
                                         <div class="right-title">
                                             <svg
@@ -262,6 +287,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                             Modifiez vos données personnelles
                                         </p>
                                     </div>
+                                    <!-- Droit à l'effacement (droit à l'oubli) -->
                                     <div class="right-box">
                                         <div class="right-title">
                                             <svg
@@ -286,6 +312,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                             Suppression de toutes vos données
                                         </p>
                                     </div>
+                                    <!-- Droit d'opposition -->
                                     <div class="right-box">
                                         <div class="right-title">
                                             <svg
@@ -310,6 +337,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                             Limitez l'utilisation de vos données
                                         </p>
                                     </div>
+                                    <!-- Droit à la portabilité -->
                                     <div class="right-box">
                                         <div class="right-title">
                                             <svg
@@ -335,6 +363,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                         </p>
                                     </div>
                                 </div>
+                                <!-- Texte d'information sur la manière d'exercer ses droits -->
                                 <p class="mt-4 text-center">
                                     Vous pouvez exercer ces droits à tout moment
                                     en envoyant un email à :
@@ -346,6 +375,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- SECTION 9: Mesures de sécurité techniques -->
                             <h2 class="title-section">
                                 9. Sécurité des données
                             </h2>
@@ -361,6 +391,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- SECTION 10: Politique des cookies -->
                             <h2 class="title-section">10. Cookies</h2>
                             <div class="legal-block">
                                 <p>
@@ -386,6 +417,7 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                                 </p>
                             </div>
 
+                            <!-- SECTION 11: Mise à jour de la politique -->
                             <h2 class="title-section">
                                 11. Modifications de la politique
                             </h2>
@@ -400,10 +432,21 @@ import HeroTitle from "@/Components/HeroTitle.vue";
                             </div>
                         </div>
 
+                        <!-- Pied de page avec date de mise à jour -->
                         <div
                             class="mt-8 pt-6 border-t border-gaming-red/30 text-right text-xs sm:text-sm text-white/70 animate-fade-in"
                             style="animation-delay: 0.3s"
+                            <!--
+                            Animation
+                            différée
+                            pour
+                            un
+                            effet
+                            de
+                            cascade
+                            --
                         >
+                            >
                             <p class="italic">
                                 Dernière mise à jour : mai 2025
                             </p>
@@ -416,167 +459,187 @@ import HeroTitle from "@/Components/HeroTitle.vue";
 </template>
 
 <style scoped>
+/* VARIABLES CSS POUR UNE MEILLEURE MAINTENABILITÉ */
+/* Ces variables sont définies dans app.css mais redéfinies ici pour une portée locale */
+:root {
+    --color-led-green: #00ff55; /* Vert LED */
+    --color-gaming-red: #ff0055; /* Rouge Gaming */
+    --color-gaming-red-light: rgba(255, 0, 85, 0.2); /* Rouge Gaming clair */
+    --color-led-green-glow: rgba(0, 255, 85, 0.3); /* Lueur verte LED */
+    --color-deep-black: #121212; /* Noir profond pour le fond */
+    --transition-standard: all 0.3s ease-in-out; /* Transition standard pour les effets */
+}
+
+/* Structure et base - Définit la mise en page générale du contenu légal */
 .legal-content {
-    line-height: 1.6;
+    line-height: 1.6; /* Augmente l'espacement des lignes pour une meilleure lisibilité */
 }
 
+/* Titres et sections - Style pour les en-têtes de chaque section de confidentialité */
 .title-section {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #4ade80; /* Couleur led-green */
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    font-family: "Play", sans-serif;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(236, 64, 122, 0.2);
-    padding-bottom: 0.5rem;
+    font-size: 1.25rem; /* Taille de base pour mobile */
+    font-weight: 600; /* Gras mais pas trop lourd */
+    color: var(--color-led-green); /* Couleur d'accent verte */
+    margin-top: 1.5rem; /* Espacement supérieur */
+    margin-bottom: 0.75rem; /* Espacement inférieur */
+    font-family: "Play", sans-serif; /* Police de caractère spéciale pour les titres */
+    display: flex; /* Pour aligner l'élément décoratif et le texte */
+    align-items: center; /* Centrage vertical des éléments */
+    border-bottom: 1px solid var(--color-gaming-red-light); /* Ligne de séparation subtile */
+    padding-bottom: 0.5rem; /* Espace sous le titre avant la ligne */
 }
 
-@media (min-width: 640px) {
-    .title-section {
-        font-size: 1.5rem;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-}
-
+/* Barre verticale décorative à gauche des titres de section */
 .title-section::before {
-    content: "";
+    content: ""; /* Pseudo-élément sans contenu */
     display: inline-block;
-    width: 4px;
-    height: 1rem;
-    background-color: #4ade80;
-    margin-right: 0.75rem;
-    border-radius: 2px;
+    width: 4px; /* Largeur de la barre */
+    height: 1rem; /* Hauteur adaptée au texte */
+    background-color: var(--color-led-green); /* Couleur d'accent verte */
+    margin-right: 0.75rem; /* Espacement entre la barre et le texte */
+    border-radius: 2px; /* Coins légèrement arrondis */
 }
 
-@media (min-width: 640px) {
-    .title-section::before {
-        width: 6px;
-        height: 1.5rem;
-        margin-right: 1rem;
-    }
-}
-
+/* Blocs et conteneurs - Style pour chaque bloc d'information de confidentialité */
 .legal-block {
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(236, 64, 122, 0.1);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.2); /* Fond légèrement transparent */
+    border: 1px solid var(--color-gaming-red-light); /* Bordure subtile */
+    border-radius: 0.5rem; /* Coins arrondis */
+    padding: 1rem; /* Espacement interne */
+    margin-bottom: 1.5rem; /* Espacement entre les blocs */
 }
 
-@media (min-width: 640px) {
-    .legal-block {
-        padding: 1.25rem;
-        margin-bottom: 2rem;
-    }
-}
-
+/* Éléments textuels - Style pour les paragraphes de texte */
 .legal-content p {
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-    line-height: 1.6;
+    margin-bottom: 0.75rem; /* Espacement entre paragraphes */
+    font-size: 0.875rem; /* Taille de texte légèrement réduite pour une meilleure lisibilité */
+    line-height: 1.6; /* Hauteur de ligne augmentée */
 }
 
-@media (min-width: 640px) {
-    .legal-content p {
-        font-size: 1rem;
-        line-height: 1.7;
-    }
-}
-
+/* Style pour les listes à puces personnalisées */
 .list-items {
-    list-style-type: none;
-    margin-left: 0.5rem;
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-}
-
-@media (min-width: 640px) {
-    .list-items {
-        margin-left: 0.75rem;
-        margin-bottom: 1.25rem;
-        font-size: 1rem;
-    }
+    list-style-type: none; /* Supprime les puces par défaut */
+    margin-left: 0.5rem; /* Léger retrait à gauche */
+    margin-bottom: 1rem; /* Espace après la liste */
+    font-size: 0.875rem; /* Taille de texte cohérente avec les paragraphes */
 }
 
 .list-items li {
-    margin-bottom: 0.5rem;
-    position: relative;
-    padding-left: 1.25rem;
+    margin-bottom: 0.5rem; /* Espace entre les éléments de liste */
+    position: relative; /* Pour positionner la puce personnalisée */
+    padding-left: 1.25rem; /* Espace pour la puce */
 }
 
+/* Point de puce personnalisé avec la couleur d'accent */
 .bullet-point {
-    position: absolute;
-    left: 0;
-    top: 0.5rem;
-    width: 6px;
-    height: 6px;
-    background-color: #ec407a; /* gaming-red */
-    border-radius: 50%;
+    position: absolute; /* Positionnement absolu par rapport à l'élément li */
+    left: 0; /* Aligné à gauche */
+    top: 0.5rem; /* Ajustement vertical pour aligner avec le texte */
+    width: 6px; /* Taille du point */
+    height: 6px; /* Taille du point */
+    background-color: var(--color-gaming-red); /* Couleur d'accent rouge */
+    border-radius: 50%; /* Forme circulaire */
     display: inline-block;
 }
 
-@media (min-width: 640px) {
-    .bullet-point {
-        width: 8px;
-        height: 8px;
-        top: 0.55rem;
-    }
-
-    .list-items li {
-        padding-left: 1.5rem;
-    }
-}
-
+/* Style pour les boîtes présentant les droits RGPD */
 .right-box {
-    background-color: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(0, 255, 85, 0.1);
-    border-radius: 0.375rem;
-    padding: 0.75rem;
-    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.3); /* Fond légèrement plus foncé */
+    border: 1px solid var(--color-led-green-glow); /* Bordure verte subtile */
+    border-radius: 0.375rem; /* Coins arrondis */
+    padding: 0.75rem; /* Espacement interne */
+    transition: var(--transition-standard); /* Animation fluide au survol */
 }
 
+/* Effet de survol pour les boîtes de droits */
 .right-box:hover {
-    border-color: rgba(0, 255, 85, 0.3);
-    box-shadow: 0 0 8px rgba(0, 255, 85, 0.2);
+    border-color: rgba(0, 255, 85, 0.3); /* Bordure plus visible au survol */
+    box-shadow: 0 0 8px var(--color-led-green-glow); /* Effet de lueur verte */
 }
 
+/* Titre de chaque droit RGPD avec icône */
 .right-title {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    color: #4ade80;
-    font-size: 0.875rem;
-    margin-bottom: 0.25rem;
+    display: flex; /* Pour aligner l'icône et le texte */
+    align-items: center; /* Centrage vertical */
+    font-weight: 500; /* Semi-gras */
+    color: var(--color-led-green); /* Couleur d'accent verte */
+    font-size: 0.875rem; /* Taille de texte adaptée */
+    margin-bottom: 0.25rem; /* Petit espace avant la description */
 }
 
-@media (min-width: 640px) {
-    .right-title {
-        font-size: 1rem;
-    }
-
-    .right-box {
-        padding: 1rem;
-    }
-}
-
-/* Animation pour les éléments qui apparaissent */
+/* Animations - Effet d'apparition progressive des éléments */
 .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards; /* Animation de fondu avec délai progressif */
+    opacity: 0; /* Commence invisible */
 }
 
+/* Définition de l'animation de fondu entrant avec léger déplacement */
 @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(10px);
+        opacity: 0; /* Invisible au départ */
+        transform: translateY(10px); /* Légèrement décalé vers le bas */
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+        opacity: 1; /* Complètement visible à la fin */
+        transform: translateY(0); /* Position finale normale */
+    }
+}
+
+/* Media Queries - Adaptations pour les écrans plus grands */
+@media (min-width: 640px) {
+    /* Titres - Taille et espacement augmentés sur grands écrans */
+    .title-section {
+        font-size: 1.5rem; /* Plus grand sur desktop */
+        margin-top: 2rem; /* Plus d'espace au-dessus */
+        margin-bottom: 1rem; /* Plus d'espace en-dessous */
+    }
+
+    /* Barre décorative plus grande sur desktop */
+    .title-section::before {
+        width: 6px; /* Plus large */
+        height: 1.5rem; /* Plus haute */
+        margin-right: 1rem; /* Plus d'espace avec le texte */
+    }
+
+    /* Blocs et conteneurs - Plus d'espace sur grands écrans */
+    .legal-block {
+        padding: 1.25rem; /* Plus de padding interne */
+        margin-bottom: 2rem; /* Plus d'espace entre les blocs */
+    }
+
+    /* Paragraphes - Taille augmentée sur desktop */
+    .legal-content p {
+        font-size: 1rem; /* Taille standard sur desktop */
+        line-height: 1.7; /* Hauteur de ligne légèrement augmentée */
+    }
+
+    /* Listes - Adaptations pour desktop */
+    .list-items {
+        margin-left: 0.75rem; /* Indentation plus importante */
+        margin-bottom: 1.25rem; /* Plus d'espace après la liste */
+        font-size: 1rem; /* Taille standard sur desktop */
+    }
+
+    /* Points de puce plus grands sur desktop */
+    .bullet-point {
+        width: 8px; /* Point plus grand */
+        height: 8px; /* Point plus grand */
+        top: 0.55rem; /* Ajustement de la position verticale */
+    }
+
+    /* Plus d'espace pour le texte après la puce */
+    .list-items li {
+        padding-left: 1.5rem; /* Plus d'espace pour la puce */
+    }
+
+    /* Titres des droits RGPD plus grands sur desktop */
+    .right-title {
+        font-size: 1rem; /* Taille augmentée */
+    }
+
+    /* Boîtes de droits plus spacieuses sur desktop */
+    .right-box {
+        padding: 1rem; /* Plus d'espace interne */
     }
 }
 </style>
